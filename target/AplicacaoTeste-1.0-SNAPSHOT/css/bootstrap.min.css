@@ -24,5 +24,20 @@
     margin-bottom: 5%;
 }
 .marginTable{
-    margin-top: 5%;
+    margin-top: 5%; 
+}
+.titulo{
+    border: 1px solid black;
+    border-radius: 2px;
+    margin-bottom: 3%;
+}
+.tituloLabel{
+    font-size: 26px;
+}
+.tituloLabel2{
+    font-size: 20px;
+}
+.ui-selectoneradio label{display:block;margin-top:4px;margin-left: 10px;}
+.campTotal{
+    width: 20%;
 }
