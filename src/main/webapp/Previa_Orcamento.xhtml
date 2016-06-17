@@ -80,29 +80,23 @@
                     </div>
                 </div>
                 <div class="row marginTable">
-                    <div class="col-md-7">
+                    <div class="col-md-8">
                         <br/><br/><br/><center><p:commandButton value="Cancelar" style="margin-right: 2%"/>  <p:commandButton value="Concluir"/></center>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <p:panel>
                             <p:outputLabel value="Descontos"/><br/>
                             <center>
-                                <p:inputText class="form-control campTotal" value=""/>
+                                <p:inputText class="form-control campTotal" value="%"/>
                             </center>
                         </p:panel>
                     </div>
                     <div class="col-md-2 ">
                         <p:panel>
-
                             <p:outputLabel value="Total"/><br/>
-                            <center>
-                                <h:panelGrid columns="2">
-                                    <p:outputLabel value="Avista"/>
-                                    <p:outputLabel value="A Prazo"/>
-                                    <p:inputText class="form-control campTotal" disabled="true"/>
-                                    <p:inputText class="form-control campTotal" disabled="true"/>
-                                </h:panelGrid>
-                            </center>
+                            <p:outputLabel value="R$ 00,00"/>
+                            <p:outputLabel value="Total C/ Desconto"/>
+                            <p:outputLabel value="R$ 00,00"/>
                         </p:panel>
                     </div>
                 </div>

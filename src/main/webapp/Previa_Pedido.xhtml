@@ -83,18 +83,44 @@
                     </div>
                 </div>
                 <div class="row marginTable">
-                    <div class="col-md-10">
+                    <div class="col-md-6">
                         <br/><br/><br/><center><p:commandButton value="Cancelar" style="margin-right: 2%"/>  <p:commandButton value="Concluir"/></center>
                     </div>
                     <div class="col-md-2 ">
-                        Forma de Pagamento:
                         <p:panel>
-                            <p:selectOneRadio layout="grid" columns="1">
-                                <f:selectItem itemLabel="  Avista"/>
-                                <f:selectItem itemLabel="  A Prazo"/>
-                            </p:selectOneRadio>
+                            <p:outputLabel value="Forma de Pagamento"/>
+                            <h:panelGrid columns="2">
+                                <p:selectOneRadio layout="grid" columns="1">
+                                    <f:selectItem itemLabel="  Avista"/>
+                                    <f:selectItem itemLabel="  A Prazo"/>
+                                </p:selectOneRadio>
+                                <p:selectOneMenu class="drop">
+                                    <f:selectItem itemLabel="2x"/>
+                                    <f:selectItem itemLabel="3x"/>
+                                    <f:selectItem itemLabel="4x"/>
+                                    <f:selectItem itemLabel="5x"/>
+                                    <f:selectItem itemLabel="6x"/>
+                                </p:selectOneMenu>
+                            </h:panelGrid>
                         </p:panel>
                     </div>
+                    <div class="col-md-2">
+                        <p:panel>
+                            <p:outputLabel value="Descontos"/><br/>
+                            <center>
+                                <p:inputText class="form-control campTotal" value="%"/>
+                            </center>
+                        </p:panel>
+                    </div>
+                    <div class="col-md-2 ">
+                        <p:panel>
+                            <p:outputLabel value="Total"/><br/>
+                            <p:outputLabel value="R$ 00,00"/>
+                            <p:outputLabel value="Total C/ Desconto"/>
+                            <p:outputLabel value="R$ 00,00"/>
+                        </p:panel>
+                    </div>
+
                 </div>
             </div>
         </h:form>
