@@ -14,7 +14,7 @@
         <meta name="description" content=""/>
         <meta name="author" content=""/>
 
-        <title>SB Admin - Bootstrap Admin Template</title>
+        <title>GerFiz</title>
 
         <!-- Bootstrap Core CSS -->
         <link href="css/bootstrap.min.css" rel="stylesheet"/>
@@ -38,7 +38,7 @@
     </h:head>
 
     <body style="background-color: white; color: black; margin: 0px">
-        <h:form>
+        <h:form id="formPrevia">
             <div class="container-fluid">
                 <div class="row titulo">
                     <div class="col-md-10 tituloLabel2">
@@ -60,19 +60,20 @@
                                 <p:column headerText="ID" width="7%">
 
                                 </p:column>
-                                <p:column headerText="Descrição do Produto" width="66%">
+                                <p:column headerText="Descrição do Produto" width="62%">
 
                                 </p:column>
-                                <p:column headerText="Valor AV" width="7%">
+
+                                <p:column headerText="Valor" width="8%">
 
                                 </p:column>
-                                <p:column headerText="Valor AP" width="7%">
+                                <p:column headerText="Quant." width="8%">
 
                                 </p:column>
-                                <p:column headerText="Quant." width="7%">
+                                <p:column headerText="Total" width="8%">
 
                                 </p:column>
-                                <p:column headerText="Excluir" width="6%">
+                                <p:column headerText="Excluir" width="8%">
                                     <a>Excluir</a>
                                 </p:column>
                             </p:dataTable>
@@ -88,20 +89,26 @@
                     </div>
                     <div class="col-md-2 ">
                         <p:panel>
+                            <h:form>
                             <p:outputLabel value="Forma de Pagamento"/>
                             <h:panelGrid columns="2">
-                                <p:selectOneRadio layout="grid" columns="1">
-                                    <f:selectItem itemLabel="  Avista"/>
-                                    <f:selectItem itemLabel="  A Prazo"/>
+                                
+                                <p:selectOneRadio   value="#{previaPedido.formaPag}" layout="grid" columns="1">
+                                    <f:selectItem itemLabel="  Avista" itemValue="1"/>
+                                    <f:selectItem itemLabel="  A Prazo" itemValue="2"/>
+                                    <p:ajax event="change" listener="#{previaPedido.verificarFormaPag()}"/>
                                 </p:selectOneRadio>
-                                <p:selectOneMenu class="drop">
-                                    <f:selectItem itemLabel="2x"/>
-                                    <f:selectItem itemLabel="3x"/>
-                                    <f:selectItem itemLabel="4x"/>
-                                    <f:selectItem itemLabel="5x"/>
-                                    <f:selectItem itemLabel="6x"/>
+                                <p:outputLabel/>
+                                <p:selectOneMenu  rendered="#{previaPedido.cntParcelas}" value="#{previaPedido.parcelas}" class="drop">
+                                    <f:selectItem noSelectionOption="true" itemLabel=" "/>
+                                    <f:selectItem itemLabel="2x" itemValue="2"/>
+                                      <f:selectItem itemLabel="3x" itemValue="3"/>
+                                    <f:selectItem itemLabel="4x" itemValue="4"/>
+                                    <f:selectItem itemLabel="5x" itemValue="5"/>
+                                    <f:selectItem itemLabel="6x" itemValue="6"/>
                                 </p:selectOneMenu>
                             </h:panelGrid>
+                            </h:form>
                         </p:panel>
                     </div>
                     <div class="col-md-2">
@@ -112,16 +119,23 @@
                             </center>
                         </p:panel>
                     </div>
-                    <div class="col-md-2 ">
+                    <div class="col-md-2">
                         <p:panel>
-                            <p:outputLabel value="Total"/><br/>
-                            <p:outputLabel value="R$ 00,00"/>
-                            <p:outputLabel value="Total C/ Desconto"/>
-                            <p:outputLabel value="R$ 00,00"/>
+                            <h:panelGrid columns="1">
+                                <p:outputLabel value="Total" />
+                                <p:outputLabel value="R$ 00,00" class="LabelValores"/>
+                                <p:outputLabel value="Total C/ Desconto"/>
+                                <p:outputLabel value="R$ 00,00"/>
+                                <p:outputLabel value="Parcelas"/>
+                                <p:outputLabel value="R$ 00,00"/>
+                                <p:outputLabel value="Quant. Parcelas"/>
+                                <p:outputLabel value="#{previaPedido.formaPag}"/>
+                            </h:panelGrid>
                         </p:panel>
                     </div>
 
                 </div>
+                <p:outputLabel/>
             </div>
         </h:form>
     </body>

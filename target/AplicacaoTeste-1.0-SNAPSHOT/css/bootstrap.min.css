@@ -48,5 +48,8 @@
     padding-right: 25px
 }
 .drop{
-    width: 120%;
+    width: 90%;
+}
+.LabelValores{
+    font-size: 12px;
 }
