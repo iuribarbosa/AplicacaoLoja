@@ -38,7 +38,7 @@
     </h:head>
 
     <body style="background-color: white; color: black;">
-        <h:form>
+        <h:form id="form">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
@@ -46,8 +46,8 @@
                         <p:panel>
                             <center>
                                 <h1>Painel de Pesquisa</h1>
-                                <p:inputText class="form-control cmpPesq"/> 
-                                <p:commandButton value="Pesquisar"/> 
+                                <p:inputText class="form-control cmpPesq" value="#{pesqProdPedido.pesqProduto}"/> 
+                                <p:commandButton value="Pesquisar" actionListener="#{pesqProdPedido.pesquisarProd()}" update="pesqTable"/> 
                             </center>
                         </p:panel>
                     </div>
@@ -56,30 +56,63 @@
                     <div class="col-md-2">
                     </div>
                     <div class="col-md-8">
-                        <p:dataTable class="table-responsive marginTable" emptyMessage="NÃO HÁ PRODUTOS PARA A PESQUISA">
-                            <p:column headerText="ID">
+                        <p:dataTable  class="table-responsive marginTable marginTablebutom" emptyMessage="NÃO HÁ PRODUTOS PARA A PESQUISA" id="pesqTable" 
+                                      var="prod"  rowKey="#{prod.codprod}" value="#{pesqProdPedido.produtos}" selection="#{previaPedido.produtoSelecionado}" selectionMode="single">
+                            <p:ajax event="rowDblselect"  update="@form"   listener="#{previaPedido.abrirDialog()}"/>
+                            <p:column headerText="ID" width="6%">
+
+                                #{prod.codprod}
 
                             </p:column>
-                            <p:column headerText="Descrição">
-
+                            <p:column headerText="Descrição" width="62%">
+                                #{prod.nomeprod}
                             </p:column>
                             <p:column headerText="Valor AP">
-
+                                #{prod.valorprodAp}
                             </p:column>
                             <p:column headerText="Valor AV">
-
+                                <center> #{prod.valorprod}</center>
                             </p:column>
-                            <p:column headerText="Qnt">
-
+                            <p:column headerText="Qnt" width="8%">
+                                <center> #{prod.qtdprod}</center>
                             </p:column>
 
                         </p:dataTable>
+                        <p:outputLabel id="teste" value="#{pesqProdPedido.produtoSelecionado.codprod}"/>
                     </div>
                     <div class="col-md-2">
                     </div>
                 </div>
             </div>
         </h:form>
+        <p:dialog id="confirmarQnt" header="Quantidade" modal="true" widgetVar="confirmarQnt">
+            <h:form id='formDialog'>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-4">
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-12 marginTablebutom">
+                                    <center><p:inputNumber size="5" value="#{previaPedido.quantidade}" decimalPlaces="0"/></center> 
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p:commandButton value="Cadastrar" style="float: left" update="@form" actionListener="#{previaPedido.inserirProduto()}" immediate="false"/>
+                                    <p:commandButton value="Cancelar" style="float: right" update="@form" actionListener="#{previaPedido.fecharDialog()}"/>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                        <div class="col-md-4">
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+        </p:dialog>
     </body>
 
 </html>

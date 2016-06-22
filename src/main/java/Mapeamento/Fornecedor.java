@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Iuri Barbosa
+ * @author ibarbosa
  */
 @Entity
 @Table(name = "fornecedor")
@@ -36,6 +36,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Fornecedor.findByTelContato", query = "SELECT f FROM Fornecedor f WHERE f.telContato = :telContato"),
     @NamedQuery(name = "Fornecedor.findByTelforn", query = "SELECT f FROM Fornecedor f WHERE f.telforn = :telforn")})
 public class Fornecedor implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

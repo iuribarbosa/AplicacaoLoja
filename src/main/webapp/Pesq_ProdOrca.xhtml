@@ -46,8 +46,8 @@
                         <p:panel>
                             <center>
                                 <h1>Painel de Pesquisa</h1>
-                                <p:inputText class="form-control cmpPesq"/> 
-                                <p:commandButton value="Pesquisar"/> 
+                                <p:inputText class="form-control cmpPesq" value="#{pesqProdOrcamento.pesqProduto}"/> 
+                                <p:commandButton value="Pesquisar" actionListener="#{pesqProdOrcamento.pesquisarProd()}" update="pesqTable"/> 
                             </center>
                         </p:panel>
                     </div>
@@ -56,21 +56,24 @@
                     <div class="col-md-2">
                     </div>
                     <div class="col-md-8">
-                        <p:dataTable class="table-responsive marginTable" emptyMessage="NÃO HÁ PRODUTOS PARA A PESQUISA">
-                            <p:column headerText="ID">
-
+                        <p:dataTable class="table-responsive marginTable marginTablebutom" emptyMessage="NÃO HÁ PRODUTOS PARA A PESQUISA" id="pesqTable" 
+                                     var="prod"  rowKey="#{prod.codprod}" value="#{pesqProdOrcamento.produtos}" >
+                            <p:column headerText="ID" width="6%">
+                                <a>
+                                    #{prod.codprod}
+                                </a>
                             </p:column>
-                            <p:column headerText="Descrição">
-
+                            <p:column headerText="Descrição" width="62%">
+                                    #{prod.nomeprod}
                             </p:column>
                             <p:column headerText="Valor AP">
-
+                                #{prod.valorprodAp}
                             </p:column>
                             <p:column headerText="Valor AV">
-
+                                #{prod.valorprod}
                             </p:column>
-                            <p:column headerText="Qnt">
-
+                            <p:column headerText="Qnt" width="8%">
+                                #{prod.qtdprod}
                             </p:column>
 
                         </p:dataTable>

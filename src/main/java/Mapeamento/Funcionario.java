@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Iuri Barbosa
+ * @author ibarbosa
  */
 @Entity
 @Table(name = "funcionario")
@@ -36,6 +36,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Funcionario.findByCpffunc", query = "SELECT f FROM Funcionario f WHERE f.cpffunc = :cpffunc"),
     @NamedQuery(name = "Funcionario.findByTelfunc", query = "SELECT f FROM Funcionario f WHERE f.telfunc = :telfunc")})
 public class Funcionario implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

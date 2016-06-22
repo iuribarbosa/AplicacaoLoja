@@ -56,29 +56,30 @@
                 <div class="row">
                     <div class="col-md-12">
                         <p:panel style="padding-bottom: 5%;">
-                            <p:dataTable>
-                                <p:ajax event="rowSelect"/>
-                                <p:column headerText="ID" width="6%">
+                            <p:outputPanel autoUpdate="true">
+                                <p:dataTable id="listaProdutos" var="prod"  rowKey="#{prod.codprod}" value="#{previaPedido.produtosInseridos}">
+                                    <p:column headerText="ID" width="6%">
+                                        #{prod.codprod}
+                                    </p:column>
+                                    <p:column headerText="Descrição do Produto" width="62%">
+                                        #{prod.nomeprod}
+                                    </p:column>
 
-                                </p:column>
-                                <p:column headerText="Descrição do Produto" width="62%">
-
-                                </p:column>
-
-                                <p:column headerText="Valor" width="8%">
-
-                                </p:column>
-                                <p:column headerText="Quant." width="8%">
-
-                                </p:column>
-                                <p:column headerText="Total" width="8%">
-
-                                </p:column>
-                                <p:column headerText="Excluir" width="8%">
-                                    <a>Excluir</a>
-                                </p:column>
-                            </p:dataTable>
-                            <a href="Pesq_ProdPed.xhtml">
+                                    <p:column headerText="Valor" width="8%">
+                                        #{prod.valorprodAp}
+                                    </p:column>
+                                    <p:column headerText="Quant." width="8%">
+                                        #{prod.qtdprod}
+                                    </p:column>
+                                    <p:column headerText="Total" width="8%">
+                                        #{prod.valorprod}
+                                    </p:column>
+                                    <p:column headerText="Excluir" width="8%">
+                                        <a>Excluir</a>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:outputPanel>
+                            <a onclick="javascript:popUp('Produtos', '#{request.contextPath}/faces/Pesq_ProdPed.xhtml', '800', '1000'); return false;">
                                 <img class="img-responsive" style="float: right; margin-top: 1%; width: 30px; height: auto;" src="img/Botoes/add.png"/>
                             </a>
                         </p:panel>
@@ -143,6 +144,44 @@
                 <p:outputLabel/>
             </div>
         </h:form>
+        <script language="javascript">
+
+                function popUp(titulo, URL, h, w) {
+
+                    var winl = (screen.width - w) / 2;
+
+                    var wint = (screen.height - h) / 2;
+
+                    var newwindow = window.open(URL, titulo, 'top=' + wint + ', left=' + winl + ', width=' + w + ', height=' + h + ', toolbar=no,directories=no, scrollbars=no, status=no, resizable=no, modal=yes');
+                    newwindow.moveTo(winl, wint);
+                    newwindow.focus();
+
+                }
+
+                function modalWin2(URL) {
+
+                    if (window.showModalDialog) {
+                        window.showModalDialog(URL, 'name', 'dialogWidth:255px;dialogHeight:250px');
+                    } else {
+                        window.open(URL, 'name', 'height=255,width=250,toolbar=no,directories=no,status=no,continued from previous linemenubar=no,scrollbars=no,resizable=no ,modal=yes');
+                    }
+                }
+
+                function modalWin(titulo, URL, h, w) {
+                    var winl = (screen.width - w) / 2;
+
+                    var wint = (screen.height - h) / 2;
+
+                    if (window.showModalDialog) {
+                        var newwindow = window.showModalDialog(URL, titulo, 'dialogTop=' + wint + ', dialogLeft=' + winl + ', dialogWidth:' + w + ', dialogHeight:' + h + ', center:yes;');
+                    } else {
+                        var newwindow = window.open(URL, titulo, 'top=' + wint + ', left=' + winl + ', width=' + w + ', height=' + h + ',toolbar=yes,directories=no,status=no,continued from previous linemenubar=no,scrollbars=no,resizable=no ,modal=yes');
+                    }
+                    newwindow.moveTo(winl, wint);
+                    newwindow.focus();
+                }
+
+            </script>
     </body>
 
 </html>
