@@ -54,7 +54,7 @@ public class Produto implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "qtdprod")
-    private int qtdprod;
+    private float qtdprod;
     @Basic(optional = false)
     @NotNull
     @Column(name = "valorprod")
@@ -125,11 +125,11 @@ public class Produto implements Serializable {
         this.nomeprod = nomeprod;
     }
 
-    public int getQtdprod() {
+    public float getQtdprod() {
         return qtdprod;
     }
 
-    public void setQtdprod(int qtdprod) {
+    public void setQtdprod(float qtdprod) {
         this.qtdprod = qtdprod;
     }
 

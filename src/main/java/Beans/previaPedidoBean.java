@@ -17,6 +17,7 @@ public class previaPedidoBean {
     private Produto produtoSelecionado;
     private List<Produto> produtosInseridos;
     private pesqProdPedidoBean psqPed;
+    private Produto produtoExc;
     //Variaveis da Tela
     public int formaPag = 1;
     public int parcelas;
@@ -27,17 +28,18 @@ public class previaPedidoBean {
     public String totalDescontoString;
     public double valorParcelas;
     public String valorParcelasString;
-    public int quantidade;
+    public double quantidade;
 
     //Variaveis de Controle
     public boolean cntParcelas;
     public boolean cntDialog = false;
-
+    
+    //Construtor
     public previaPedidoBean() {
+        produtoExc = new Produto();
         produtoSelecionado = new Produto();
         psqPed = new pesqProdPedidoBean();
         produtosInseridos = new ArrayList<>();
-
     }
 
     //Funções
@@ -75,10 +77,11 @@ public class previaPedidoBean {
         cntDialog = false;
         quantidade = 0;
     }
-    //Funções de inserção
+    
+    //Funções de inserção e exclusão
     public void inserirProduto() {
-        produtoSelecionado.setQtdprod(quantidade);
-        produtoSelecionado.setValorprod(produtoSelecionado.getValorprodAp() * produtoSelecionado.getQtdprod());
+        produtoSelecionado.setQtdprod((float)quantidade);
+        produtoSelecionado.setValorprod(produtoSelecionado.getValorprodAp() * (float)quantidade);
         this.produtosInseridos.add(produtoSelecionado);
         total = total + produtoSelecionado.getValorprod();
         BigDecimal bd = new BigDecimal(total).setScale(2, RoundingMode.HALF_EVEN);
@@ -87,6 +90,15 @@ public class previaPedidoBean {
         RequestContext requestContext = RequestContext.getCurrentInstance();
         requestContext.execute("PF('confirmarQnt').hide()");
         quantidade = 0;
+    }
+    public void excluirProduto(){
+        for(int i = 0; i<= produtosInseridos.size()-1;i++){
+            Produto prod1 = new Produto();
+            prod1 = produtosInseridos.get(i);
+            if((produtoExc.getCodprod() == prod1.getCodprod()) && (produtoExc.getQtdprod() == prod1.getQtdprod())){
+                produtosInseridos.remove(i);
+            }
+        }
     }
     
     //Gets e Sets
@@ -163,11 +175,11 @@ public class previaPedidoBean {
         this.Desconto = Desconto;
     }
 
-    public int getQuantidade() {
+    public double getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(int quantidade) {
+    public void setQuantidade(double quantidade) {
         this.quantidade = quantidade;
     }
     
@@ -205,4 +217,12 @@ public class previaPedidoBean {
         this.produtosInseridos = produtosInseridos;
     }
 
+    public Produto getProdutoExc() {
+        return produtoExc;
+    }
+
+    public void setProdutoExc(Produto produtoExc) {
+        this.produtoExc = produtoExc;
+    }
+    
 }
