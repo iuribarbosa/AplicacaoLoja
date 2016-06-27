@@ -76,11 +76,12 @@
                                         <center>#{prod.valorprod}</center>
                                     </p:column>
                                     <p:column headerText="Excluir" width="8%">
-                                        <p:commandLink immediate="false">
+                                        <p:commandLink >
                                                 <center>
-                                                <i class="glyphicon glyphicon-remove"></i>
+                                                <i class="glyphicon glyphicon-remove">
                                                 <f:setPropertyActionListener value="#{prod}"  target="#{previaPedido.produtoExc}"/>
-                                                <f:ajax listener="#{previaPedido.excluirProduto()}" />
+                                                </i>
+                                                    <f:ajax listener="#{previaPedido.excluirProduto()}"/>
                                                 </center>
                                             </p:commandLink>
                                     </p:column>
@@ -98,10 +99,9 @@
                     </div>
                     <div class="col-md-2 ">
                         <p:panel id="formaPag">
-                            <h:form>
+                            
                                 <p:outputLabel value="Forma de Pagamento"/>
                                 <h:panelGrid columns="2">
-
                                     <p:selectOneRadio   value="#{previaPedido.formaPag}" layout="grid" columns="1">
                                         <f:selectItem itemLabel="  Avista" itemValue="1"/>
                                         <f:selectItem itemLabel="  A Prazo" itemValue="2"/>
@@ -118,7 +118,6 @@
                                         <p:ajax event="change" update="formPrevia" listener="#{previaPedido.gerarValorParcelas()}"/>
                                     </p:selectOneMenu>
                                 </h:panelGrid>
-                            </h:form>
                         </p:panel>
                     </div>
                     <div class="col-md-2">

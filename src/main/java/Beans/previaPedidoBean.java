@@ -86,8 +86,9 @@ public class previaPedidoBean {
         total = total + produtoSelecionado.getValorprod();
         BigDecimal bd = new BigDecimal(total).setScale(2, RoundingMode.HALF_EVEN);
         totalString = "R$ " + bd;
-        RequestContext.getCurrentInstance().execute("window.opener.location.href='faces/Previa_Pedido.xhtml'");
+    
         RequestContext requestContext = RequestContext.getCurrentInstance();
+        requestContext.execute("window.opener.location.href='Previa_Pedido.xhtml'");
         requestContext.execute("PF('confirmarQnt').hide()");
         quantidade = 0;
     }
@@ -95,7 +96,7 @@ public class previaPedidoBean {
         for(int i = 0; i<= produtosInseridos.size()-1;i++){
             Produto prod1 = new Produto();
             prod1 = produtosInseridos.get(i);
-            if((produtoExc.getCodprod() == prod1.getCodprod()) && (produtoExc.getQtdprod() == prod1.getQtdprod())){
+            if((produtoExc.getCodprod().equals(prod1.getCodprod())) && (produtoExc.getQtdprod() == prod1.getQtdprod())){
                 produtosInseridos.remove(i);
             }
         }
