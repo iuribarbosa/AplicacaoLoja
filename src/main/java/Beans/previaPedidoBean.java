@@ -2,7 +2,9 @@ package Beans;
 
 import Mapeamento.Pedidos;
 import Mapeamento.Produto;
+import Mapeamento.Vendas;
 import RN.PedidosRN;
+import RN.VendasRn;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -24,6 +26,8 @@ public class previaPedidoBean {
     private Produto produtoExc;
     private Pedidos pedido;
     private PedidosRN pedidoRN;
+    private Vendas venda;
+    private VendasRn vendaRN;
     //Variaveis da Tela
     public int formaPag = 1;
     public int parcelas;
@@ -41,6 +45,7 @@ public class previaPedidoBean {
     public boolean cntDialog = false;
     private Produto prod1;
     private Produto newProd;
+    private int idPedido;
 
     //Construtor
     public previaPedidoBean() {
@@ -94,7 +99,14 @@ public class previaPedidoBean {
         pedido.setVendedor(1);
         pedido.setData(data);
     }
-
+    public void gerarVenda(){
+        venda.setDescricaoProduto(prod1.getNomeprod());
+        venda.setIDPedido(idPedido);
+        venda.setIDproduto(prod1.getCodprod());
+        venda.setQuantidade(prod1.getQtdprod());
+        venda.setTotal(prod1.getValorprod());
+        venda.setValor(prod1.getValorprodAp());
+    }
     //Funções de Controles
     public void verificarFormaPag() {
         int i = formaPag;
@@ -159,6 +171,15 @@ public class previaPedidoBean {
             pedidoRN.salvar(pedido);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
             RequestContext.getCurrentInstance().execute("location.href='index.xhtml'");
+            int idPedido = pedido.getIdPedido();
+            venda = new Vendas();
+            prod1 = new Produto();
+            for(int i = 0; i <= produtosInseridos.size()-1; i++){
+                prod1 = produtosInseridos.get(i);
+                gerarVenda();
+                vendaRN = new VendasRn();
+                vendaRN.salvar(venda);
+            }
         } catch (Exception e) {
             System.out.println(e);
             RequestContext.getCurrentInstance().execute("alert('Erro ao salvar o Pedido')");
@@ -268,7 +289,7 @@ public class previaPedidoBean {
     public void setCntDialog(boolean cntDialog) {
         this.cntDialog = cntDialog;
     }
-
+    
     //Listas
     public Produto getProdutoSelecionado() {
         return produtoSelecionado;

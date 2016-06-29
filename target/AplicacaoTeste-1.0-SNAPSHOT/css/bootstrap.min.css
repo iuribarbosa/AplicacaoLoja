@@ -32,7 +32,7 @@
     margin-bottom: 3%;
 }
 .tituloLabel{
-    font-size: 26px;
+    font-size: 40px;
 }
 .tituloLabel2{
     font-size: 20px;
@@ -65,4 +65,7 @@
 }
 .marginTablebutom{
     margin-bottom: 2%;
+}
+.espacoGrid{
+        padding-bottom: 6% !important;
 }

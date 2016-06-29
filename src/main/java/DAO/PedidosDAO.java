@@ -6,7 +6,9 @@
 package DAO;
 
 import Mapeamento.Pedidos;
+import java.util.Date;
 import java.util.List;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 /**
@@ -82,12 +84,13 @@ public class PedidosDAO implements PedidosDAOListener{
 //        return (List<TbAluno>) consulta.list();
 //    }
     
-//    public TbAluno buscarAlunoporMat(String matricula) {
-//        String hql = "select t from TbAluno t where t.aluMatricula = :matA";
-//        Query consulta = this.sessao.createQuery(hql);
-//        consulta.setString("matA", matricula);
-//        return (TbAluno) consulta.uniqueResult();
-//    }
+    @Override
+    public Pedidos buscarData(Date data) {
+        String hql = "select t from Pedidos t where t.data = :matA";
+        Query consulta = this.sessao.createQuery(hql);
+        consulta.setDate("matA", data);
+        return (Pedidos) consulta.uniqueResult();
+    }
     
     
     

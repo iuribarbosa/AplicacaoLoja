@@ -6,6 +6,7 @@
 package DAO;
 
 import Mapeamento.Pedidos;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Session;
 
@@ -47,5 +48,7 @@ public interface PedidosDAOListener {
     void salvar(Pedidos al);
 
     void setSessao(Session sessao);
+    
+    Pedidos buscarData(Date data);
     
 }

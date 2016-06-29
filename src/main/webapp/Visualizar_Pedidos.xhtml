@@ -60,7 +60,7 @@
                                                 <p:outputLabel value="Pesquisar Pedido"/> 
                                             </div>
                                             <div class="col-md-6">
-                                                <p:inputNumber size="5" thousandSeparator=" " decimalPlaces="0"/>
+                                                <p:inputNumber size="5" thousandSeparator=" " value="" decimalPlaces="0"/>
                                                 <p:commandButton value="pesquisar" class="btn btnPesquisar"/>
                                             </div>
                                         </div>
@@ -68,19 +68,21 @@
                                 </div>
                             </div>
                         </div>
-
-                        <p:dataTable class="marginTable">
-                            <p:column headerText="Pedido">
-
+                        <p:dataTable id="listaProdutos" var="prod"  rowKey="#{prod.idPedido}" class="marginTable" value="#{viewPedido.listaPedido}">
+                            <p:column headerText="Pedido" width="10%">
+                                <center>#{prod.idPedido}</center>
                             </p:column>
-                            <p:column headerText="Data">
-
+                            <p:column headerText="Data" width="10%">
+                                <center>#{viewPedido.getDate(prod.data)}  </center>
                             </p:column>
-                            <p:column headerText="Vendedor">
-
+                            <p:column headerText="Vendedor" width="50%">
+                                <center>#{prod.vendedor}</center>
                             </p:column>
-                            <p:column headerText="Valor">
-
+                            <p:column headerText="Forma de Pag." width="10%">
+                                <center>#{prod.formaPagamento}</center>
+                            </p:column>
+                            <p:column headerText="Valor" width="10%">
+                                <center>#{viewPedido.setaDoisDecimais(prod.total)}</center>
                             </p:column>
                         </p:dataTable>
                     </div>

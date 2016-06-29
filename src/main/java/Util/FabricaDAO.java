@@ -62,4 +62,9 @@ public class FabricaDAO {
         ProfDAO.setSessao(HibernateUtil.getSessionFactory().getCurrentSession());
         return ProfDAO;
     }
+    public static VendasDAOListener criarVendasDAO() {
+        VendasDAO ProfDAO = new VendasDAO();
+        ProfDAO.setSessao(HibernateUtil.getSessionFactory().getCurrentSession());
+        return ProfDAO;
+    }
 }

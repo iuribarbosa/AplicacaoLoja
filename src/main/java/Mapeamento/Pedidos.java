@@ -37,14 +37,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Pedidos.findByQuantVezes", query = "SELECT p FROM Pedidos p WHERE p.quantVezes = :quantVezes"),
     @NamedQuery(name = "Pedidos.findByTotalDesconto", query = "SELECT p FROM Pedidos p WHERE p.totalDesconto = :totalDesconto"),
     @NamedQuery(name = "Pedidos.findByTotalParcelas", query = "SELECT p FROM Pedidos p WHERE p.totalParcelas = :totalParcelas"),
-    @NamedQuery(name = "Pedidos.findByVendedor", query = "SELECT p FROM Pedidos p WHERE p.vendedor = :vendedor")})
+    @NamedQuery(name = "Pedidos.findByVendedor", query = "SELECT p FROM Pedidos p WHERE p.vendedor = :vendedor"),
+    @NamedQuery(name = "Pedidos.findByData", query = "SELECT p FROM Pedidos p WHERE p.data = :data")})
 public class Pedidos implements Serializable {
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "Data")
-    @Temporal(TemporalType.DATE)
-    private Date data;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -80,6 +75,11 @@ public class Pedidos implements Serializable {
     @NotNull
     @Column(name = "vendedor")
     private int vendedor;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "Data")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date data;
 
     public Pedidos() {
     }
@@ -88,7 +88,7 @@ public class Pedidos implements Serializable {
         this.idPedido = idPedido;
     }
 
-    public Pedidos(Integer idPedido, int formaPagamento, double desconto, double total, int quantVezes, double totalDesconto, double totalParcelas, int vendedor) {
+    public Pedidos(Integer idPedido, int formaPagamento, double desconto, double total, int quantVezes, double totalDesconto, double totalParcelas, int vendedor, Date data) {
         this.idPedido = idPedido;
         this.formaPagamento = formaPagamento;
         this.desconto = desconto;
@@ -97,6 +97,7 @@ public class Pedidos implements Serializable {
         this.totalDesconto = totalDesconto;
         this.totalParcelas = totalParcelas;
         this.vendedor = vendedor;
+        this.data = data;
     }
 
     public Integer getIdPedido() {
@@ -163,6 +164,14 @@ public class Pedidos implements Serializable {
         this.vendedor = vendedor;
     }
 
+    public Date getData() {
+        return data;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -186,14 +195,6 @@ public class Pedidos implements Serializable {
     @Override
     public String toString() {
         return "Mapeamento.Pedidos[ idPedido=" + idPedido + " ]";
-    }
-
-    public Date getData() {
-        return data;
-    }
-
-    public void setData(Date data) {
-        this.data = data;
     }
     
 }

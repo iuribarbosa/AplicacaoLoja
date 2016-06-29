@@ -19,5 +19,7 @@
     <mapping class="Mapeamento.Pedido2"/>
     <mapping class="Mapeamento.Produto"/>
     <mapping class="Mapeamento.Produto2"/>
+    <mapping class="Mapeamento.Pedidos"/>
+    <mapping class="Mapeamento.Vendas"/>
   </session-factory>
 </hibernate-configuration>

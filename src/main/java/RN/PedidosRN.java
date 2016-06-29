@@ -8,6 +8,7 @@ package RN;
 import DAO.PedidosDAOListener;
 import Mapeamento.Pedidos;
 import Util.FabricaDAO;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Session;
 
@@ -48,5 +49,8 @@ public class PedidosRN {
 
     public void setSessao(Session sessao){
         this.ped.setSessao(sessao);
+    }
+    public Pedidos buscarData(Date data){
+        return this.ped.buscarData(data);
     }
 }
