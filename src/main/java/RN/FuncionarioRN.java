@@ -65,4 +65,7 @@ public class FuncionarioRN {
     public void setSessao(Session sessao){
         this.func.setSessao(sessao);
     }
+    public boolean verificarConexao(String login, String senha){
+       return this.func.verificarConexao(login, senha);
+    }
 }

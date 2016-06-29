@@ -71,8 +71,18 @@ public class FuncionarioDAO implements FuncionarioDAOListener {
 //        consulta.setString("matA", matricula);
 //        return (TbAluno) consulta.uniqueResult();
 //    }
-    
-    
+    @Override
+    public boolean verificarConexao(String login, String senha) {
+        String hql = "select t from Funcionario t where t.nomefunc = :login and t.senhafunc = :senha";
+        Query consulta = this.sessao.createQuery(hql);
+        consulta.setString("login", login);
+        consulta.setString("senha", senha);
+
+        if (consulta.uniqueResult()==null)
+           return false;
+        else
+           return true; 
+    }
     @Override
     public List<Funcionario> obterTodos() {
         return this.sessao.createCriteria(Funcionario.class).list();

@@ -5,7 +5,7 @@
  */
 package DAO;
 
-import Mapeamento.Funcionario;
+import Mapeamento.Pedidos;
 import java.util.List;
 import org.hibernate.Session;
 
@@ -13,19 +13,19 @@ import org.hibernate.Session;
  *
  * @author ibarbosa
  */
-public interface FuncionarioDAOListener {
+public interface PedidosDAOListener {
 
-    void alterar(Funcionario al);
+    void alterar(Pedidos al);
 
-    List<Funcionario> buscarFornecedorPorNome(String nome);
-
-    Funcionario consultar(int ID);
-
-    void excluir(Funcionario al);
-
-    List<Funcionario> listarSemFiltro();
-
-    //    public List<Fornecedor> buscarAlunoporcpf(String cpf) {
+    Pedidos consultar(int ID);
+    //    public List<Pedidos> buscarPacientePorNome(String nome) {
+    //        String hql = "select t from PedidosDAO t where t.nome like :nomeA";
+    //        Query consulta = this.sessao.createQuery(hql);
+    //        consulta.setString("nomeA", '%'+nome+'%');
+    //        return (List<Pedidos>) consulta.list();
+    //    }
+    //
+    //    public List<TbAluno> buscarAlunoporcpf(String cpf) {
     //        String hql = "select t from TbAluno t where t.aluPesIdpessoa.pesCpf = :cpfA";
     //        Query consulta = this.sessao.createQuery(hql);
     //        consulta.setString("cpfA", cpf);
@@ -37,12 +37,15 @@ public interface FuncionarioDAOListener {
     //        consulta.setString("matA", matricula);
     //        return (TbAluno) consulta.uniqueResult();
     //    }
-    List<Funcionario> obterTodos();
 
-    void salvar(Funcionario al);
+    void excluir(Pedidos al);
+
+    List<Pedidos> listarSemFiltro();
+
+    List<Pedidos> obterTodos();
+
+    void salvar(Pedidos al);
 
     void setSessao(Session sessao);
-    
-    boolean verificarConexao(String login, String senha);
     
 }

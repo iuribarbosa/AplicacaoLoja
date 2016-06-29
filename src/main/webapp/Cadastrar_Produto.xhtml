@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt"
+      xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"   
+      xmlns:f="http://java.sun.com/jsf/core"   
+      xmlns:ui="http://java.sun.com/jsf/facelets"   
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="description" content=""/>
+        <meta name="author" content=""/>
+
+        <title>SB Admin - Bootstrap Admin Template</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet"/>
+
+        <!-- Custom CSS -->
+        <link href="css/sb-admin.css" rel="stylesheet"/>
+
+        <!-- Morris Charts CSS -->
+        <link href="css/plugins/morris.css" rel="stylesheet"/>
+
+        <!-- Custom Fonts -->
+        <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+    </h:head>
+
+    <body>
+        <h:form>
+            <p:growl showDetail="true" showSummary="true" life="5000"/>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <strong><b><center><p:outputLabel class="tituloLabel" value="Cadastrar Produto"/></center></b></strong>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+
+                    </div>
+                    <div class="col-md-4">
+                        <p:outputPanel autoUpdate="true">
+                            <center>
+                                <p:panel>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="row">
+                                                <div class="col-md-12 espacoGrid">
+                                                    <p:outputLabel value="Descrição"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 espacoGrid">
+                                                    <p:outputLabel value="Quantidade" />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 espacoGrid">
+                                                    <p:outputLabel value="Valor" />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 espacoGrid" style="margin-bottom:-6px;">
+                                                    <p:outputLabel value="Fornecedor" />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p:outputLabel value="" />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 espacoGrid">
+                                                    <p:commandButton value="Cancelar" actionListener="#{cadProd.cancelarProd()}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="row">
+                                                <div class="col-md-12 espacoGrid">
+                                                    <p:inputText value="#{cadProd.descricao}" class="form-control "/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 espacoGrid">
+                                                    <p:inputNumber value="#{cadProd.qnt}" size="18"  decimalPlaces="0"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 espacoGrid">
+                                                    <p:inputText value="#{cadProd.valor}" class="form-control"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 espacoGrid">
+                                                    <p:inputText value="#{cadProd.fornecedor}" class="form-control "/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 espacoGrid">
+                                                    <p:commandButton value="Confirmar" actionListener="#{cadProd.salvarProd()}" update="@form"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </p:panel>
+                            </center>
+                        </p:outputPanel>
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </body>
+
+</html>

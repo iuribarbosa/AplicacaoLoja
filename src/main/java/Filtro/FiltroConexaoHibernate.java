@@ -14,19 +14,16 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import org.hibernate.SessionFactory;
 
-/**
- *
- * @author Desenvolvedor
- */
 public class FiltroConexaoHibernate implements Filter{
     private SessionFactory sf;
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         this.sf = HibernateUtil.getSessionFactory();
     }
+
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) 
-            throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         try {
             this.sf.getCurrentSession().beginTransaction();
             chain.doFilter(request, response);
@@ -39,9 +36,13 @@ public class FiltroConexaoHibernate implements Filter{
                 }
             } catch (Throwable t) {
                 t.printStackTrace();
-            }        }
+            }
+        }
     }
+
     @Override
     public void destroy() {
+        
     }
+    
 }

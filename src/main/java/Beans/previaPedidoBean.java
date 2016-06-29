@@ -1,12 +1,16 @@
 package Beans;
 
+import Mapeamento.Pedidos;
 import Mapeamento.Produto;
+import RN.PedidosRN;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
 
 @ManagedBean(name = "previaPedido")
@@ -18,6 +22,8 @@ public class previaPedidoBean {
     private List<Produto> produtosInseridos;
     private pesqProdPedidoBean psqPed;
     private Produto produtoExc;
+    private Pedidos pedido;
+    private PedidosRN pedidoRN;
     //Variaveis da Tela
     public int formaPag = 1;
     public int parcelas;
@@ -33,13 +39,16 @@ public class previaPedidoBean {
     //Variaveis de Controle
     public boolean cntParcelas;
     public boolean cntDialog = false;
-    
+    private Produto prod1;
+    private Produto newProd;
+
     //Construtor
     public previaPedidoBean() {
         produtoExc = new Produto();
         produtoSelecionado = new Produto();
         psqPed = new pesqProdPedidoBean();
         produtosInseridos = new ArrayList<>();
+        verificarTotal();
     }
 
     //Funções
@@ -56,6 +65,36 @@ public class previaPedidoBean {
         valorParcelasString = "R$ " + bd;
     }
 
+    public void verificarTotal() {
+        total = 0;
+        newProd = new Produto();
+        if (produtosInseridos.size() > 0) {
+            for (int i = 0; i <= produtosInseridos.size() - 1; i++) {
+                newProd = produtosInseridos.get(i);
+                total = total + newProd.getValorprod();
+                BigDecimal bd = new BigDecimal(total).setScale(2, RoundingMode.HALF_EVEN);
+                totalString = "R$ " + bd;
+            }
+        } else {
+            total = 0;
+            BigDecimal bd = new BigDecimal(total).setScale(2, RoundingMode.HALF_EVEN);
+            totalString = "R$ " + bd;
+        }
+    }
+
+    public void gerarPedido() {
+        Date data = new Date();
+        pedido = new Pedidos();
+        pedido.setDesconto(Desconto);
+        pedido.setFormaPagamento(formaPag);
+        pedido.setQuantVezes(parcelas);
+        pedido.setTotal(total);
+        pedido.setTotalDesconto(totalDesconto);
+        pedido.setTotalParcelas(valorParcelas);
+        pedido.setVendedor(1);
+        pedido.setData(data);
+    }
+
     //Funções de Controles
     public void verificarFormaPag() {
         int i = formaPag;
@@ -66,42 +105,71 @@ public class previaPedidoBean {
         }
     }
 
-    public void abrirDialog(){
+    public void abrirDialog() {
         RequestContext requestContext = RequestContext.getCurrentInstance();
         requestContext.execute("PF('confirmarQnt').show()");
-        cntDialog = true;
     }
-    public void fecharDialog(){
+
+    public void fecharDialog() {
         RequestContext requestContext = RequestContext.getCurrentInstance();
         requestContext.execute("PF('confirmarQnt').hide()");
-        cntDialog = false;
         quantidade = 0;
     }
-    
-    //Funções de inserção e exclusão
+
+    public void abrirDialogExc() {
+        RequestContext requestContext = RequestContext.getCurrentInstance();
+        requestContext.execute("PF('dlgExc').show()");
+    }
+
+    //Funções de fluxo
     public void inserirProduto() {
-        produtoSelecionado.setQtdprod((float)quantidade);
-        produtoSelecionado.setValorprod(produtoSelecionado.getValorprodAp() * (float)quantidade);
-        this.produtosInseridos.add(produtoSelecionado);
-        total = total + produtoSelecionado.getValorprod();
-        BigDecimal bd = new BigDecimal(total).setScale(2, RoundingMode.HALF_EVEN);
-        totalString = "R$ " + bd;
-    
+        produtoSelecionado.setQtdprod((float) quantidade);
+        produtoSelecionado.setValorprod(produtoSelecionado.getValorprodAp() * (float) quantidade);
+        produtosInseridos.add(produtoSelecionado);
+        verificarTotal();
+
         RequestContext requestContext = RequestContext.getCurrentInstance();
         requestContext.execute("window.opener.location.href='Previa_Pedido.xhtml'");
         requestContext.execute("PF('confirmarQnt').hide()");
         quantidade = 0;
     }
-    public void excluirProduto(){
-        for(int i = 0; i<= produtosInseridos.size()-1;i++){
-            Produto prod1 = new Produto();
-            prod1 = produtosInseridos.get(i);
-            if((produtoExc.getCodprod().equals(prod1.getCodprod())) && (produtoExc.getQtdprod() == prod1.getQtdprod())){
-                produtosInseridos.remove(i);
+
+    public void excluirProduto() {
+        prod1 = new Produto();
+        try {
+            for (int i = 0; i <= produtosInseridos.size() - 1; i++) {
+                prod1 = produtosInseridos.get(i);
+                int codA = produtoExc.getCodprod();
+                int codB = prod1.getCodprod();
+                if (codA == codB) {
+                    produtosInseridos.remove(i);
+                }
             }
+            verificarTotal();
+        } catch (Exception e) {
+            System.out.println(e);
+            RequestContext.getCurrentInstance().execute("alert('Erro na exclusão')");
         }
     }
-    
+
+    public void salvarPedido() {
+        try {
+            gerarPedido();
+            pedidoRN = new PedidosRN();
+            pedidoRN.salvar(pedido);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
+            RequestContext.getCurrentInstance().execute("location.href='index.xhtml'");
+        } catch (Exception e) {
+            System.out.println(e);
+            RequestContext.getCurrentInstance().execute("alert('Erro ao salvar o Pedido')");
+        }
+    }
+
+    public void cancelarPedido() {
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
+        RequestContext.getCurrentInstance().execute("location.href='home.xhtml'");
+    }
+
     //Gets e Sets
     //Variaveis da Tela
     public int getFormaPag() {
@@ -183,7 +251,7 @@ public class previaPedidoBean {
     public void setQuantidade(double quantidade) {
         this.quantidade = quantidade;
     }
-    
+
     //Variaveis de Controle
     public boolean isCntParcelas() {
         return cntParcelas;
@@ -200,7 +268,7 @@ public class previaPedidoBean {
     public void setCntDialog(boolean cntDialog) {
         this.cntDialog = cntDialog;
     }
-    
+
     //Listas
     public Produto getProdutoSelecionado() {
         return produtoSelecionado;
@@ -225,5 +293,5 @@ public class previaPedidoBean {
     public void setProdutoExc(Produto produtoExc) {
         this.produtoExc = produtoExc;
     }
-    
+
 }

@@ -38,7 +38,8 @@
     </h:head>
 
     <body>
-        
+        <h:form>
+            <p:growl showDetail="true" showSummary="true" life="5000"/>
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-4">
@@ -72,24 +73,24 @@
                     <div class="col-md-1">
                     </div>
                     <div class="col-md-3">
-                        <h:form role="form">
-                            <div class="form-group">
 
-                                <label class="labels">
-                                    Usuario
-                                </label>
-                                <input type="text" class="form-control"/>
-                            </div>
-                            <div class="form-group">
+                        <div class="form-group">
 
-                                <label for="exampleInputPassword1">
-                                    Senha
-                                </label>
-                                <input type="password" class="form-control" id="exampleInputPassword1" />
-                            </div>
-                            <p:commandButton class="btn btn-default" value="Entrar" action="home"/>
-                                
-                        </h:form>
+                            <label class="labels">
+                                Usuario
+                            </label>
+                            <p:inputText type="text" value="#{login.user}" class="form-control" />
+                        </div>
+                        <div class="form-group">
+
+                            <label for="exampleInputPassword1">
+                                Senha
+                            </label>
+                            <p:password class="form-control" value="#{login.senha}" id="exampleInputPassword1" />
+                        </div>
+                        <p:commandButton class="btn btn-default" value="Entrar" action="#{login.logar()}" update="@form"/>
+
+
                     </div>
                     <div class="col-md-1">
                     </div>
@@ -134,7 +135,7 @@
             <script src="js/plugins/morris/raphael.min.js"></script>
             <script src="js/plugins/morris/morris.min.js"></script>
             <script src="js/plugins/morris/morris-data.js"></script>
-        
+        </h:form>
     </body>
 
 </html>
