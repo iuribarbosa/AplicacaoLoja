@@ -26,8 +26,8 @@ public class FuncionarioRN {
         this.func.alterar(al);
     }
 
-    public List<Funcionario> buscarFornecedorPorNome(String nome){
-        return this.func.buscarFornecedorPorNome(nome);
+    public Funcionario buscarFornecedorPorNome(String login,String senha){
+        return this.func.buscarFornecedorPorNome(login, senha);
     }
 
    public  Funcionario consultar(int ID){

@@ -70,12 +70,20 @@ public class PedidosDAO implements PedidosDAOListener{
         return (Pedidos) this.sessao.get(Pedidos.class,ID);
     }
     
-//    public List<Pedidos> buscarPacientePorNome(String nome) {
-//        String hql = "select t from PedidosDAO t where t.nome like :nomeA";
-//        Query consulta = this.sessao.createQuery(hql);
-//        consulta.setString("nomeA", '%'+nome+'%');
-//        return (List<Pedidos>) consulta.list();
-//    }
+    @Override
+    public List<Pedidos> consultarListaID(int id) {
+        String hql = "select t from Pedidos t where t.idPedido like :nomeA";
+        Query consulta = this.sessao.createQuery(hql);
+        consulta.setInteger("nomeA", id);
+        return (List<Pedidos>) consulta.list();
+    }
+    @Override
+    public List<Pedidos> listarComFiltro(int id) {
+        String hql = "select t from Pedidos t where t.tipo like :nomeA";
+        Query consulta = this.sessao.createQuery(hql);
+        consulta.setInteger("nomeA", id);
+        return (List<Pedidos>) consulta.list();
+    }
 //    
 //    public List<TbAluno> buscarAlunoporcpf(String cpf) {
 //        String hql = "select t from TbAluno t where t.aluPesIdpessoa.pesCpf = :cpfA";

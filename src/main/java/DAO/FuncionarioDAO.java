@@ -49,11 +49,12 @@ public class FuncionarioDAO implements FuncionarioDAOListener {
     }
     
     @Override
-    public List<Funcionario> buscarFornecedorPorNome(String nome) {
-        String hql = "select t from Funcionario t where t.nomefunc like :nomeA";
+    public Funcionario buscarFornecedorPorNome(String login,String senha) {
+        String hql = "select t from Funcionario t where t.nomefunc = :login and t.senhafunc = :senha";
         Query consulta = this.sessao.createQuery(hql);
-        consulta.setString("nomeA", '%'+nome+'%');
-        return (List<Funcionario>) consulta.list();
+        consulta.setString("login", login);
+        consulta.setString("senha", senha);
+        return (Funcionario) consulta.uniqueResult();
     }
     
     

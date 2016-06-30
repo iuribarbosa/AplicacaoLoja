@@ -38,7 +38,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Pedidos.findByTotalDesconto", query = "SELECT p FROM Pedidos p WHERE p.totalDesconto = :totalDesconto"),
     @NamedQuery(name = "Pedidos.findByTotalParcelas", query = "SELECT p FROM Pedidos p WHERE p.totalParcelas = :totalParcelas"),
     @NamedQuery(name = "Pedidos.findByVendedor", query = "SELECT p FROM Pedidos p WHERE p.vendedor = :vendedor"),
-    @NamedQuery(name = "Pedidos.findByData", query = "SELECT p FROM Pedidos p WHERE p.data = :data")})
+    @NamedQuery(name = "Pedidos.findByData", query = "SELECT p FROM Pedidos p WHERE p.data = :data"),
+    @NamedQuery(name = "Pedidos.findByTipo", query = "SELECT p FROM Pedidos p WHERE p.tipo = :tipo")})
 public class Pedidos implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -80,6 +81,10 @@ public class Pedidos implements Serializable {
     @Column(name = "Data")
     @Temporal(TemporalType.TIMESTAMP)
     private Date data;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "tipo")
+    private int tipo;
 
     public Pedidos() {
     }
@@ -88,7 +93,7 @@ public class Pedidos implements Serializable {
         this.idPedido = idPedido;
     }
 
-    public Pedidos(Integer idPedido, int formaPagamento, double desconto, double total, int quantVezes, double totalDesconto, double totalParcelas, int vendedor, Date data) {
+    public Pedidos(Integer idPedido, int formaPagamento, double desconto, double total, int quantVezes, double totalDesconto, double totalParcelas, int vendedor, Date data, int tipo) {
         this.idPedido = idPedido;
         this.formaPagamento = formaPagamento;
         this.desconto = desconto;
@@ -98,6 +103,7 @@ public class Pedidos implements Serializable {
         this.totalParcelas = totalParcelas;
         this.vendedor = vendedor;
         this.data = data;
+        this.tipo = tipo;
     }
 
     public Integer getIdPedido() {
@@ -170,6 +176,14 @@ public class Pedidos implements Serializable {
 
     public void setData(Date data) {
         this.data = data;
+    }
+
+    public int getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
     }
 
     @Override

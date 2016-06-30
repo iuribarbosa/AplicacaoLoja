@@ -1,5 +1,6 @@
 package Beans;
 
+import Mapeamento.Funcionario;
 import Mapeamento.Pedidos;
 import Mapeamento.Produto;
 import Mapeamento.Vendas;
@@ -13,6 +14,8 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import org.primefaces.context.RequestContext;
 
 @ManagedBean(name = "previaPedido")
@@ -28,6 +31,8 @@ public class previaPedidoBean {
     private PedidosRN pedidoRN;
     private Vendas venda;
     private VendasRn vendaRN;
+    private Funcionario func;
+    
     //Variaveis da Tela
     public int formaPag = 1;
     public int parcelas;
@@ -39,7 +44,7 @@ public class previaPedidoBean {
     public double valorParcelas;
     public String valorParcelasString;
     public double quantidade;
-
+    public String vendedor;
     //Variaveis de Controle
     public boolean cntParcelas;
     public boolean cntDialog = false;
@@ -53,6 +58,7 @@ public class previaPedidoBean {
         produtoSelecionado = new Produto();
         psqPed = new pesqProdPedidoBean();
         produtosInseridos = new ArrayList<>();
+        func = new Funcionario();
         verificarTotal();
     }
 
@@ -96,10 +102,12 @@ public class previaPedidoBean {
         pedido.setTotal(total);
         pedido.setTotalDesconto(totalDesconto);
         pedido.setTotalParcelas(valorParcelas);
-        pedido.setVendedor(1);
+        pedido.setVendedor(5);
         pedido.setData(data);
+        pedido.setTipo(1);
     }
-    public void gerarVenda(){
+
+    public void gerarVenda() {
         venda.setDescricaoProduto(prod1.getNomeprod());
         venda.setIDPedido(idPedido);
         venda.setIDproduto(prod1.getCodprod());
@@ -107,6 +115,7 @@ public class previaPedidoBean {
         venda.setTotal(prod1.getValorprod());
         venda.setValor(prod1.getValorprodAp());
     }
+
     //Funções de Controles
     public void verificarFormaPag() {
         int i = formaPag;
@@ -115,6 +124,10 @@ public class previaPedidoBean {
         } else {
             cntParcelas = true;
         }
+    }
+
+    public void setarVendedor() {
+        vendedor = func.getNomefunc();
     }
 
     public void abrirDialog() {
@@ -174,7 +187,7 @@ public class previaPedidoBean {
             int idPedido = pedido.getIdPedido();
             venda = new Vendas();
             prod1 = new Produto();
-            for(int i = 0; i <= produtosInseridos.size()-1; i++){
+            for (int i = 0; i <= produtosInseridos.size() - 1; i++) {
                 prod1 = produtosInseridos.get(i);
                 gerarVenda();
                 vendaRN = new VendasRn();
@@ -273,6 +286,14 @@ public class previaPedidoBean {
         this.quantidade = quantidade;
     }
 
+    public String getVendedor() {
+        return vendedor;
+    }
+
+    public void setVendedor(String vendedor) {
+        this.vendedor = vendedor;
+    }
+
     //Variaveis de Controle
     public boolean isCntParcelas() {
         return cntParcelas;
@@ -289,8 +310,16 @@ public class previaPedidoBean {
     public void setCntDialog(boolean cntDialog) {
         this.cntDialog = cntDialog;
     }
-    
+
+    public Funcionario getFunc() {
+        return func;
+    }
+
     //Listas
+    public void setFunc(Funcionario func) {
+        this.func = func;
+    }
+
     public Produto getProdutoSelecionado() {
         return produtoSelecionado;
     }
