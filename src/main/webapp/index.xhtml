@@ -78,18 +78,19 @@
                             <label class="labels">
                                 Usuario
                             </label>
-                            <p:inputText type="text" value="#{login.user}" class="form-control" />
+                            <p:inputText id="user" value="#{login.user}" class="form-control"/>
                         </div>
                         <div class="form-group">
 
                             <label for="exampleInputPassword1">
                                 Senha
                             </label>
-                            <p:password class="form-control" value="#{login.senha}" id="exampleInputPassword1" />
+                            <p:password class="form-control" id="senha" value="#{login.senha}" />
                         </div>
-                        <p:commandButton class="btn btn-default" value="Entrar" action="#{login.logar()}" update="@form"/>
-
-
+                        <p:commandButton class="btn btn-default" id="btn" value="Entrar" actionListener="#{login.logar()}"  update="@form">
+                            <f:setPropertyActionListener value="#{login.user}" target="#{previaPedido.user}"/>
+                            <f:setPropertyActionListener value="#{login.senha}" target="#{previaPedido.senha}"/>
+                        </p:commandButton>
                     </div>
                     <div class="col-md-1">
                     </div>

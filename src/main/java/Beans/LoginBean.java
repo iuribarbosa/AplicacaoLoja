@@ -25,7 +25,6 @@ public class LoginBean extends HttpServlet{
     public void logar() {
         funcRN = new FuncionarioRN();
         if (funcRN.verificarConexao(user, senha)) {
-            pegarFunc();
             RequestContext.getCurrentInstance().execute("location.href='home.xhtml'");
             FacesUtil.exibirMensagemSucesso("Bem vindo");
         } else {
@@ -33,14 +32,7 @@ public class LoginBean extends HttpServlet{
         }
     }
 
-    public void pegarFunc() {
-        funcRN = new FuncionarioRN();
-        func = new Funcionario();
-        func = funcRN.buscarFornecedorPorNome(user, senha);
-//        HttpSession sessao = request.getSession();
-//        sessao.setAttribute("idusuario",);
-//        sessao.setAttribute("nomeusuario",);
-    }
+    
     //Gets e sets
 
     public String getSenha() {

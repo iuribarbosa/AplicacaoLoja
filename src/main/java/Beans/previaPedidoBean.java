@@ -4,7 +4,9 @@ import Mapeamento.Funcionario;
 import Mapeamento.Pedidos;
 import Mapeamento.Produto;
 import Mapeamento.Vendas;
+import RN.FuncionarioRN;
 import RN.PedidosRN;
+import RN.ProdutoRN;
 import RN.VendasRn;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -14,8 +16,6 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import org.primefaces.context.RequestContext;
 
 @ManagedBean(name = "previaPedido")
@@ -27,12 +27,15 @@ public class previaPedidoBean {
     private List<Produto> produtosInseridos;
     private pesqProdPedidoBean psqPed;
     private Produto produtoExc;
+    private Produto baixarEstoque;
+    private ProdutoRN prodRN;
     private Pedidos pedido;
     private PedidosRN pedidoRN;
     private Vendas venda;
     private VendasRn vendaRN;
     private Funcionario func;
-    
+    private FuncionarioRN funcRN;
+
     //Variaveis da Tela
     public int formaPag = 1;
     public int parcelas;
@@ -45,12 +48,18 @@ public class previaPedidoBean {
     public String valorParcelasString;
     public double quantidade;
     public String vendedor;
+    public String numeroPedido;
+    
     //Variaveis de Controle
     public boolean cntParcelas;
     public boolean cntDialog = false;
     private Produto prod1;
     private Produto newProd;
     private int idPedido;
+    private String user;
+    private String senha;
+    private int idControlePed = 0;
+    private int controlFunc = 0;
 
     //Construtor
     public previaPedidoBean() {
@@ -93,16 +102,25 @@ public class previaPedidoBean {
         }
     }
 
+    public void pegarFunc() {
+        if (controlFunc == 0) {
+            funcRN = new FuncionarioRN();
+            func = new Funcionario();
+            func = funcRN.buscarFornecedorPorNome(user, senha);
+            setarVendedor();
+            controlFunc++;
+        }
+    }
+
     public void gerarPedido() {
         Date data = new Date();
-        pedido = new Pedidos();
         pedido.setDesconto(Desconto);
         pedido.setFormaPagamento(formaPag);
         pedido.setQuantVezes(parcelas);
         pedido.setTotal(total);
         pedido.setTotalDesconto(totalDesconto);
         pedido.setTotalParcelas(valorParcelas);
-        pedido.setVendedor(5);
+        pedido.setVendedor(func.getCodfunc());
         pedido.setData(data);
         pedido.setTipo(1);
     }
@@ -177,14 +195,26 @@ public class previaPedidoBean {
         }
     }
 
+    public String gerarNumeroPedido() {
+        if (idControlePed == 0) {
+            pedido = new Pedidos();
+            gerarPedido();
+            pedidoRN = new PedidosRN();
+            pedidoRN.salvar(pedido);
+            idControlePed++;
+            return numeroPedido = pedido.getIdPedido().toString();
+        }
+        return numeroPedido;
+    }
+
     public void salvarPedido() {
         try {
             gerarPedido();
             pedidoRN = new PedidosRN();
-            pedidoRN.salvar(pedido);
+            pedidoRN.alterar(pedido);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
             RequestContext.getCurrentInstance().execute("location.href='index.xhtml'");
-            int idPedido = pedido.getIdPedido();
+            idPedido = pedido.getIdPedido();
             venda = new Vendas();
             prod1 = new Produto();
             for (int i = 0; i <= produtosInseridos.size() - 1; i++) {
@@ -198,9 +228,23 @@ public class previaPedidoBean {
             RequestContext.getCurrentInstance().execute("alert('Erro ao salvar o Pedido')");
         }
     }
-
     public void cancelarPedido() {
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
+        pedidoRN = new PedidosRN();
+        pedidoRN.excluir(pedido);
+        idControlePed = 0;
+        controlFunc = 0;
+        produtosInseridos.removeAll(produtosInseridos);
+        total = 0;
+        totalDesconto = 0;
+        parcelas = 0;
+        Desconto = 0;
+        formaPag = 1;
+        valorParcelasString = "R$ 0,00";
+        cntParcelas = false;
+        valorParcelas = 0;
+        gerarValorDesconto();
+        verificarTotal();
+//        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
         RequestContext.getCurrentInstance().execute("location.href='home.xhtml'");
     }
 
@@ -294,6 +338,14 @@ public class previaPedidoBean {
         this.vendedor = vendedor;
     }
 
+    public String getNumeroPedido() {
+        return numeroPedido;
+    }
+
+    public void setNumeroPedido(String numeroPedido) {
+        this.numeroPedido = numeroPedido;
+    }
+
     //Variaveis de Controle
     public boolean isCntParcelas() {
         return cntParcelas;
@@ -313,6 +365,22 @@ public class previaPedidoBean {
 
     public Funcionario getFunc() {
         return func;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     //Listas

@@ -1,6 +1,5 @@
 package DAO;
 
-import Mapeamento.Funcionario;
 import Mapeamento.Produto;
 import java.util.List;
 import org.hibernate.Query;
