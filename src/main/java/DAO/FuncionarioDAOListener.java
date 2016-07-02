@@ -17,7 +17,7 @@ public interface FuncionarioDAOListener {
 
     void alterar(Funcionario al);
 
-    List<Funcionario> buscarFornecedorPorNome(String nome);
+    Funcionario buscarFornecedorPorNome(String login,String senha);
 
     Funcionario consultar(int ID);
 

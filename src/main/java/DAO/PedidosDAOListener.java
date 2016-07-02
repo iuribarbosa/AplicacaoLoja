@@ -19,12 +19,8 @@ public interface PedidosDAOListener {
     void alterar(Pedidos al);
 
     Pedidos consultar(int ID);
-    //    public List<Pedidos> buscarPacientePorNome(String nome) {
-    //        String hql = "select t from PedidosDAO t where t.nome like :nomeA";
-    //        Query consulta = this.sessao.createQuery(hql);
-    //        consulta.setString("nomeA", '%'+nome+'%');
-    //        return (List<Pedidos>) consulta.list();
-    //    }
+    
+    List<Pedidos> consultarListaID(int id);
     //
     //    public List<TbAluno> buscarAlunoporcpf(String cpf) {
     //        String hql = "select t from TbAluno t where t.aluPesIdpessoa.pesCpf = :cpfA";
@@ -42,6 +38,8 @@ public interface PedidosDAOListener {
     void excluir(Pedidos al);
 
     List<Pedidos> listarSemFiltro();
+    
+    List<Pedidos> listarComFiltro(int id);
 
     List<Pedidos> obterTodos();
 

@@ -5,31 +5,34 @@
  */
 package Beans;
 
+import Mapeamento.Funcionario;
 import RN.FuncionarioRN;
 import Util.FacesUtil;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.servlet.http.HttpServlet;
 import org.primefaces.context.RequestContext;
 
-@ManagedBean (name = "login")
+@ManagedBean(name = "login")
 @ViewScoped
-public class LoginBean {
+public class LoginBean extends HttpServlet{
+
     private String senha;
     private String user;
     private FuncionarioRN funcRN;
-    
-    
-    
-    public void logar(){
+    private Funcionario func;
+
+    public void logar() {
         funcRN = new FuncionarioRN();
-        if(funcRN.verificarConexao(user, senha)){
+        if (funcRN.verificarConexao(user, senha)) {
             RequestContext.getCurrentInstance().execute("location.href='home.xhtml'");
             FacesUtil.exibirMensagemSucesso("Bem vindo");
-        }
-        else{
+        } else {
             RequestContext.getCurrentInstance().execute("alert('Usuário ou senha incorreta')");
         }
     }
+
+    
     //Gets e sets
 
     public String getSenha() {
@@ -47,5 +50,13 @@ public class LoginBean {
     public void setUser(String user) {
         this.user = user;
     }
-    
+
+    public Funcionario getFunc() {
+        return func;
+    }
+
+    public void setFunc(Funcionario func) {
+        this.func = func;
+    }
+
 }

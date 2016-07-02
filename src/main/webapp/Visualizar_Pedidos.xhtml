@@ -54,14 +54,16 @@
                                     <center> <h1> <p:outputLabel value="Pedidos"/> </h1> </center>
                                 </div>
                                 <div class="col-md-3">
+                                    <center><p:outputLabel value="Pesquisar pedido"/></center>
                                     <p:panel class="panelPesquisa">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <p:outputLabel value="Pesquisar Pedido"/> 
+                                                <center><p:outputLabel value="Pedido"/> </center>
+                                                <p:commandButton value="Limpar Pesquisa" actionListener="#{viewPedido.gerarLista()}" update="@form" style="margin-top: 10% !important" class="btn btnPesquisar"/>
                                             </div>
                                             <div class="col-md-6">
-                                                <p:inputNumber size="5" thousandSeparator=" " value="" decimalPlaces="0"/>
-                                                <p:commandButton value="pesquisar" class="btn btnPesquisar"/>
+                                                <p:inputNumber size="5" thousandSeparator=" " value="#{viewPedido.pesqPed}" decimalPlaces="0"/>
+                                                <p:commandButton value="pesquisar" actionListener="#{viewPedido.pesquisarPedido()}" update="@form" class="btn btnPesquisar"/>
                                             </div>
                                         </div>
                                     </p:panel>
@@ -76,10 +78,10 @@
                                 <center>#{viewPedido.getDate(prod.data)}  </center>
                             </p:column>
                             <p:column headerText="Vendedor" width="50%">
-                                <center>#{prod.vendedor}</center>
+                                <center>#{viewPedido.pesqVendedor(prod.vendedor)}</center>
                             </p:column>
                             <p:column headerText="Forma de Pag." width="10%">
-                                <center>#{prod.formaPagamento}</center>
+                                <center>#{viewPedido.definirFormPag(prod.formaPagamento)}</center>
                             </p:column>
                             <p:column headerText="Valor" width="10%">
                                 <center>#{viewPedido.setaDoisDecimais(prod.total)}</center>
