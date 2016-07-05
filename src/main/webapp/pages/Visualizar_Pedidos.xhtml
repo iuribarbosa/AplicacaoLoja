@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt"
+      xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"   
+      xmlns:f="http://java.sun.com/jsf/core"   
+      xmlns:ui="http://java.sun.com/jsf/facelets"   
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="description" content=""/>
+        <meta name="author" content=""/>
+
+        <title>SB Admin - Bootstrap Admin Template</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="../css/bootstrap.min.css" rel="stylesheet"/>
+
+        <!-- Custom CSS -->
+        <link href="../css/sb-admin.css" rel="stylesheet"/>
+
+        <!-- Morris Charts CSS -->
+        <link href="../css/plugins/morris.css" rel="stylesheet"/>
+
+        <!-- Custom Fonts -->
+        <link href="../font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+    </h:head>
+
+    <body style="background-color: #3d8b3d; color: black;">
+        <h:form>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-1">
+                    </div>
+                    <div class="col-md-10">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    
+                                </div>
+                                <div class="col-md-6">
+                                    <center> <h1> <p:outputLabel value="Pedidos"/> </h1> </center>
+                                </div>
+                                <div class="col-md-3">
+                                    <center><p:outputLabel value="Pesquisar pedido"/></center>
+                                    <p:panel class="panelPesquisa">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <center><p:outputLabel value="Pedido"/> </center>
+                                                <p:commandButton value="Limpar Pesquisa" actionListener="#{viewPedido.gerarLista()}" update="@form" style="margin-top: 10% !important" class="btn btnPesquisar"/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p:inputNumber size="5" thousandSeparator=" " value="#{viewPedido.pesqPed}" decimalPlaces="0"/>
+                                                <p:commandButton value="pesquisar" actionListener="#{viewPedido.pesquisarPedido()}" update="@form" class="btn btnPesquisar"/>
+                                            </div>
+                                        </div>
+                                    </p:panel>
+                                </div>
+                            </div>
+                        </div>
+                        <p:dataTable id="listaProdutos" var="prod"  rowKey="#{prod.idPedido}" class="marginTable" value="#{viewPedido.listaPedido}">
+                            <p:column headerText="Pedido" width="10%">
+                                <center>#{prod.idPedido}</center>
+                            </p:column>
+                            <p:column headerText="Data" width="10%">
+                                <center>#{viewPedido.getDate(prod.data)}  </center>
+                            </p:column>
+                            <p:column headerText="Vendedor" width="50%">
+                                <center>#{viewPedido.pesqVendedor(prod.vendedor)}</center>
+                            </p:column>
+                            <p:column headerText="Forma de Pag." width="10%">
+                                <center>#{viewPedido.definirFormPag(prod.formaPagamento)}</center>
+                            </p:column>
+                            <p:column headerText="Valor" width="10%">
+                                <center>#{viewPedido.setaDoisDecimais(prod.total)}</center>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+                    <div class="col-md-1">
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </body>
+
+</html>

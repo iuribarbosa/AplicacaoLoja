@@ -23,13 +23,14 @@ public class LoginBean extends HttpServlet{
     private Funcionario func;
 
     public void logar() {
-        funcRN = new FuncionarioRN();
-        if (funcRN.verificarConexao(user, senha)) {
-            RequestContext.getCurrentInstance().execute("location.href='home.xhtml'");
-            FacesUtil.exibirMensagemSucesso("Bem vindo");
-        } else {
-            RequestContext.getCurrentInstance().execute("alert('Usuário ou senha incorreta')");
-        }
+//        funcRN = new FuncionarioRN();
+//        if (funcRN.verificarConexao(user, senha)) {
+//            RequestContext.getCurrentInstance().execute("location.href='home.xhtml'");
+//            FacesUtil.exibirMensagemSucesso("Bem vindo");
+//        } else {
+//            RequestContext.getCurrentInstance().execute("alert('Usuário ou senha incorreta')");
+//        }
+        RequestContext.getCurrentInstance().execute("/j_spring_security_check");
     }
 
     

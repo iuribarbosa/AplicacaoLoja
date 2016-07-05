@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt"
+      xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"   
+      xmlns:f="http://java.sun.com/jsf/core"   
+      xmlns:ui="http://java.sun.com/jsf/facelets"   
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="description" content=""/>
+        <meta name="author" content=""/>
+
+        <title>SB Admin - Bootstrap Admin Template</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="../css/bootstrap.min.css" rel="stylesheet"/>
+
+        <!-- Custom CSS -->
+        <link href="../css/sb-admin.css" rel="stylesheet"/>
+
+        <!-- Morris Charts CSS -->
+        <link href="../css/plugins/morris.css" rel="stylesheet"/>
+
+        <!-- Custom Fonts -->
+        <link href="../font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+    </h:head>
+
+    <body style="background-color: white; color: black;">
+        <h:form>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <p:panel>
+                            <center>
+                                <h1>Painel de Pesquisa</h1>
+                                <p:inputText class="form-control cmpPesq" value="#{pesqProdOrcamento.pesqProduto}"/> 
+                                <p:commandButton value="Pesquisar" actionListener="#{pesqProdOrcamento.pesquisarProd()}" update="pesqTable"/> 
+                            </center>
+                        </p:panel>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                    </div>
+                    <div class="col-md-8">
+                        <p:dataTable class="table-responsive marginTable marginTablebutom" emptyMessage="NÃO HÁ PRODUTOS PARA A PESQUISA" id="pesqTable" 
+                                     var="prod"  rowKey="#{prod.codprod}" value="#{pesqProdOrcamento.produtos}" >
+                            <p:column headerText="ID" width="6%">
+                                <a>
+                                    #{prod.codprod}
+                                </a>
+                            </p:column>
+                            <p:column headerText="Descrição" width="62%">
+                                    #{prod.nomeprod}
+                            </p:column>
+                            <p:column headerText="Valor AP">
+                                #{prod.valorprodAp}
+                            </p:column>
+                            <p:column headerText="Valor AV">
+                                #{prod.valorprod}
+                            </p:column>
+                            <p:column headerText="Qnt" width="8%">
+                                #{prod.qtdprod}
+                            </p:column>
+
+                        </p:dataTable>
+                    </div>
+                    <div class="col-md-2">
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </body>
+
+</html>
