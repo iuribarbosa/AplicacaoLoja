@@ -50,10 +50,9 @@ public class FuncionarioDAO implements FuncionarioDAOListener {
     
     @Override
     public Funcionario buscarFornecedorPorNome(String login,String senha) {
-        String hql = "select t from Funcionario t where t.nomefunc = :login and t.senhafunc = :senha";
+        String hql = "select t from Funcionario t where t.usufunc = :login";
         Query consulta = this.sessao.createQuery(hql);
         consulta.setString("login", login);
-        consulta.setString("senha", senha);
         return (Funcionario) consulta.uniqueResult();
     }
     

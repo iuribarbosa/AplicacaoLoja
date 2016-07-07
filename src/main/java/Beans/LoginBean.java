@@ -10,8 +10,9 @@ import RN.FuncionarioRN;
 import Util.FacesUtil;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServlet;
-import org.primefaces.context.RequestContext;
 
 @ManagedBean(name = "login")
 @ViewScoped
@@ -23,14 +24,13 @@ public class LoginBean extends HttpServlet{
     private Funcionario func;
 
     public void logar() {
-//        funcRN = new FuncionarioRN();
-//        if (funcRN.verificarConexao(user, senha)) {
-//            RequestContext.getCurrentInstance().execute("location.href='home.xhtml'");
-//            FacesUtil.exibirMensagemSucesso("Bem vindo");
-//        } else {
-//            RequestContext.getCurrentInstance().execute("alert('Usuário ou senha incorreta')");
-//        }
-        RequestContext.getCurrentInstance().execute("/j_spring_security_check");
+        try {
+            RequestDispatcher dispatcher = FacesUtil.getServletRequest().getRequestDispatcher("/j_spring_security_check");
+            dispatcher.forward(FacesUtil.getServletRequest(), FacesUtil.getServletResponse());
+            FacesContext.getCurrentInstance().responseComplete();
+        } catch (Exception ex) {
+            FacesUtil.exibirMensagemErro(ex.getMessage());
+        }
     }
 
     
