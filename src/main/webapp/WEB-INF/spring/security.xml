@@ -13,9 +13,9 @@
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
        
     <security:http use-expressions="true" auto-config="true" >
-        <security:intercept-url pattern="/pages/**" access="hasRole('ROLE_USER')"/>
+        <security:intercept-url pattern="/faces/pages/**" access="hasRole('ROLE_USER')"/>
         <security:intercept-url pattern="/faces/index.jsp" access="permitAll"/>
-        <security:form-login login-page="/faces/index.jsp" login-processing-url="/j_spring_security_check" default-target-url="/faces/pages/home.xhtml"/>
+        <security:form-login login-page="/faces/index.jsp"  login-processing-url="/j_spring_security_check" default-target-url="/faces/pages/home.xhtml" authentication-failure-url="/faces/login.xhtml?erro=true"/>
     </security:http>
  
  

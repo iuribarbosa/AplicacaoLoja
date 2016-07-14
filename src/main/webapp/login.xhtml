@@ -48,12 +48,17 @@
                         <div class="col-md-2">
                         </div>
                         <div class="col-md-6">
-                            <img class="img-circle" src="img/download.jpg" />
-
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <img class="img-circle" src="img/download.jpg" />
+                                </div>
+                                <h:outputText value="Usuário ou senha incorretos!" rendered="#{param.erro}" style="left: -15px;color: white;font-weight: bold;font-size: 22px;background: red;border-radius: 5px;"/>
+                            </div>
                         </div>
                         <div class="col-md-2">
                         </div>
                         <div class="col-md-2">
+                            
                         </div>
                     </div>
                 </div>
@@ -73,32 +78,34 @@
                 </div>
                 <div class="col-md-3">
                     <!--<h:form >-->
-                        <form id="login" method="post" action="j_spring_security_check">
-                            <div class="form-group">
+                    <form id="login" method="post" action="j_spring_security_check">
+                        <div class="form-group">
 
-                                <label class="labels">
-                                    Usuario
-                                </label>
-                                <p:inputText id="j_username" value="#{processo.nome}" class="form-control"/>
-                            </div>
-                            <div class="form-group">
+                            <label class="labels">
+                                Usuario
+                            </label>
+                            <p:inputText id="j_username" value="#{processo.nome}" class="form-control"/>
+                        </div>
+                        <div class="form-group">
 
-                                <label for="exampleInputPassword1">
-                                    Senha
-                                </label>
-                                <p:password id="j_password" class="form-control"/>
-                            </div>
+                            <label for="exampleInputPassword1">
+                                Senha
+                            </label>
+                            <p:password id="j_password" class="form-control"/>
+                        </div>
                         <h:commandButton  value="Login" action="#{login.logar()}"/>
-                           
 
-                        </form>
+
+                    </form>
                     <!--</h:form>-->
                 </div>
+
                 <div class="col-md-1">
                 </div>
                 <div class="col-md-1">
                 </div>
             </div>
+
             <div class="row rodape">
                 <div class="col-md-3">
 
@@ -138,11 +145,11 @@
         <script src="js/plugins/morris/morris.min.js"></script>
         <script src="js/plugins/morris/morris-data.js"></script>
         <script >
-        function logar() {
-            var teste;
-            teste = document.getElementById('j_username').value;
-            document.getElementById('user').value = teste;
-        }
+            function logar() {
+                var teste;
+                teste = document.getElementById('j_username').value;
+                document.getElementById('user').value = teste;
+            }
         </script>
     </h:body>
 

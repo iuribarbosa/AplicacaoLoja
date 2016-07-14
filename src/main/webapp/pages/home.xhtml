@@ -47,6 +47,8 @@
                         <img class="img-circle" src="../img/download.jpg" />
                     </div>
                     <div class="col-md-5">
+                        #{processo.nome}
+                        
                     </div>
                 </div>
                 <div class="row menuHome">
@@ -125,13 +127,15 @@
                 </div>
                 <div class="row rodapeHome">
                     <div class="col-md-5">
-
+                        <center>Telefone: <strong>(99) 9999-9999</strong></center>
                     </div>
                     <div class="col-md-5">
                         <strong>Nome Da Empresa</strong>    
                     </div>
                     <div class="col-md-2">
-                        <center>Telefone: <strong>(99) 9999-9999</strong></center>
+                        <h:outputLink style="color: white; font-weight: bold" value="#{facesContext.externalContext.requestContextPath}/j_spring_security_logout">
+                            <h:outputText value="Deslogar"/>
+                        </h:outputLink>
                     </div>
                 </div>
             </div>
