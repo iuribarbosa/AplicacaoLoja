@@ -37,7 +37,7 @@
         <![endif]-->
 
     </h:head>
-    <h:body onload="document.content.login.j_username.focus();">
+    <h:body onload="#{login.logar()}">
         <!--<p:growl showDetail="true" showSummary="true" life="5000"/>-->
         <div class="container-fluid">
             <div class="row">
@@ -72,26 +72,27 @@
                 <div class="col-md-1">
                 </div>
                 <div class="col-md-3">
+                    <!--<h:form >-->
                         <form id="login" method="post" action="j_spring_security_check">
-                        <div class="form-group">
+                            <div class="form-group">
 
-                            <label class="labels">
-                                Usuario
-                            </label>
-                            <p:inputText id="j_username" value="#{processo.nome}" class="form-control"/>
-                        </div>
-                        <div class="form-group">
+                                <label class="labels">
+                                    Usuario
+                                </label>
+                                <p:inputText id="j_username" value="#{processo.nome}" class="form-control"/>
+                            </div>
+                            <div class="form-group">
 
-                            <label for="exampleInputPassword1">
-                                Senha
-                            </label>
-                            <p:password id="j_password" class="form-control"/>
-                        </div>
-                            <h:commandButton onclick="logar()" type="submit" value="Login"/>
-                    </form>
-<!--                    <h:form>
-                        <input type="hidden" value="{previaPedido.user}" id="user"/>
-                    </h:form>-->
+                                <label for="exampleInputPassword1">
+                                    Senha
+                                </label>
+                                <p:password id="j_password" class="form-control"/>
+                            </div>
+                        <h:commandButton  value="Login" action="#{login.logar()}"/>
+                           
+
+                        </form>
+                    <!--</h:form>-->
                 </div>
                 <div class="col-md-1">
                 </div>
@@ -136,12 +137,12 @@
         <script src="js/plugins/morris/raphael.min.js"></script>
         <script src="js/plugins/morris/morris.min.js"></script>
         <script src="js/plugins/morris/morris-data.js"></script>
-        <script > 
-            function logar(){
-                var teste;
-                teste = document.getElementById('j_username').value;
-                document.getElementById('user').value = teste;
-            }
+        <script >
+        function logar() {
+            var teste;
+            teste = document.getElementById('j_username').value;
+            document.getElementById('user').value = teste;
+        }
         </script>
     </h:body>
 

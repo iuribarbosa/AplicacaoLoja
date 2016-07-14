@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import org.primefaces.context.RequestContext;
 
 @ManagedBean (name = "viewPedido")
 @SessionScoped
@@ -81,10 +82,15 @@ public class visualizarPedidoBean {
     
     public void pesquisarPedido(){
         pedidoRN = new PedidosRN();
-        pedido = new Pedidos();
-        listaPedido.removeAll(listaPedido);
-        pedido = pedidoRN.consultar(pesqPed);
-        listaPedido.add(pedido);
+            pedido = new Pedidos();
+            pedido = pedidoRN.consultarListaID(pesqPed, 1);
+            if(pedido != null){
+            listaPedido.removeAll(listaPedido);
+            listaPedido.add(pedido);
+            }
+            else{
+                RequestContext.getCurrentInstance().execute("alert('Pedido não existe')");
+            }
     }
     //Gets e Sets
     

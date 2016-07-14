@@ -54,33 +54,37 @@
                                     <center> <h1> <p:outputLabel value="Orçamentos"/> </h1> </center>
                                 </div>
                                 <div class="col-md-3">
+                                    <center><p:outputLabel value="Pesquisar orçamento"/></center>
                                     <p:panel class="panelPesquisa">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <p:outputLabel value="Pesquisar Orçamento"/> 
+                                                <center><p:outputLabel value="Orçamento"/> </center>
+                                                <p:commandButton value="Limpar Pesquisa" actionListener="#{viewOrcamento.gerarLista()}" update="@form" style="margin-top: 10% !important" class="btn btnPesquisar"/>
                                             </div>
                                             <div class="col-md-6">
-                                                <p:inputNumber size="5" thousandSeparator=" " decimalPlaces="0"/>
-                                                <p:commandButton value="pesquisar" class="btn btnPesquisar"/>
+                                                <p:inputNumber size="5" thousandSeparator=" " value="#{viewOrcamento.pesqPed}" decimalPlaces="0"/>
+                                                <p:commandButton value="pesquisar" actionListener="#{viewOrcamento.pesquisarPedido()}" update="@form" class="btn btnPesquisar"/>
                                             </div>
                                         </div>
                                     </p:panel>
                                 </div>
                             </div>
                         </div>
-
-                        <p:dataTable class="marginTable">
-                            <p:column headerText="Orçamento">
-
+                        <p:dataTable id="listaProdutos" var="prod"  rowKey="#{prod.idPedido}" class="marginTable" value="#{viewOrcamento.listaPedido}">
+                            <p:column headerText="Orçamento" width="10%">
+                                <center>#{prod.idPedido}</center>
                             </p:column>
-                            <p:column headerText="Data">
-
+                            <p:column headerText="Data" width="10%">
+                                <center>#{viewOrcamento.getDate(prod.data)}  </center>
                             </p:column>
-                            <p:column headerText="Vendedor">
-
+                            <p:column headerText="Vendedor" width="50%">
+                                <center>#{viewOrcamento.pesqVendedor(prod.vendedor)}</center>
                             </p:column>
-                            <p:column headerText="Valor">
-
+                            <p:column headerText="Forma de Pag." width="10%">
+                                <center>#{viewOrcamento.definirFormPag(prod.formaPagamento)}</center>
+                            </p:column>
+                            <p:column headerText="Valor" width="10%">
+                                <center>#{viewOrcamento.setaDoisDecimais(prod.total)}</center>
                             </p:column>
                         </p:dataTable>
                     </div>

@@ -53,8 +53,8 @@ public class PedidosRN {
     public Pedidos buscarData(Date data){
         return this.ped.buscarData(data);
     }
-    public List<Pedidos> consultarListaID(int id){
-        return this.ped.consultarListaID(id);
+     public Pedidos consultarListaID(int id, int tipo){
+        return this.ped.consultarListaID(id, tipo);
     }
     public List<Pedidos> listarComFiltro(int id){
         return this.ped.listarComFiltro(id);

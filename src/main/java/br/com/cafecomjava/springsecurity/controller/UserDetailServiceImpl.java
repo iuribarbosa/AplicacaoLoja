@@ -1,6 +1,5 @@
 package br.com.cafecomjava.springsecurity.controller;
 
-import Beans.previaPedidoBean;
 import Mapeamento.Funcionario;
 import RN.FuncionarioRN;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,27 +7,30 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import br.com.cafecomjava.springsecurity.dto.UserDetailsImpl;
 import javax.faces.bean.ManagedBean;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 @ManagedBean(name = "processo")
+@SessionScoped
 public class UserDetailServiceImpl implements UserDetailsService {
+
     private Funcionario func;
     private FuncionarioRN funcRN;
     private String nome;
 
-    SecurityContext c = SecurityContextHolder.getContext();
-    Authentication a = c.getAuthentication();
-
     @Override
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) fc.getExternalContext().getSession(false);
+        session.setAttribute("ID_USUARIO", username);
+        
         funcRN = new FuncionarioRN();
         func = new Funcionario();
         func = funcRN.buscarFornecedorPorNome(username, username);
-        nome = func.getUsufunc();
-        if (username.equalsIgnoreCase(func.getNomefunc())) {
+        setNome(username);
+        if (username.equalsIgnoreCase(func.getUsufunc())) {
             UserDetailsImpl user = new UserDetailsImpl();
             user.setUserName(username);
             user.setPassword(func.getSenhafunc());

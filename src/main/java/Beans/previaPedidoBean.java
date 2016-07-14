@@ -16,6 +16,8 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import org.primefaces.context.RequestContext;
 
 @ManagedBean(name = "previaPedido")
@@ -49,7 +51,7 @@ public class previaPedidoBean {
     public double quantidade;
     public String vendedor;
     public String numeroPedido;
-    
+
     //Variaveis de Controle
     public boolean cntParcelas;
     public boolean cntDialog = false;
@@ -104,6 +106,9 @@ public class previaPedidoBean {
 
     public void pegarFunc() {
         if (controlFunc == 0) {
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            HttpSession session = (HttpSession) request.getSession();
+            user = (String) session.getAttribute("ID_USUARIO");
             funcRN = new FuncionarioRN();
             func = new Funcionario();
             func = funcRN.buscarFornecedorPorNome(user, senha);
@@ -213,7 +218,7 @@ public class previaPedidoBean {
             pedidoRN = new PedidosRN();
             pedidoRN.alterar(pedido);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
-            RequestContext.getCurrentInstance().execute("location.href='index.xhtml'");
+            RequestContext.getCurrentInstance().execute("location.href='index.jsp'");
             idPedido = pedido.getIdPedido();
             venda = new Vendas();
             prod1 = new Produto();
@@ -228,6 +233,7 @@ public class previaPedidoBean {
             RequestContext.getCurrentInstance().execute("alert('Erro ao salvar o Pedido')");
         }
     }
+
     public void cancelarPedido() {
         pedidoRN = new PedidosRN();
         pedidoRN.excluir(pedido);

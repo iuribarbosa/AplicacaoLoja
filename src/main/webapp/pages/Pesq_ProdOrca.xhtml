@@ -38,7 +38,7 @@
     </h:head>
 
     <body style="background-color: white; color: black;">
-        <h:form>
+        <h:form id="form">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
@@ -56,24 +56,30 @@
                     <div class="col-md-2">
                     </div>
                     <div class="col-md-8">
-                        <p:dataTable class="table-responsive marginTable marginTablebutom" emptyMessage="NÃO HÁ PRODUTOS PARA A PESQUISA" id="pesqTable" 
-                                     var="prod"  rowKey="#{prod.codprod}" value="#{pesqProdOrcamento.produtos}" >
+                        <p:dataTable  class="table-responsive marginTable marginTablebutom" emptyMessage="NÃO HÁ PRODUTOS PARA A PESQUISA" id="pesqTable" 
+                                      var="prod"  rowKey="#{prod.codprod}" value="#{pesqProdOrcamento.produtos}" selection="#{previaOrcamento.produtoSelecionado}" selectionMode="single">
+                            
                             <p:column headerText="ID" width="6%">
-                                <a>
-                                    #{prod.codprod}
-                                </a>
+                               <center> #{prod.codprod}</center>
                             </p:column>
                             <p:column headerText="Descrição" width="62%">
-                                    #{prod.nomeprod}
+                                #{prod.nomeprod}
                             </p:column>
-                            <p:column headerText="Valor AP">
-                                #{prod.valorprodAp}
+                            <p:column headerText="Valor" width="10%">
+                                <center>#{prod.valorprodAp}</center>
                             </p:column>
-                            <p:column headerText="Valor AV">
-                                #{prod.valorprod}
+                            <p:column headerText="Qnt" width="10%">
+                                <center> #{prod.qtdprod}</center>
                             </p:column>
-                            <p:column headerText="Qnt" width="8%">
-                                #{prod.qtdprod}
+                            <p:column headerText="ADD" width="8%">
+                                <p:commandLink >
+                                    <center>
+                                        <i class="glyphicon glyphicon-plus-sign">
+                                            <f:setPropertyActionListener value="#{prod}"  target="#{previaOrcamento.produtoSelecionado}"/>
+                                        </i>
+                                        <f:ajax  listener="#{previaOrcamento.abrirDialog()}"/>
+                                    </center>
+                                </p:commandLink>
                             </p:column>
 
                         </p:dataTable>
@@ -83,6 +89,34 @@
                 </div>
             </div>
         </h:form>
+        <p:dialog id="confirmarQnt" header="Quantidade" modal="true" widgetVar="confirmarQnt">
+            <h:form id='formDialog'>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-4">
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-12 marginTablebutom">
+                                    <center><p:inputNumber size="5" value="#{previaOrcamento.quantidade}" decimalPlaces="1"  emptyValue="sign"/></center> 
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p:commandButton value="Cadastrar" style="float: left" update="@form" actionListener="#{previaOrcamento.inserirProduto()}" immediate="false"/>
+                                    <p:commandButton value="Cancelar" style="float: right" update="@form" actionListener="#{previaOrcamento.fecharDialog()}"/>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                        <div class="col-md-4">
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+        </p:dialog>
     </body>
 
 </html>

@@ -24,7 +24,7 @@ public class ProdutoDAO implements ProdutoDAOListener {
     
     @Override
     public void alterar(Produto al){
-        this.sessao.update(al);
+        this.sessao.merge(al);
     }
     
     

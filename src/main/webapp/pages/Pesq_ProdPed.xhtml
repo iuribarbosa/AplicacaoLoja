@@ -58,27 +58,31 @@
                     <div class="col-md-8">
                         <p:dataTable  class="table-responsive marginTable marginTablebutom" emptyMessage="NÃO HÁ PRODUTOS PARA A PESQUISA" id="pesqTable" 
                                       var="prod"  rowKey="#{prod.codprod}" value="#{pesqProdPedido.produtos}" selection="#{previaPedido.produtoSelecionado}" selectionMode="single">
-                            <p:ajax event="rowDblselect"  update="@form"   listener="#{previaPedido.abrirDialog()}"/>
+                            
                             <p:column headerText="ID" width="6%">
-
-                                #{prod.codprod}
-
+                               <center> #{prod.codprod}</center>
                             </p:column>
                             <p:column headerText="Descrição" width="62%">
                                 #{prod.nomeprod}
                             </p:column>
-                            <p:column headerText="Valor AP">
-                                #{prod.valorprodAp}
+                            <p:column headerText="Valor" width="10%">
+                                <center>#{prod.valorprodAp}</center>
                             </p:column>
-                            <p:column headerText="Valor AV">
-                                <center> #{prod.valorprod}</center>
-                            </p:column>
-                            <p:column headerText="Qnt" width="8%">
+                            <p:column headerText="Qnt" width="10%">
                                 <center> #{prod.qtdprod}</center>
+                            </p:column>
+                            <p:column headerText="ADD" width="8%">
+                                <p:commandLink >
+                                    <center>
+                                        <i class="glyphicon glyphicon-plus-sign">
+                                            <f:setPropertyActionListener value="#{prod}"  target="#{previaPedido.produtoSelecionado}"/>
+                                        </i>
+                                        <f:ajax  listener="#{previaPedido.abrirDialog()}"/>
+                                    </center>
+                                </p:commandLink>
                             </p:column>
 
                         </p:dataTable>
-                        <p:outputLabel id="teste" value="#{pesqProdPedido.produtoSelecionado.codprod}"/>
                     </div>
                     <div class="col-md-2">
                     </div>

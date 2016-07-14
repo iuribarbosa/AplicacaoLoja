@@ -1,7 +1,7 @@
 C:\Users\iuri.barbosa\Documents\NetBeansProjects\github1\AplicacaoLoja\src\main\java\Util\HibernateUtil.java
 C:\Users\iuri.barbosa\Documents\NetBeansProjects\github1\AplicacaoLoja\src\main\java\RN\PedidosRN.java
-C:\Users\iuri.barbosa\Documents\NetBeansProjects\github1\AplicacaoLoja\src\main\java\DAO\ClienteDAO.java
 C:\Users\iuri.barbosa\Documents\NetBeansProjects\github1\AplicacaoLoja\src\main\java\RN\FuncionarioRN.java
+C:\Users\iuri.barbosa\Documents\NetBeansProjects\github1\AplicacaoLoja\src\main\java\DAO\ClienteDAO.java
 C:\Users\iuri.barbosa\Documents\NetBeansProjects\github1\AplicacaoLoja\src\main\java\DAO\Produto2DAO.java
 C:\Users\iuri.barbosa\Documents\NetBeansProjects\github1\AplicacaoLoja\src\main\java\DAO\VendasDAO.java
 C:\Users\iuri.barbosa\Documents\NetBeansProjects\github1\AplicacaoLoja\src\main\java\Mapeamento\Pedido.java
@@ -31,7 +31,9 @@ C:\Users\iuri.barbosa\Documents\NetBeansProjects\github1\AplicacaoLoja\src\main\
 C:\Users\iuri.barbosa\Documents\NetBeansProjects\github1\AplicacaoLoja\src\main\java\Mapeamento\Fornecedor.java
 C:\Users\iuri.barbosa\Documents\NetBeansProjects\github1\AplicacaoLoja\src\main\java\Beans\pesqProdPedidoBean.java
 C:\Users\iuri.barbosa\Documents\NetBeansProjects\github1\AplicacaoLoja\src\main\java\RN\ItemRN.java
+C:\Users\iuri.barbosa\Documents\NetBeansProjects\github1\AplicacaoLoja\src\main\java\converter\ProdutoConverter.java
 C:\Users\iuri.barbosa\Documents\NetBeansProjects\github1\AplicacaoLoja\src\main\java\DAO\FuncionarioDAOListener.java
+C:\Users\iuri.barbosa\Documents\NetBeansProjects\github1\AplicacaoLoja\src\main\java\Beans\AlterarProdutoBean.java
 C:\Users\iuri.barbosa\Documents\NetBeansProjects\github1\AplicacaoLoja\src\main\java\DAO\ClienteDAOListener.java
 C:\Users\iuri.barbosa\Documents\NetBeansProjects\github1\AplicacaoLoja\src\main\java\DAO\PedidosDAO.java
 C:\Users\iuri.barbosa\Documents\NetBeansProjects\github1\AplicacaoLoja\src\main\java\DAO\FuncionarioDAO.java

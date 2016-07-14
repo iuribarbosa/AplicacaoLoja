@@ -11,11 +11,14 @@ import javax.faces.bean.SessionScoped;
 public class pesqProdOrcamentoBean {
     ProdutoRN prod;
     private Produto produto;
+    public Produto produtoSelecionado;
     private List<Produto> produtos;
     private String pesqProduto;
+    
 
     public pesqProdOrcamentoBean() {
         produto = new Produto();
+        produtoSelecionado = new Produto();
     }
     
     //Funçoes
@@ -51,5 +54,14 @@ public class pesqProdOrcamentoBean {
     public void setProdutos(List<Produto> produtos) {
         this.produtos = produtos;
     }
-    
+
+    public Produto getProdutoSelecionado() {
+        return produtoSelecionado;
+    }
+
+    public void setProdutoSelecionado(Produto produtoSelecionado) {
+        this.produtoSelecionado = produtoSelecionado;
+    }
+
+
 }

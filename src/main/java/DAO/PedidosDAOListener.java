@@ -20,7 +20,7 @@ public interface PedidosDAOListener {
 
     Pedidos consultar(int ID);
     
-    List<Pedidos> consultarListaID(int id);
+    Pedidos consultarListaID(int id, int tipo);
     //
     //    public List<TbAluno> buscarAlunoporcpf(String cpf) {
     //        String hql = "select t from TbAluno t where t.aluPesIdpessoa.pesCpf = :cpfA";

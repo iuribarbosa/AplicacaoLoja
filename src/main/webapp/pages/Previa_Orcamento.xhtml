@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="pt"
+<html id="teste" lang="pt"
       xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:h="http://java.sun.com/jsf/html"   
       xmlns:f="http://java.sun.com/jsf/core"   
       xmlns:ui="http://java.sun.com/jsf/facelets"   
       xmlns:p="http://primefaces.org/ui">
 
-    <h:head>
+    <h:head id="heads">
 
         <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -37,7 +37,7 @@
 
     </h:head>
 
-    <body style="background-color: white; color: black; margin: 0px">
+    <body id="bodyTest" style="background-color: white; color: black; margin: 0px" onload="#{previaOrcamento.pegarFunc()}">
         <h:form id="formPrevia">
             <div class="container-fluid">
                 <div class="row titulo">
@@ -45,71 +45,79 @@
                         <Strong><b class="tituloLabel">Nome da Loja</b></Strong> <br/> Email: Email da Loja <br/> Logradouro, Nº<br /> Bairro <br/> Cidade, Estado<br /> Telefone: (99) 9999-9999
                     </div>
                     <div class="col-md-2">
-                        <br/><br/><strong><b class="tituloLabel2">Vendedor:</b></strong> Nome Vendedor<br/><br/><br/><strong><b class="tituloLabel2">Orçamento:</b></strong> Nº Orçamento
+                        <br/><br/><strong><b class="tituloLabel2">Vendedor:</b></strong> #{previaOrcamento.vendedor}<br/><br/><br/><strong><b class="tituloLabel2">Orçamento:</b></strong> #{previaOrcamento.gerarNumeroPedido()}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12" style="margin-top: 1%">
-                        <center><p:outputLabel value="------------------------------------------------------------          Pedido           ------------------------------------------------------------"/></center>
+                        <center><p:outputLabel value="------------------------------------------------------------ Orçamento ------------------------------------------------------------"/></center>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         <p:panel style="padding-bottom: 5%;">
-                            <p:dataTable>
-                                <p:column headerText="ID" width="6%">
-
-                                </p:column>
-                                <p:column headerText="Descrição do Produto" width="62%">
-
-                                </p:column>
-
-                                <p:column headerText="Valor" width="8%">
-
-                                </p:column>
-                                <p:column headerText="Quant." width="8%">
-
-                                </p:column>
-                                <p:column headerText="Total" width="8%">
-
-                                </p:column>
-                                <p:column headerText="Excluir" width="8%">
-                                    <a>Excluir</a>
-                                </p:column>
-                            </p:dataTable>
-                            <a href="faces/Pesq_Prod.xhtml">
-                                <img class="img-responsive" style="float: right; margin-top: 1%; width: 30px; height: auto;" src="img/Botoes/add.png"/>
+                            <p:outputPanel autoUpdate="true">
+                                <p:dataTable id="listaProdutos" var="prod" selection="#{previaOrcamento.produtoExc}"  rowKey="#{prod.codprod}"  value="#{previaOrcamento.produtosInseridos}">
+                                    <p:column headerText="ID" width="6%">
+                                        <center><p:outputLabel value="#{prod.codprod}"/></center>  
+                                    </p:column>
+                                    <p:column headerText="Descrição do Produto" width="62%">
+                                        <p:outputLabel value="#{prod.nomeprod}"/>
+                                    </p:column>
+                                    <p:column headerText="Valor" width="8%">
+                                        <center><p:outputLabel value="#{prod.valorprodAp}"><f:convertNumber minFractionDigits="2"/></p:outputLabel></center>
+                                    </p:column>
+                                    <p:column headerText="Quant." width="8%">
+                                        <center>
+                                            <p:outputLabel value="#{prod.qtdprod}"/>
+                                        </center>
+                                    </p:column>
+                                    <p:column headerText="Total" width="8%">
+                                        <center> <p:outputLabel value="#{prod.valorprod}"> <f:convertNumber minFractionDigits="2"/> </p:outputLabel> </center>
+                                    </p:column>
+                                    <p:column headerText="Excluir" width="8%">
+                                        <p:commandLink >
+                                            <center>
+                                                <i class="glyphicon glyphicon-remove">
+                                                    <f:setPropertyActionListener value="#{prod}"  target="#{previaOrcamento.produtoExc}"/>
+                                                </i>
+                                                <f:ajax  listener="#{previaOrcamento.abrirDialogExc()}"/>
+                                            </center>
+                                        </p:commandLink>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:outputPanel>
+                            <a onclick="javascript:popUp('Produtos', '#{request.contextPath}/faces/pages/Pesq_ProdOrca.xhtml', '800', '1000'); return false;">
+                                <img class="img-responsive" style="float: right; margin-top: 1%; width: 30px; height: auto;" src="../img/Botoes/add.png"/>
                             </a>
                         </p:panel>
                     </div>
                 </div>
                 <div class="row marginTable">
                     <div class="col-md-6">
-                        <br/><br/><br/><center><p:commandButton value="Cancelar" style="margin-right: 2%"/>  <p:commandButton value="Concluir"/></center>
+                        <br/><br/><br/><center><p:commandButton value="Cancelar" actionListener="#{previaOrcamento.cancelarPedido()}" style="margin-right: 2%"/>  <p:commandButton value="Concluir" onclick="PF('dlgConc').show();" /></center>
                     </div>
                     <div class="col-md-2 ">
                         <p:panel id="formaPag">
-                            <h:form>
-                                <p:outputLabel value="Forma de Pagamento"/>
-                                <h:panelGrid columns="2">
 
-                                    <p:selectOneRadio   value="#{previaOrcamento.formaPag}" layout="grid" columns="1">
-                                        <f:selectItem itemLabel="  Avista" itemValue="1"/>
-                                        <f:selectItem itemLabel="  A Prazo" itemValue="2"/>
-                                        <p:ajax event="change" update="formPrevia" listener="#{previaOrcamento.verificarFormaPag()}"/>
-                                    </p:selectOneRadio>
-                                    <p:outputLabel/>
-                                    <p:selectOneMenu id="parcelas" required="true" requiredMessage="Informe a Quantidade de Parcelas" rendered="#{previaOrcamento.cntParcelas}" value="#{previaOrcamento.parcelas}" class="drop">
-                                        <f:selectItem noSelectionOption="true" itemLabel=" "/>
-                                        <f:selectItem itemLabel="2x" itemValue="2"/>
-                                        <f:selectItem itemLabel="3x" itemValue="3"/>
-                                        <f:selectItem itemLabel="4x" itemValue="4"/>
-                                        <f:selectItem itemLabel="5x" itemValue="5"/>
-                                        <f:selectItem itemLabel="6x" itemValue="6"/>
-                                        <p:ajax event="change" update="formPrevia" listener="#{previaOrcamento.gerarValorParcelas()}"/>
-                                    </p:selectOneMenu>
-                                </h:panelGrid>
-                            </h:form>
+                            <p:outputLabel value="Forma de Pagamento"/>
+                            <h:panelGrid columns="2">
+                                <p:selectOneRadio   value="#{previaOrcamento.formaPag}" layout="grid" columns="1">
+                                    <f:selectItem itemLabel="  Avista" itemValue="1"/>
+                                    <f:selectItem itemLabel="  A Prazo" itemValue="2"/>
+                                    <p:ajax event="change" update="formPrevia" listener="#{previaOrcamento.verificarFormaPag()}"/>
+                                </p:selectOneRadio>
+                                <p:outputLabel/>
+                                <p:selectOneMenu id="parcelas" required="true" requiredMessage="Informe a Quantidade de Parcelas" rendered="#{previaOrcamento.cntParcelas}" value="#{previaOrcamento.parcelas}" class="drop">
+                                    <f:selectItem noSelectionOption="true" itemLabel=" "/>
+                                    <f:selectItem itemLabel="2x" itemValue="2"/>
+                                    <f:selectItem itemLabel="3x" itemValue="3"/>
+                                    <f:selectItem itemLabel="4x" itemValue="4"/>
+                                    <f:selectItem itemLabel="5x" itemValue="5"/>
+                                    <f:selectItem itemLabel="6x" itemValue="6"/>
+                                    <p:ajax event="change" update="formPrevia" listener="#{previaOrcamento.gerarValorParcelas()}"/>
+                                </p:selectOneMenu>
+                            </h:panelGrid>
                         </p:panel>
                     </div>
                     <div class="col-md-2">
@@ -117,30 +125,177 @@
                             <p:outputLabel value="Descontos"/><br/>
                             <center>
                                 <p:inputNumber value="#{previaOrcamento.desconto}" symbol="%" symbolPosition="s" decimalPlaces="1" size="2" maxlength="2">
-                                    <p:ajax update="cmpDesconto" event="change" listener="#{previaOrcamento.gerarValorDesconto()}"/>
+                                    <p:ajax update="cmpDesconto formDial" event="change" listener="#{previaOrcamento.gerarValorDesconto()}"/>
+                                    <p:ajax update="cmpDesconto formDial" event="keyup" listener="#{previaOrcamento.gerarValorDesconto()}"/>
                                 </p:inputNumber>
                             </center>
                         </p:panel>
                     </div>
                     <div class="col-md-2">
-                        <p:panel>
-                            <h:panelGrid columns="1">
-                                <p:outputLabel value="Total" />
-                                <p:outputLabel value="#{previaOrcamento.totalString}"/>
-                                <p:outputLabel value="Total C/ Desconto"/>
-                                <p:outputLabel  id="cmpDesconto" value="#{previaOrcamento.totalDescontoString}"/>
-                                <p:outputLabel value="Quant. Parcelas" rendered="#{previaOrcamento.cntParcelas}"/>
-                                <p:outputLabel value="#{previaOrcamento.parcelas}" rendered="#{previaOrcamento.cntParcelas}"/>
-                                <p:outputLabel value="Parcelas" rendered="#{previaOrcamento.cntParcelas}"/>
-                                <p:outputLabel value="#{previaOrcamento.valorParcelasString}" rendered="#{previaOrcamento.cntParcelas}"/>
-                            </h:panelGrid>
-                        </p:panel>
+                        <p:outputPanel autoUpdate="true">
+                            <p:panel>
+                                <h:panelGrid columns="1">
+                                    <p:outputLabel value="Total" />
+                                    <p:outputLabel value="#{previaOrcamento.totalString}"/>
+                                    <p:outputLabel rendered="#{previaOrcamento.desconto>0?true:false}" value="Total C/ Desconto"/>
+                                    <p:outputLabel  rendered="#{previaOrcamento.desconto>0?true:false}" id="cmpDesconto" value="#{previaOrcamento.totalDescontoString}"/>
+                                    <p:outputLabel value="Quant. Parcelas" rendered="#{previaOrcamento.cntParcelas}"/>
+                                    <p:outputLabel value="#{previaOrcamento.parcelas}" rendered="#{previaOrcamento.cntParcelas}"/>
+                                    <p:outputLabel value="Parcelas" rendered="#{previaOrcamento.cntParcelas}"/>
+                                    <p:outputLabel value="#{previaOrcamento.valorParcelasString}" rendered="#{previaOrcamento.cntParcelas}"/>
+                                </h:panelGrid>
+                            </p:panel>
+                        </p:outputPanel>
                     </div>
 
                 </div>
                 <p:outputLabel/>
+                <p:commandButton value="Print" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+                    <p:printer  target="formDial"/>
+                </p:commandButton>
             </div>
         </h:form>
+        <p:confirmDialog id="dlgexc" message="Deseja realmente Excluir?" header="Excluir Produto" widgetVar="dlgExc" appendTo="@(body)">
+            <h:form>
+                <p:commandButton value="Sim" immediate="false" action="#{previaOrcamento.excluirProduto()}" update="@form" onsuccess="PF('dlgExc').hide();"/>
+                <p:commandButton value="Não" onclick="PF('dlgExc').hide();"/>
+            </h:form>
+        </p:confirmDialog>
+        <p:confirmDialog id="dlgConc" message="O que deseja fazer?" header="Concluir Orçamento"  widgetVar="dlgConc" appendTo="@(body)">
+            <h:form>
+                <p:commandButton value="Imprimir"  update="formDial" actionListener="#{previaOrcamento.imprimir()}" ></p:commandButton> 
+                <p:commandButton value="Concluir" action="#{previaOrcamento.salvarPedido()}" onclick="PF('dlgConc').hide();"/>
+            </h:form>
+        </p:confirmDialog>
+
+
+        <!--                                                            Print Do Orçamento                                              -->
+
+        <p:dialog id="printDial">
+            <h:form id="formDial">
+                <div id="printar" class="container-fluid">
+                    <div class="row titulo">
+                        <div class="col-md-10 col-xs-10 tituloLabel2">
+                            <Strong><b class="tituloLabel">Nome da Loja</b></Strong> <br/> Email: Email da Loja <br/> Logradouro, Nº<br /> Bairro <br/> Cidade, Estado<br /> Telefone: (99) 9999-9999
+                        </div>
+                        <div class="col-md-2 col-xs-2">
+                            <br/><br/><strong><b class="tituloLabel2">Vendedor:</b></strong> #{previaOrcamento.vendedor}<br/><br/><br/><strong><b class="tituloLabel2">Orçamento:</b></strong> #{previaOrcamento.numeroPedido}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-xs-12 " style="margin-top: 1%">
+                            <center><p:outputLabel value="------------------------------------------------------------ Orçamento ------------------------------------------------------------"/></center>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p:panel style="padding-bottom: 5%;">
+                                <p:outputPanel autoUpdate="true">
+                                    <p:dataTable id="listaProdutos" var="prod" selection="#{previaOrcamento.produtoExc}"  rowKey="#{prod.codprod}"  value="#{previaOrcamento.produtosInseridos}">
+                                        <p:column headerText="ID" width="6%">
+                                            <center><p:outputLabel value="#{prod.codprod}"/></center>  
+                                        </p:column>
+                                        <p:column headerText="Descrição do Produto" width="62%">
+                                            <p:outputLabel value="#{prod.nomeprod}"/>
+                                        </p:column>
+                                        <p:column headerText="Valor" width="8%">
+                                            <center><p:outputLabel value="#{prod.valorprodAp}"><f:convertNumber minFractionDigits="2"/></p:outputLabel></center>
+                                        </p:column>
+                                        <p:column headerText="Quant." width="8%">
+                                            <center>
+                                                <p:outputLabel value="#{prod.qtdprod}"/>
+                                            </center>
+                                        </p:column>
+                                        <p:column headerText="Total" width="8%">
+                                            <center> <p:outputLabel value="#{prod.valorprod}"> <f:convertNumber minFractionDigits="2"/> </p:outputLabel> </center>
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:outputPanel>
+                            </p:panel>
+                        </div>
+                    </div>
+                    <div class="row marginTable">
+
+                        <div class="col-md-6 col-xs-6">
+                        </div>
+                        <div class="col-md-2 col-xs-2">
+                            <p:outputLabel value="Forma de Pagamento"/>
+                            <h:panelGrid columns="2">
+                                <p:outputLabel value="Avista" rendered="#{previaOrcamento.formaPag==1?true:false}"/>
+                                <p:outputLabel value="A Prazo" rendered="#{previaOrcamento.formaPag==1?false:true}"/>
+                            </h:panelGrid>
+                        </div>
+                        <div class="col-md-2 col-xs-2">
+                            <p:outputLabel value="Descontos"/><br/>
+                            <p:outputLabel value="#{previaOrcamento.desconto}"/> <p:outputLabel value=" %"/>
+                        </div>
+                        <div class="col-md-2 col-xs-2">
+                            <p:outputPanel autoUpdate="true">
+                                <h:panelGrid columns="1">
+                                    <p:outputLabel value="Total" />
+                                    <p:outputLabel value="#{previaOrcamento.totalString}"/>
+                                    <p:outputLabel rendered="#{previaOrcamento.desconto>0?true:false}" value="Total C/ Desconto"/>
+                                    <p:outputLabel rendered="#{previaOrcamento.desconto>0?true:false}" id="cmpDesconto" value="#{previaOrcamento.totalDescontoString}"/>
+                                    <p:outputLabel value="Quant. Parcelas" rendered="#{previaOrcamento.cntParcelas}"/>
+                                    <p:outputLabel value="#{previaOrcamento.parcelas}" rendered="#{previaOrcamento.cntParcelas}"/>
+                                    <p:outputLabel value="Parcelas" rendered="#{previaOrcamento.cntParcelas}"/>
+                                    <p:outputLabel value="#{previaOrcamento.valorParcelasString}" rendered="#{previaOrcamento.cntParcelas}"/>
+                                </h:panelGrid>
+                            </p:outputPanel>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+        </p:dialog>
+
+        <script language="javascript">
+
+            function popUp(titulo, URL, h, w) {
+
+                var winl = (screen.width - w) / 2;
+
+                var wint = (screen.height - h) / 2;
+
+                var newwindow = window.open(URL, titulo, 'top=' + wint + ', left=' + winl + ', width=' + w + ', height=' + h + ', toolbar=no,directories=no, scrollbars=no, status=no, resizable=no, modal=yes');
+                newwindow.moveTo(winl, wint);
+                newwindow.focus();
+
+            }
+
+            function modalWin2(URL) {
+
+                if (window.showModalDialog) {
+                    window.showModalDialog(URL, 'name', 'dialogWidth:255px;dialogHeight:250px');
+                } else {
+                    window.open(URL, 'name', 'height=255,width=250,toolbar=no,directories=no,status=no,continued from previous linemenubar=no,scrollbars=no,resizable=no ,modal=yes');
+                }
+            }
+
+            function modalWin(titulo, URL, h, w) {
+                var winl = (screen.width - w) / 2;
+
+                var wint = (screen.height - h) / 2;
+
+                if (window.showModalDialog) {
+                    var newwindow = window.showModalDialog(URL, titulo, 'dialogTop=' + wint + ', dialogLeft=' + winl + ', dialogWidth:' + w + ', dialogHeight:' + h + ', center:yes;');
+                } else {
+                    var newwindow = window.open(URL, titulo, 'top=' + wint + ', left=' + winl + ', width=' + w + ', height=' + h + ',toolbar=yes,directories=no,status=no,continued from previous linemenubar=no,scrollbars=no,resizable=no ,modal=yes');
+                }
+                newwindow.moveTo(winl, wint);
+                newwindow.focus();
+            }
+
+            function imprimirTela() {
+                var headstr = "<html><body>";
+                var footstr = "</body></html>";
+                var newstr = document.getElementById('formDial').innerHTML;
+                var oldstr = document.body.innerHTML;
+                document.body.innerHTML = headstr + newstr + footstr;
+                window.print();
+                document.body.innerHTML = oldstr;
+            }
+
+        </script>
     </body>
 
 </html>

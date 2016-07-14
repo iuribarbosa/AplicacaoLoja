@@ -24,13 +24,7 @@ public class LoginBean extends HttpServlet{
     private Funcionario func;
 
     public void logar() {
-        try {
-            RequestDispatcher dispatcher = FacesUtil.getServletRequest().getRequestDispatcher("/j_spring_security_check");
-            dispatcher.forward(FacesUtil.getServletRequest(), FacesUtil.getServletResponse());
-            FacesContext.getCurrentInstance().responseComplete();
-        } catch (Exception ex) {
-            FacesUtil.exibirMensagemErro(ex.getMessage());
-        }
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
     }
 
     

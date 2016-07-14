@@ -71,11 +71,12 @@ public class PedidosDAO implements PedidosDAOListener{
     }
     
     @Override
-    public List<Pedidos> consultarListaID(int id) {
-        String hql = "select t from Pedidos t where t.idPedido like :nomeA";
+    public Pedidos consultarListaID(int id, int tipo) {
+        String hql = "select t from Pedidos t where t.idPedido like :nomeA and t.tipo = :tipo";
         Query consulta = this.sessao.createQuery(hql);
         consulta.setInteger("nomeA", id);
-        return (List<Pedidos>) consulta.list();
+        consulta.setInteger("tipo", tipo);
+        return (Pedidos) consulta.uniqueResult();
     }
     @Override
     public List<Pedidos> listarComFiltro(int id) {
