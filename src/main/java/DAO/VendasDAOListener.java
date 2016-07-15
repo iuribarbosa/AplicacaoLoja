@@ -6,6 +6,7 @@
 package DAO;
 
 import Mapeamento.Vendas;
+import java.util.List;
 import org.hibernate.Session;
 
 public interface VendasDAOListener {
@@ -14,4 +15,5 @@ public interface VendasDAOListener {
 
     void setSessao(Session sessao);
     
+    List<Vendas> buscarFornecedorPorNome(int id); 
 }

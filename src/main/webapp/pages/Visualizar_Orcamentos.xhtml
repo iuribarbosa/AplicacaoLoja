@@ -48,7 +48,7 @@
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-md-3">
-                                    
+
                                 </div>
                                 <div class="col-md-6">
                                     <center> <h1> <p:outputLabel value="Orçamentos"/> </h1> </center>
@@ -70,9 +70,16 @@
                                 </div>
                             </div>
                         </div>
-                        <p:dataTable id="listaProdutos" var="prod"  rowKey="#{prod.idPedido}" class="marginTable" value="#{viewOrcamento.listaPedido}">
+                        <p:dataTable id="listaProdutos" var="prod"  rowKey="#{prod.idPedido}" selection="#{previaOrcamento.orcaRecuperado}"  class="marginTable" value="#{viewOrcamento.listaPedido}">
                             <p:column headerText="Orçamento" width="10%">
-                                <center>#{prod.idPedido}</center>
+                                <center>
+                                    <p:commandLink >
+                                        #{prod.idPedido}
+                                                <f:setPropertyActionListener value="#{prod}"  target="#{previaOrcamento.orcaRecuperado}"/>
+
+                                        <f:ajax  listener="#{previaOrcamento.carregarOrçamento()}"/>
+                                    </p:commandLink>
+                                </center>
                             </p:column>
                             <p:column headerText="Data" width="10%">
                                 <center>#{viewOrcamento.getDate(prod.data)}  </center>

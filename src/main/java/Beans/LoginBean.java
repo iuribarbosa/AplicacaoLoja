@@ -7,11 +7,9 @@ package Beans;
 
 import Mapeamento.Funcionario;
 import RN.FuncionarioRN;
-import Util.FacesUtil;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServlet;
 
 @ManagedBean(name = "login")

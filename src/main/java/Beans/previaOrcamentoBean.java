@@ -6,8 +6,8 @@ import Mapeamento.Produto;
 import Mapeamento.Vendas;
 import RN.FuncionarioRN;
 import RN.PedidosRN;
-import RN.ProdutoRN;
 import RN.VendasRn;
+import Util.FacesUtil;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -16,6 +16,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.primefaces.context.RequestContext;
@@ -29,15 +30,16 @@ public class previaOrcamentoBean {
     private List<Produto> produtosInseridos;
     private pesqProdPedidoBean psqPed;
     private Produto produtoExc;
-    private Produto baixarEstoque;
-    private ProdutoRN prodRN;
     private Pedidos pedido;
     private PedidosRN pedidoRN;
     private Vendas venda;
     private VendasRn vendaRN;
     private Funcionario func;
     private FuncionarioRN funcRN;
-
+    private Pedidos OrcaRecuperado;
+    private Produto prodOrcaRecuperado;
+    private List<Vendas> vendasRecuperado;
+    private Vendas vendaRecup;
     //Variaveis da Tela
     public int formaPag = 1;
     public int parcelas;
@@ -106,7 +108,7 @@ public class previaOrcamentoBean {
 
     public void pegarFunc() {
         if (controlFunc == 0) {
-            
+
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             HttpSession session = (HttpSession) request.getSession();
             user = (String) session.getAttribute("ID_USUARIO");
@@ -158,6 +160,7 @@ public class previaOrcamentoBean {
         RequestContext requestContext = RequestContext.getCurrentInstance();
         requestContext.execute("PF('confirmarQnt').show()");
     }
+
     public void imprimir() {
         RequestContext requestContext = RequestContext.getCurrentInstance();
         requestContext.execute("imprimirTela()");
@@ -234,6 +237,9 @@ public class previaOrcamentoBean {
                 vendaRN = new VendasRn();
                 vendaRN.salvar(venda);
             }
+            RequestDispatcher dispatcher = FacesUtil.getServletRequest().getRequestDispatcher("/j_spring_security_logout");
+            dispatcher.forward(FacesUtil.getServletRequest(), FacesUtil.getServletResponse());
+            FacesContext.getCurrentInstance().responseComplete();
         } catch (Exception e) {
             System.out.println(e);
             RequestContext.getCurrentInstance().execute("alert('Erro ao salvar o Pedido')");
@@ -258,6 +264,39 @@ public class previaOrcamentoBean {
         verificarTotal();
 //        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
         RequestContext.getCurrentInstance().execute("location.href='home.xhtml'");
+    }
+
+    public void carregarOrçamento() {
+        idControlePed = 1;
+        controlFunc = 1;
+        produtosInseridos.removeAll(produtosInseridos);
+        formaPag = OrcaRecuperado.getFormaPagamento();
+        Desconto = OrcaRecuperado.getDesconto();
+        parcelas = OrcaRecuperado.getQuantVezes();
+        total = OrcaRecuperado.getTotal();
+        BigDecimal bd = new BigDecimal(total).setScale(2, RoundingMode.HALF_EVEN);
+        totalString = "R$ " + bd;
+        totalDesconto = OrcaRecuperado.getTotalDesconto();
+        valorParcelas = OrcaRecuperado.getTotalParcelas();
+        funcRN = new FuncionarioRN();
+        vendedor = funcRN.consultar(OrcaRecuperado.getVendedor()).getNomefunc();
+        numeroPedido = OrcaRecuperado.getIdPedido().toString();
+        verificarFormaPag();
+        gerarValorDesconto();
+        vendaRN = new VendasRn();
+        vendasRecuperado = vendaRN.buscarFornecedorPorNome(OrcaRecuperado.getIdPedido());
+        for(int i = 0; i <= vendasRecuperado.size()-1;i++){
+            prodOrcaRecuperado = new Produto();
+            vendaRecup = new Vendas();
+            vendaRecup = vendasRecuperado.get(i);
+            prodOrcaRecuperado.setCodprod(vendaRecup.getIDproduto());
+            prodOrcaRecuperado.setNomeprod(vendaRecup.getDescricaoProduto());
+            prodOrcaRecuperado.setQtdprod(vendaRecup.getQuantidade());
+            prodOrcaRecuperado.setValorprod(vendaRecup.getTotal());
+            prodOrcaRecuperado.setValorprodAp(vendaRecup.getValor());
+            produtosInseridos.add(prodOrcaRecuperado);
+        }
+        RequestContext.getCurrentInstance().execute("location.href='Previa_Orcamento.xhtml'");
     }
 
     //Gets e Sets
@@ -422,6 +461,14 @@ public class previaOrcamentoBean {
 
     public void setProdutoExc(Produto produtoExc) {
         this.produtoExc = produtoExc;
+    }
+
+    public Pedidos getOrcaRecuperado() {
+        return OrcaRecuperado;
+    }
+
+    public void setOrcaRecuperado(Pedidos OrcaRecuperado) {
+        this.OrcaRecuperado = OrcaRecuperado;
     }
 
 }

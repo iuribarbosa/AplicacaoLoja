@@ -8,6 +8,7 @@ package RN;
 import DAO.VendasDAOListener;
 import Mapeamento.Vendas;
 import Util.FabricaDAO;
+import java.util.List;
 
 public class VendasRn {
     private VendasDAOListener vend;
@@ -20,6 +21,9 @@ public class VendasRn {
         this.vend.salvar(al);
     }
 
+    public List<Vendas> buscarFornecedorPorNome(int id) {
+        return this.vend.buscarFornecedorPorNome(id);
+    }
     
     
 }
