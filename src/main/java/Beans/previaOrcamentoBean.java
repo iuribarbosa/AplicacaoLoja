@@ -162,7 +162,9 @@ public class previaOrcamentoBean {
     public void imprimir() {
         RequestContext requestContext = RequestContext.getCurrentInstance();
         requestContext.execute("imprimirTela()");
-        salvarPedido();
+        if(controlVersion == true){
+            salvarPedido();
+        }
     }
 
     public void fecharDialog() {
@@ -263,7 +265,7 @@ public class previaOrcamentoBean {
         valorParcelas = 0;
         gerarValorDesconto();
         verificarTotal();
-//        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
+        controlVersion = true;
         RequestContext.getCurrentInstance().execute("location.href='home.xhtml'");
     }
 
