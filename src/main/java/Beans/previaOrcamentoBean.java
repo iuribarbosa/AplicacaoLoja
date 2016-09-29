@@ -7,7 +7,6 @@ import Mapeamento.Vendas;
 import RN.FuncionarioRN;
 import RN.PedidosRN;
 import RN.VendasRn;
-import Util.FacesUtil;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.primefaces.context.RequestContext;
@@ -64,7 +62,7 @@ public class previaOrcamentoBean {
     private String senha;
     private int idControlePed = 0;
     private int controlFunc = 0;
-
+    private boolean controlVersion = true;
     //Construtor
     public previaOrcamentoBean() {
         produtoExc = new Produto();
@@ -227,19 +225,20 @@ public class previaOrcamentoBean {
             pedidoRN = new PedidosRN();
             pedidoRN.alterar(pedido);
             //FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
-            RequestContext.getCurrentInstance().execute("location.href='index.jsp'");
             idPedido = pedido.getIdPedido();
-            venda = new Vendas();
             prod1 = new Produto();
             for (int i = 0; i <= produtosInseridos.size() - 1; i++) {
                 prod1 = produtosInseridos.get(i);
+                venda = new Vendas();
                 gerarVenda();
                 vendaRN = new VendasRn();
                 vendaRN.salvar(venda);
             }
-            RequestDispatcher dispatcher = FacesUtil.getServletRequest().getRequestDispatcher("/j_spring_security_logout");
-            dispatcher.forward(FacesUtil.getServletRequest(), FacesUtil.getServletResponse());
-            FacesContext.getCurrentInstance().responseComplete();
+//            RequestDispatcher dispatcher = FacesUtil.getServletRequest().getRequestDispatcher("/j_spring_security_logout");
+//            dispatcher.forward(FacesUtil.getServletRequest(), FacesUtil.getServletResponse());
+//            FacesContext.getCurrentInstance().responseComplete();
+            RequestContext.getCurrentInstance().execute("location.href='index.jsp'");
+//            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
         } catch (Exception e) {
             System.out.println(e);
             RequestContext.getCurrentInstance().execute("alert('Erro ao salvar o Pedido')");
@@ -247,8 +246,10 @@ public class previaOrcamentoBean {
     }
 
     public void cancelarPedido() {
+        if(controlVersion){
         pedidoRN = new PedidosRN();
         pedidoRN.excluir(pedido);
+        }
         idControlePed = 0;
         controlFunc = 0;
         produtosInseridos.removeAll(produtosInseridos);
@@ -269,6 +270,7 @@ public class previaOrcamentoBean {
     public void carregarOrçamento() {
         idControlePed = 1;
         controlFunc = 1;
+        controlVersion = false;
         produtosInseridos.removeAll(produtosInseridos);
         formaPag = OrcaRecuperado.getFormaPagamento();
         Desconto = OrcaRecuperado.getDesconto();
@@ -471,4 +473,12 @@ public class previaOrcamentoBean {
         this.OrcaRecuperado = OrcaRecuperado;
     }
 
+    public boolean isControlVersion() {
+        return controlVersion;
+    }
+
+    public void setControlVersion(boolean controlVersion) {
+        this.controlVersion = controlVersion;
+    }
+    
 }

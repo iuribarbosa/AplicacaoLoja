@@ -41,23 +41,28 @@
         <h:form id="formPrevia">
             <div class="container-fluid">
                 <div class="row titulo">
-                    <div class="col-md-10 tituloLabel2">
-                        <Strong><b class="tituloLabel">Nome da Loja</b></Strong> <br/> Email: Email da Loja <br/> Logradouro, Nº<br /> Bairro <br/> Cidade, Estado<br /> Telefone: (99) 9999-9999
+                    <div class="col-md-2     tituloLabel2">
+                        Rua São Cristovão, Nº268 <br /> Itinga <br/> Lauro de Freitas, Bahia<br /> (99) 9999-9999 <br/> AlgumaCoisa@hotmail.com
+                    </div>
+                    <div class="col-md-8">
+                        <center>
+                            <Strong><b class="tituloLabel">Loja DuMEUPai</b></Strong><br/><br/><br/><center><p:outputLabel style="font-size: 25px" value="Orçamento"/></center><br/><br/>
+                        </center>
                     </div>
                     <div class="col-md-2">
-                        <br/><br/><strong><b class="tituloLabel2">Vendedor:</b></strong> #{previaOrcamento.vendedor}<br/><br/><br/><strong><b class="tituloLabel2">Orçamento:</b></strong> #{previaOrcamento.gerarNumeroPedido()}
+                        <br/><br/><strong><b class="tituloLabel2">Vendedor:</b></strong> #{previaOrcamento.vendedor}<br/><br/><strong><b class="tituloLabel2">Nº Orçamento:</b></strong> #{previaOrcamento.gerarNumeroPedido()}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12" style="margin-top: 1%">
-                        <center><p:outputLabel value="------------------------------------------------------------ Orçamento ------------------------------------------------------------"/></center>
+                        <center><p:outputLabel style="font-size: 25px" value="Lista de Produtos"/></center>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         <p:panel style="padding-bottom: 5%;">
                             <p:outputPanel autoUpdate="true">
-                                <p:dataTable id="listaProdutos" var="prod" selection="#{previaOrcamento.produtoExc}"  rowKey="#{prod.codprod}"  value="#{previaOrcamento.produtosInseridos}">
+                                <p:dataTable id="listaProdutos" var="prod"  selection="#{previaOrcamento.produtoExc}"  rowKey="#{prod.codprod}"  value="#{previaOrcamento.produtosInseridos}">
                                     <p:column headerText="ID" width="6%">
                                         <center><p:outputLabel value="#{prod.codprod}"/></center>  
                                     </p:column>
@@ -75,7 +80,7 @@
                                     <p:column headerText="Total" width="8%">
                                         <center> <p:outputLabel value="#{prod.valorprod}"> <f:convertNumber minFractionDigits="2"/> </p:outputLabel> </center>
                                     </p:column>
-                                    <p:column headerText="Excluir" width="8%">
+                                    <p:column rendered="#{previaOrcamento.controlVersion}" headerText="Excluir" width="8%">
                                         <p:commandLink >
                                             <center>
                                                 <i class="glyphicon glyphicon-remove">
@@ -87,15 +92,17 @@
                                     </p:column>
                                 </p:dataTable>
                             </p:outputPanel>
-                            <a onclick="javascript:popUp('Produtos', '#{request.contextPath}/faces/pages/Pesq_ProdOrca.xhtml', '800', '1000'); return false;">
-                                <img class="img-responsive" style="float: right; margin-top: 1%; width: 30px; height: auto;" src="../img/Botoes/add.png"/>
-                            </a>
+                            <p:outputPanel rendered="#{previaOrcamento.controlVersion}">
+                                <a data-toggle="tooltip" data-placement="bottom"  title="Adicionar Produto" onclick="javascript:popUp('Produtos', '#{request.contextPath}/faces/pages/Pesq_ProdOrca.xhtml', '800', '1000'); return false;">
+                                    <img  class="img-responsive"  style="float: right; margin-top: 1%; width: 30px; height: auto;" src="../img/Botoes/add.png"/>
+                                </a>
+                            </p:outputPanel>
                         </p:panel>
                     </div>
                 </div>
                 <div class="row marginTable">
-                    <div class="col-md-6">
-                        <br/><br/><br/><center><p:commandButton value="Cancelar" actionListener="#{previaOrcamento.cancelarPedido()}" style="margin-right: 2%"/>  <p:commandButton value="Concluir" onclick="PF('dlgConc').show();" /></center>
+                    <div class="col-md-6" >
+                        <br/><br/><br/><center><p:commandButton value="Imprimir"  update="formDial" rendered="#{!previaOrcamento.controlVersion}" actionListener="#{previaOrcamento.imprimir()}" />  <p:commandButton value="Concluir" rendered="#{previaOrcamento.controlVersion}" onclick="PF('dlgConc').show();" /><p:commandButton value="Cancelar" actionListener="#{previaOrcamento.cancelarPedido()}" style="margin-right: 2%"/></center>
                     </div>
                     <div class="col-md-2 ">
                         <p:panel id="formaPag">
@@ -150,9 +157,6 @@
 
                 </div>
                 <p:outputLabel/>
-                <p:commandButton value="Print" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
-                    <p:printer  target="formDial"/>
-                </p:commandButton>
             </div>
         </h:form>
         <p:confirmDialog id="dlgexc" message="Deseja realmente Excluir?" header="Excluir Produto" widgetVar="dlgExc" appendTo="@(body)">
@@ -184,7 +188,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12 col-xs-12 " style="margin-top: 1%">
-                            <center><p:outputLabel value="------------------------------------------------------------ Orçamento ------------------------------------------------------------"/></center>
+                            <center><p:outputLabel value="Orçamento"/></center>
                         </div>
                     </div>
                     <div class="row">
@@ -219,7 +223,7 @@
                         <div class="col-md-6 col-xs-6">
                         </div>
                         <div class="col-md-2 col-xs-2">
-                            <p:outputLabel value="Forma de Pagamento"/>
+                            <p:outputLabel value="Forma de Pag."/>
                             <h:panelGrid columns="2">
                                 <p:outputLabel value="Avista" rendered="#{previaOrcamento.formaPag==1?true:false}"/>
                                 <p:outputLabel value="A Prazo" rendered="#{previaOrcamento.formaPag==1?false:true}"/>
@@ -247,7 +251,11 @@
                 </div>
             </h:form>
         </p:dialog>
-
+        <script>
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+        </script>
         <script language="javascript">
 
             function popUp(titulo, URL, h, w) {

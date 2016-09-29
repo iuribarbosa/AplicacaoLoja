@@ -38,13 +38,21 @@
 
     </h:head>
 
-    <body>
+    <body style="background-color: #3d8b3d; color: black;">
         <h:form>
             <p:growl showDetail="true" showSummary="true" life="5000"/>
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-12">
-                        <strong><b><center><p:outputLabel class="tituloLabel" value="Alterar Produto"/></center></b></strong>
+                    <div class="col-md-4">
+                        <p:commandLink >
+                            <i style="width: 30%; font-size: 20px; color: black" class="glyphicon glyphicon-arrow-left"> <f:ajax listener="#{alterProd.voltarHome()}"/> <p:outputLabel style="padding-left: 0.6%; font-size: 25px" value="Voltar"/></i> 
+                        </p:commandLink>
+                    </div>
+                    <div class="col-md-4">
+                        <strong><b><center><p:outputLabel class="tituloLabel" value="Alterar Produto"/></center></b></strong> 
+                    </div>
+                    <div class="col-md-4">
+
                     </div>
                 </div>
                 <div class="row">
@@ -53,7 +61,6 @@
 
                     </div>
                     <div class="col-md-6">
-                        <!--<p:outputPanel autoUpdate="true">-->
                         <center>
                             <p:panel>
                                 <div class="row">

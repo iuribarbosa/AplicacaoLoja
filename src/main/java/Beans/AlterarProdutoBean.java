@@ -11,6 +11,7 @@ import Util.FacesUtil;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import org.primefaces.context.RequestContext;
 
 @ManagedBean(name = "alterProd")
 @SessionScoped
@@ -90,6 +91,10 @@ public class AlterarProdutoBean {
             FacesUtil.exibirMensagemErro("Erro ao alterar o produto!");
         }
         
+    }
+    
+    public void voltarHome(){
+        RequestContext.getCurrentInstance().execute("location.href='home.xhtml'");
     }
     
     public void cancelar(){

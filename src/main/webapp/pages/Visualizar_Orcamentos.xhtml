@@ -70,30 +70,30 @@
                                 </div>
                             </div>
                         </div>
-                        <p:dataTable id="listaProdutos" var="prod"  rowKey="#{prod.idPedido}" selection="#{previaOrcamento.orcaRecuperado}"  class="marginTable" value="#{viewOrcamento.listaPedido}">
-                            <p:column headerText="Orçamento" width="10%">
-                                <center>
-                                    <p:commandLink >
+                            <p:dataTable id="listaProdutos" var="prod"  rowKey="#{prod.idPedido}"  selection="#{previaOrcamento.orcaRecuperado}"  class="marginTable" value="#{viewOrcamento.listaPedido}">
+                                <p:column headerText="Orçamento" width="10%">
+                                    <center>
+                                        <p:commandLink >
                                         #{prod.idPedido}
-                                                <f:setPropertyActionListener value="#{prod}"  target="#{previaOrcamento.orcaRecuperado}"/>
+                                        <f:setPropertyActionListener value="#{prod}" target="#{previaOrcamento.orcaRecuperado}"/>
 
-                                        <f:ajax  listener="#{previaOrcamento.carregarOrçamento()}"/>
-                                    </p:commandLink>
-                                </center>
-                            </p:column>
-                            <p:column headerText="Data" width="10%">
-                                <center>#{viewOrcamento.getDate(prod.data)}  </center>
-                            </p:column>
-                            <p:column headerText="Vendedor" width="50%">
-                                <center>#{viewOrcamento.pesqVendedor(prod.vendedor)}</center>
-                            </p:column>
-                            <p:column headerText="Forma de Pag." width="10%">
-                                <center>#{viewOrcamento.definirFormPag(prod.formaPagamento)}</center>
-                            </p:column>
-                            <p:column headerText="Valor" width="10%">
-                                <center>#{viewOrcamento.setaDoisDecimais(prod.total)}</center>
-                            </p:column>
-                        </p:dataTable>
+                                        <f:ajax delay="100" listener="#{previaOrcamento.carregarOrçamento()}"/>
+                                        </p:commandLink>
+                                    </center>
+                                </p:column>
+                                <p:column headerText="Data" width="10%">
+                                    <center>#{viewOrcamento.getDate(prod.data)}  </center>
+                                </p:column>
+                                <p:column headerText="Vendedor" width="50%">
+                                    <center>#{viewOrcamento.pesqVendedor(prod.vendedor)}</center>
+                                </p:column>
+                                <p:column headerText="Forma de Pag." width="10%">
+                                    <center>#{viewOrcamento.definirFormPag(prod.formaPagamento)}</center>
+                                </p:column>
+                                <p:column headerText="Valor" width="10%">
+                                    <center>#{viewOrcamento.setaDoisDecimais(prod.total)}</center>
+                                </p:column>
+                            </p:dataTable>
                     </div>
                     <div class="col-md-1">
                     </div>

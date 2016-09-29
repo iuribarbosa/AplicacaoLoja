@@ -7,6 +7,7 @@ import Util.FacesUtil;
 import java.util.Date;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import org.primefaces.context.RequestContext;
 
 @ManagedBean (name = "cadProd")
 @SessionScoped
@@ -56,6 +57,9 @@ public class CadProdutoBean {
         produto.setValorprod(0);
     }
     
+    public void voltarHome(){
+        RequestContext.getCurrentInstance().execute("location.href='home.xhtml'");
+    }
     
     //Gets e sets
     //Variaveis de tela
