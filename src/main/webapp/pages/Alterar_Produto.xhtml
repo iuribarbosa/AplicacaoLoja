@@ -106,7 +106,7 @@
                                         <div class="row">
 
                                             <div class="col-md-12 espacoGrid">
-                                                <p:autoComplete  readonly="#{alterProd.psq}"  value="#{alterProd.produto}"  scrollHeight="500" class="drop2" size="33" id="prods" completeMethod="#{alterProd.carregarProdutos}"  var="prod" itemLabel="#{prod.nomeprod}" itemValue="#{prod}" converter="ProdutoConverter">
+                                                <p:autoComplete  readonly="#{alterProd.psq}"  value="#{alterProd.produto}" placeholder="Pesquise aqui o produto a ser alterado." scrollHeight="500" class="drop2" size="33" id="prods" completeMethod="#{alterProd.carregarProdutos}"  var="prod" itemLabel="#{prod.nomeprod}" itemValue="#{prod}" converter="ProdutoConverter">
                                                     <p:column>
                                                         #{prod.codprod}                     
                                                     </p:column>

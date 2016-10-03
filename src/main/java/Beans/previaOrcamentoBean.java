@@ -63,6 +63,7 @@ public class previaOrcamentoBean {
     private int idControlePed = 0;
     private int controlFunc = 0;
     private boolean controlVersion = true;
+
     //Construtor
     public previaOrcamentoBean() {
         produtoExc = new Produto();
@@ -162,7 +163,7 @@ public class previaOrcamentoBean {
     public void imprimir() {
         RequestContext requestContext = RequestContext.getCurrentInstance();
         requestContext.execute("imprimirTela()");
-        if(controlVersion == true){
+        if (controlVersion == true) {
             salvarPedido();
         }
     }
@@ -226,7 +227,6 @@ public class previaOrcamentoBean {
             gerarPedido();
             pedidoRN = new PedidosRN();
             pedidoRN.alterar(pedido);
-            //FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
             idPedido = pedido.getIdPedido();
             prod1 = new Produto();
             for (int i = 0; i <= produtosInseridos.size() - 1; i++) {
@@ -236,11 +236,7 @@ public class previaOrcamentoBean {
                 vendaRN = new VendasRn();
                 vendaRN.salvar(venda);
             }
-//            RequestDispatcher dispatcher = FacesUtil.getServletRequest().getRequestDispatcher("/j_spring_security_logout");
-//            dispatcher.forward(FacesUtil.getServletRequest(), FacesUtil.getServletResponse());
-//            FacesContext.getCurrentInstance().responseComplete();
             RequestContext.getCurrentInstance().execute("location.href='index.jsp'");
-//            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
         } catch (Exception e) {
             System.out.println(e);
             RequestContext.getCurrentInstance().execute("alert('Erro ao salvar o Pedido')");
@@ -248,9 +244,9 @@ public class previaOrcamentoBean {
     }
 
     public void cancelarPedido() {
-        if(controlVersion){
-        pedidoRN = new PedidosRN();
-        pedidoRN.excluir(pedido);
+        if (controlVersion) {
+            pedidoRN = new PedidosRN();
+            pedidoRN.excluir(pedido);
         }
         idControlePed = 0;
         controlFunc = 0;
@@ -289,7 +285,7 @@ public class previaOrcamentoBean {
         gerarValorDesconto();
         vendaRN = new VendasRn();
         vendasRecuperado = vendaRN.buscarFornecedorPorNome(OrcaRecuperado.getIdPedido());
-        for(int i = 0; i <= vendasRecuperado.size()-1;i++){
+        for (int i = 0; i <= vendasRecuperado.size() - 1; i++) {
             prodOrcaRecuperado = new Produto();
             vendaRecup = new Vendas();
             vendaRecup = vendasRecuperado.get(i);
@@ -482,5 +478,4 @@ public class previaOrcamentoBean {
     public void setControlVersion(boolean controlVersion) {
         this.controlVersion = controlVersion;
     }
-    
 }
