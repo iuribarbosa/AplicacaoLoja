@@ -65,4 +65,10 @@ public class PedidosRN {
     public double listarPorDia(String ano, String mes, String dia){
         return this.ped.listarPorDia(ano,mes,dia);
     }
+    public double listarPorDiaAP(String ano, String mes, String dia){
+        return this.ped.listarPorDiaAP(ano,mes,dia);
+    }
+    public double listarPorDiaAV(String ano, String mes, String dia){
+        return this.ped.listarPorDiaAV(ano,mes,dia);
+    }
 }

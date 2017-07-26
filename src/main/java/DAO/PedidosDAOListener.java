@@ -52,5 +52,7 @@ public interface PedidosDAOListener {
     double listarPorMês(String ano, String mes, String dia);
     
     double listarPorDia(String ano, String mes, String dia);
+    double listarPorDiaAP(String ano, String mes, String dia);
+    double listarPorDiaAV(String ano, String mes, String dia);
     
 }

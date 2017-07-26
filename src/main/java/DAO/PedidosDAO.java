@@ -95,11 +95,39 @@ public class PedidosDAO implements PedidosDAOListener{
     }
     @Override
     public double listarPorDia(String ano, String mes, String dia) {
-        String retorno = "('"+ano+"-"+mes+"-"+dia+"')";
-        String hql = "select SUM(t.total) from Pedidos t where t.data = "+ retorno +" and t.tipo like 1";
+        String retorno = "('"+ano+"-"+mes+"-"+dia+" 00:00:00')";
+        String retornoFim = "('"+ano+"-"+mes+"-"+dia+" 23:59:59')";
+        String hql = "select SUM(t.total) from Pedidos t where t.data between "+ retorno +" and "+ retornoFim +" and t.tipo like 1";
         Query consulta = this.sessao.createQuery(hql);
-//        consulta.setString("retorno",retorno);
+        if(consulta.uniqueResult() == null){
+            return 0;
+        }else{
         return (double)consulta.uniqueResult();
+        }
+    }
+    @Override
+    public double listarPorDiaAP(String ano, String mes, String dia) {
+        String retorno = "('"+ano+"-"+mes+"-"+dia+" 00:00:00')";
+        String retornoFim = "('"+ano+"-"+mes+"-"+dia+" 23:59:59')";
+        String hql = "select SUM(t.total) from Pedidos t where t.data between "+ retorno +" and "+ retornoFim +" and t.tipo like 1 and t.formaPagamento = 2";
+        Query consulta = this.sessao.createQuery(hql);
+        if(consulta.uniqueResult() == null){
+            return 0;
+        }else{
+        return (double)consulta.uniqueResult();
+        }
+    }
+    @Override
+    public double listarPorDiaAV(String ano, String mes, String dia) {
+        String retorno = "('"+ano+"-"+mes+"-"+dia+" 00:00:00')";
+        String retornoFim = "('"+ano+"-"+mes+"-"+dia+" 23:59:59')";
+        String hql = "select SUM(t.total) from Pedidos t where t.data between "+ retorno +" and "+ retornoFim +" and t.tipo like 1 and t.formaPagamento = 1";
+        Query consulta = this.sessao.createQuery(hql);
+        if(consulta.uniqueResult() == null){
+            return 0;
+        }else{
+        return (double)consulta.uniqueResult();
+        }
     }
 //    
 //    public List<TbAluno> buscarAlunoporcpf(String cpf) {
