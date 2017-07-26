@@ -49,4 +49,8 @@ public interface PedidosDAOListener {
     
     Pedidos buscarData(Date data);
     
+    double listarPorMês(String ano, String mes, String dia);
+    
+    double listarPorDia(String ano, String mes, String dia);
+    
 }

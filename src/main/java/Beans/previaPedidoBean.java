@@ -29,15 +29,16 @@ public class previaPedidoBean {
     private List<Produto> produtosInseridos;
     private pesqProdPedidoBean psqPed;
     private Produto produtoExc;
-    private Produto baixarEstoque;
-    private ProdutoRN prodRN;
     private Pedidos pedido;
     private PedidosRN pedidoRN;
     private Vendas venda;
     private VendasRn vendaRN;
     private Funcionario func;
     private FuncionarioRN funcRN;
-
+    private Pedidos OrcaRecuperado;
+    private Produto prodOrcaRecuperado;
+    private List<Vendas> vendasRecuperado;
+    private Vendas vendaRecup;
     //Variaveis da Tela
     public int formaPag = 1;
     public int parcelas;
@@ -62,6 +63,7 @@ public class previaPedidoBean {
     private String senha;
     private int idControlePed = 0;
     private int controlFunc = 0;
+    private boolean controlVersion = true;
 
     //Construtor
     public previaPedidoBean() {
@@ -106,6 +108,7 @@ public class previaPedidoBean {
 
     public void pegarFunc() {
         if (controlFunc == 0) {
+
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             HttpSession session = (HttpSession) request.getSession();
             user = (String) session.getAttribute("ID_USUARIO");
@@ -125,7 +128,7 @@ public class previaPedidoBean {
         pedido.setTotal(total);
         pedido.setTotalDesconto(totalDesconto);
         pedido.setTotalParcelas(valorParcelas);
-        pedido.setVendedor(func.getCodfunc());
+        pedido.setVendedor(15);
         pedido.setData(data);
         pedido.setTipo(1);
     }
@@ -156,6 +159,14 @@ public class previaPedidoBean {
     public void abrirDialog() {
         RequestContext requestContext = RequestContext.getCurrentInstance();
         requestContext.execute("PF('confirmarQnt').show()");
+    }
+
+    public void imprimir() {
+        RequestContext requestContext = RequestContext.getCurrentInstance();
+        requestContext.execute("imprimirTela()");
+        if (controlVersion == true) {
+            salvarPedido();
+        }
     }
 
     public void fecharDialog() {
@@ -217,17 +228,16 @@ public class previaPedidoBean {
             gerarPedido();
             pedidoRN = new PedidosRN();
             pedidoRN.alterar(pedido);
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
-            RequestContext.getCurrentInstance().execute("location.href='index.jsp'");
             idPedido = pedido.getIdPedido();
-            venda = new Vendas();
             prod1 = new Produto();
             for (int i = 0; i <= produtosInseridos.size() - 1; i++) {
                 prod1 = produtosInseridos.get(i);
+                venda = new Vendas();
                 gerarVenda();
                 vendaRN = new VendasRn();
                 vendaRN.salvar(venda);
             }
+            RequestContext.getCurrentInstance().execute("location.href='index.jsp'");
         } catch (Exception e) {
             System.out.println(e);
             RequestContext.getCurrentInstance().execute("alert('Erro ao salvar o Pedido')");
@@ -235,8 +245,10 @@ public class previaPedidoBean {
     }
 
     public void cancelarPedido() {
-        pedidoRN = new PedidosRN();
-        pedidoRN.excluir(pedido);
+        if (controlVersion) {
+            pedidoRN = new PedidosRN();
+            pedidoRN.excluir(pedido);
+        }
         idControlePed = 0;
         controlFunc = 0;
         produtosInseridos.removeAll(produtosInseridos);
@@ -250,8 +262,42 @@ public class previaPedidoBean {
         valorParcelas = 0;
         gerarValorDesconto();
         verificarTotal();
-//        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
+        controlVersion = true;
         RequestContext.getCurrentInstance().execute("location.href='home.xhtml'");
+    }
+
+    public void carregarOrçamento() {
+        idControlePed = 1;
+        controlFunc = 1;
+        controlVersion = false;
+        produtosInseridos.removeAll(produtosInseridos);
+        formaPag = OrcaRecuperado.getFormaPagamento();
+        Desconto = OrcaRecuperado.getDesconto();
+        parcelas = OrcaRecuperado.getQuantVezes();
+        total = OrcaRecuperado.getTotal();
+        BigDecimal bd = new BigDecimal(total).setScale(2, RoundingMode.HALF_EVEN);
+        totalString = "R$ " + bd;
+        totalDesconto = OrcaRecuperado.getTotalDesconto();
+        valorParcelas = OrcaRecuperado.getTotalParcelas();
+        funcRN = new FuncionarioRN();
+        vendedor = funcRN.consultar(OrcaRecuperado.getVendedor()).getNomefunc();
+        numeroPedido = OrcaRecuperado.getIdPedido().toString();
+        verificarFormaPag();
+        gerarValorDesconto();
+        vendaRN = new VendasRn();
+        vendasRecuperado = vendaRN.buscarFornecedorPorNome(OrcaRecuperado.getIdPedido());
+        for (int i = 0; i <= vendasRecuperado.size() - 1; i++) {
+            prodOrcaRecuperado = new Produto();
+            vendaRecup = new Vendas();
+            vendaRecup = vendasRecuperado.get(i);
+            prodOrcaRecuperado.setCodprod(vendaRecup.getIDproduto());
+            prodOrcaRecuperado.setNomeprod(vendaRecup.getDescricaoProduto());
+            prodOrcaRecuperado.setQtdprod(vendaRecup.getQuantidade());
+            prodOrcaRecuperado.setValorprod(vendaRecup.getTotal());
+            prodOrcaRecuperado.setValorprodAp(vendaRecup.getValor());
+            produtosInseridos.add(prodOrcaRecuperado);
+        }
+        RequestContext.getCurrentInstance().execute("location.href='Previa_Pedido.xhtml'");
     }
 
     //Gets e Sets
@@ -418,4 +464,19 @@ public class previaPedidoBean {
         this.produtoExc = produtoExc;
     }
 
+    public Pedidos getOrcaRecuperado() {
+        return OrcaRecuperado;
+    }
+
+    public void setOrcaRecuperado(Pedidos OrcaRecuperado) {
+        this.OrcaRecuperado = OrcaRecuperado;
+    }
+
+    public boolean isControlVersion() {
+        return controlVersion;
+    }
+
+    public void setControlVersion(boolean controlVersion) {
+        this.controlVersion = controlVersion;
+    }
 }

@@ -85,6 +85,22 @@ public class PedidosDAO implements PedidosDAOListener{
         consulta.setInteger("nomeA", id);
         return (List<Pedidos>) consulta.list();
     }
+    @Override
+    public double listarPorMês(String ano, String mes, String dia) {
+        String retorno = "('"+ano+"-"+mes+"-"+dia+"')";
+        String hql = "select SUM(t.total) from Pedidos t where t.data between "+ retorno +" and ('"+ano+"-"+mes+"-31') and t.tipo like 1";
+        Query consulta = this.sessao.createQuery(hql);
+//        consulta.setString("retorno",retorno);
+        return (double)consulta.uniqueResult();
+    }
+    @Override
+    public double listarPorDia(String ano, String mes, String dia) {
+        String retorno = "('"+ano+"-"+mes+"-"+dia+"')";
+        String hql = "select SUM(t.total) from Pedidos t where t.data = "+ retorno +" and t.tipo like 1";
+        Query consulta = this.sessao.createQuery(hql);
+//        consulta.setString("retorno",retorno);
+        return (double)consulta.uniqueResult();
+    }
 //    
 //    public List<TbAluno> buscarAlunoporcpf(String cpf) {
 //        String hql = "select t from TbAluno t where t.aluPesIdpessoa.pesCpf = :cpfA";

@@ -72,21 +72,28 @@
                         </div>
                         <p:dataTable id="listaProdutos" var="prod"  rowKey="#{prod.idPedido}" class="marginTable" value="#{viewPedido.listaPedido}">
                             <p:column headerText="Pedido" width="10%">
-                                <center>#{prod.idPedido}</center>
-                            </p:column>
-                            <p:column headerText="Data" width="10%">
-                                <center>#{viewPedido.getDate(prod.data)}  </center>
-                            </p:column>
-                            <p:column headerText="Vendedor" width="50%">
-                                <center>#{viewPedido.pesqVendedor(prod.vendedor)}</center>
-                            </p:column>
-                            <p:column headerText="Forma de Pag." width="10%">
-                                <center>#{viewPedido.definirFormPag(prod.formaPagamento)}</center>
-                            </p:column>
-                            <p:column headerText="Valor" width="10%">
-                                <center>#{viewPedido.setaDoisDecimais(prod.total)}</center>
-                            </p:column>
-                        </p:dataTable>
+                                <center>
+                                        <p:commandLink >
+                                        #{prod.idPedido}
+                                        <f:setPropertyActionListener value="#{prod}" target="#{previaPedido.orcaRecuperado}"/>
+
+                                        <f:ajax delay="100" listener="#{previaPedido.carregarOrçamento()}"/>
+                                        </p:commandLink>
+                                    </center>
+                                </p:column>
+                                <p:column headerText="Data" width="10%">
+                                    <center>#{viewPedido.getDate(prod.data)}  </center>
+                                </p:column>
+                                <p:column headerText="Vendedor" width="50%">
+                                    <center>#{viewPedido.pesqVendedor(prod.vendedor)}</center>
+                                </p:column>
+                                <p:column headerText="Forma de Pag." width="10%">
+                                    <center>#{viewPedido.definirFormPag(prod.formaPagamento)}</center>
+                                </p:column>
+                                <p:column headerText="Valor" width="10%">
+                                    <center>#{viewPedido.setaDoisDecimais(prod.total)}</center>
+                                </p:column>
+                            </p:dataTable>
                     </div>
                     <div class="col-md-1">
                     </div>

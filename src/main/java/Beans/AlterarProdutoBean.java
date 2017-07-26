@@ -92,6 +92,20 @@ public class AlterarProdutoBean {
         }
         
     }
+    public void excluirProduto(){
+        try {
+            setarProduto();
+            prodRN = new ProdutoRN();
+            prodRN.excluir(produto);
+            limparProduto();
+            desbloquearPesq();
+            FacesUtil.exibirMensagemSucesso("Produto excluido com Sucesso!");
+        } catch (Exception e) {
+            System.out.println(e);
+            FacesUtil.exibirMensagemErro("Erro ao excluir o produto!");
+        }
+        
+    }
     
     public void voltarHome(){
         RequestContext.getCurrentInstance().execute("location.href='home.xhtml'");

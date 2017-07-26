@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="pt"
+<html id="teste" lang="pt"
       xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:h="http://java.sun.com/jsf/html"   
       xmlns:f="http://java.sun.com/jsf/core"   
       xmlns:ui="http://java.sun.com/jsf/facelets"   
       xmlns:p="http://primefaces.org/ui">
 
-    <h:head>
+    <h:head id="heads">
 
         <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -14,7 +14,7 @@
         <meta name="description" content=""/>
         <meta name="author" content=""/>
 
-        <title>GerFiz</title>
+        <title>Pedido</title>
 
         <!-- Bootstrap Core CSS -->
         <link href="../css/bootstrap.min.css" rel="stylesheet"/>
@@ -41,41 +41,46 @@
         <h:form id="formPrevia">
             <div class="container-fluid">
                 <div class="row titulo">
-                    <div class="col-md-10 tituloLabel2">
-                        <Strong><b class="tituloLabel">Nome da Loja</b></Strong> <br/> Email: Email da Loja <br/> Logradouro, Nº<br /> Bairro <br/> Cidade, Estado<br /> Telefone: (99) 9999-9999
+                    <div class="col-md-2     tituloLabel2">
+                        Rua São Cristovão, Nº268 <br /> Itinga <br/> Lauro de Freitas, Bahia<br /> (71) 3251-0272 <br/> construsonhosbahia@hotmail.com
+                    </div>
+                    <div class="col-md-8">
+                        <center>
+                            <Strong><b class="tituloLabel">Construsonhos Materias para Construção</b></Strong><br/><br/><br/><center><p:outputLabel style="font-size: 25px" value="Pedido"/></center><br/><br/>
+                        </center>
                     </div>
                     <div class="col-md-2">
-                        <br/><br/><strong><b class="tituloLabel2">Vendedor:</b></strong> #{previaPedido.vendedor}<br/><br/><br/><strong><b class="tituloLabel2">Pedido:</b></strong> #{previaPedido.gerarNumeroPedido()}
+                        <br/><br/><strong><b class="tituloLabel2">Vendedor:</b></strong> #{previaPedido.vendedor}<br/><br/><strong><b class="tituloLabel2">Nº Pedido:</b></strong> #{previaPedido.gerarNumeroPedido()}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12" style="margin-top: 1%">
-                        <center><p:outputLabel value="------------------------------------------------------------ Pedido ------------------------------------------------------------"/></center>
+                        <center><p:outputLabel style="font-size: 25px" value="Lista de Produtos"/></center>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         <p:panel style="padding-bottom: 5%;">
                             <p:outputPanel autoUpdate="true">
-                                <p:dataTable id="listaProdutos" var="prod" selection="#{previaPedido.produtoExc}"  rowKey="#{prod.codprod}"  value="#{previaPedido.produtosInseridos}">
+                                <p:dataTable id="listaProdutos" var="prod"  selection="#{previaPedido.produtoExc}"  rowKey="#{prod.codprod}"  value="#{previaPedido.produtosInseridos}">
                                     <p:column headerText="ID" width="6%">
-                                        <center>#{prod.codprod}</center>  
+                                        <center><p:outputLabel value="#{prod.codprod}"/></center>  
                                     </p:column>
                                     <p:column headerText="Descrição do Produto" width="62%">
-                                        #{prod.nomeprod}
+                                        <p:outputLabel value="#{prod.nomeprod}"/>
                                     </p:column>
                                     <p:column headerText="Valor" width="8%">
-                                        <center>#{prod.valorprodAp}</center>
+                                        <center><p:outputLabel value="#{prod.valorprodAp}"><f:convertNumber minFractionDigits="2"/></p:outputLabel></center>
                                     </p:column>
                                     <p:column headerText="Quant." width="8%">
                                         <center>
-                                            #{prod.qtdprod}
+                                            <p:outputLabel value="#{prod.qtdprod}"/>
                                         </center>
                                     </p:column>
                                     <p:column headerText="Total" width="8%">
-                                        <center>#{prod.valorprod}</center>
+                                        <center> <p:outputLabel value="#{prod.valorprod}"> <f:convertNumber minFractionDigits="2"/> </p:outputLabel> </center>
                                     </p:column>
-                                    <p:column headerText="Excluir" width="8%">
+                                    <p:column rendered="#{previaPedido.controlVersion}" headerText="Excluir" width="8%">
                                         <p:commandLink >
                                             <center>
                                                 <i class="glyphicon glyphicon-remove">
@@ -87,19 +92,20 @@
                                     </p:column>
                                 </p:dataTable>
                             </p:outputPanel>
-                            <a onclick="javascript:popUp('Produtos', '#{request.contextPath}/faces/pages/Pesq_ProdPed.xhtml', '800', '1000'); return false;">
-                                <img class="img-responsive" style="float: right; margin-top: 1%; width: 30px; height: auto;" src="../img/Botoes/add.png"/>
-                            </a>
+                            <p:outputPanel rendered="#{previaPedido.controlVersion}">
+                                <a data-toggle="tooltip" data-placement="bottom"  title="Adicionar Produto" onclick="javascript:popUp('Produtos', '#{request.contextPath}/faces/pages/Pesq_ProdPed.xhtml', '800', '1000'); return false;">
+                                    <img  class="img-responsive"  style="float: right; margin-top: 1%; width: 30px; height: auto;" src="../img/Botoes/add.png"/>
+                                </a>
+                            </p:outputPanel>
                         </p:panel>
                     </div>
                 </div>
                 <div class="row marginTable">
-                    <div class="col-md-6">
-                        <br/><br/><br/><center><p:commandButton value="Cancelar" actionListener="#{previaPedido.cancelarPedido()}" style="margin-right: 2%"/>  <p:commandButton value="Concluir" actionListener="#{previaPedido.salvarPedido()}" /></center>
+                    <div class="col-md-6" >
+                        <br/><br/><br/><center><p:commandButton value="Imprimir"  update="formDial" rendered="#{!previaPedido.controlVersion}" actionListener="#{previaPedido.imprimir()}" />  <p:commandButton value="Concluir" rendered="#{previaPedido.controlVersion}" onclick="PF('dlgConc').show();" /><p:commandButton value="Cancelar" actionListener="#{previaPedido.cancelarPedido()}" style="margin-right: 2%"/></center>
                     </div>
                     <div class="col-md-2 ">
                         <p:panel id="formaPag">
-
                             <p:outputLabel value="Forma de Pagamento"/>
                             <h:panelGrid columns="2">
                                 <p:selectOneRadio   value="#{previaPedido.formaPag}" layout="grid" columns="1">
@@ -125,8 +131,8 @@
                             <p:outputLabel value="Descontos"/><br/>
                             <center>
                                 <p:inputNumber value="#{previaPedido.desconto}" symbol="%" symbolPosition="s" decimalPlaces="1" size="2" maxlength="2">
-                                    <p:ajax update="cmpDesconto" event="change" listener="#{previaPedido.gerarValorDesconto()}"/>
-                                    <p:ajax update="cmpDesconto" event="keyup" listener="#{previaPedido.gerarValorDesconto()}"/>
+                                    <p:ajax update="cmpDesconto formDial" event="change" listener="#{previaPedido.gerarValorDesconto()}"/>
+                                    <p:ajax update="cmpDesconto formDial" event="keyup" listener="#{previaPedido.gerarValorDesconto()}"/>
                                 </p:inputNumber>
                             </center>
                         </p:panel>
@@ -137,8 +143,8 @@
                                 <h:panelGrid columns="1">
                                     <p:outputLabel value="Total" />
                                     <p:outputLabel value="#{previaPedido.totalString}"/>
-                                    <p:outputLabel value="Total C/ Desconto"/>
-                                    <p:outputLabel  id="cmpDesconto" value="#{previaPedido.totalDescontoString}"/>
+                                    <p:outputLabel rendered="#{previaPedido.desconto>0?true:false}" value="Total C/ Desconto"/>
+                                    <p:outputLabel  rendered="#{previaPedido.desconto>0?true:false}" id="cmpDesconto" value="#{previaPedido.totalDescontoString}"/>
                                     <p:outputLabel value="Quant. Parcelas" rendered="#{previaPedido.cntParcelas}"/>
                                     <p:outputLabel value="#{previaPedido.parcelas}" rendered="#{previaPedido.cntParcelas}"/>
                                     <p:outputLabel value="Parcelas" rendered="#{previaPedido.cntParcelas}"/>
@@ -158,7 +164,97 @@
                 <p:commandButton value="Não" onclick="PF('dlgExc').hide();"/>
             </h:form>
         </p:confirmDialog>
+        <p:confirmDialog id="dlgConc" message="O que deseja fazer?" header="Concluir Pedido"  widgetVar="dlgConc" appendTo="@(body)">
+            <h:form>
+                <p:commandButton value="Imprimir"  update="formDial" actionListener="#{previaPedido.imprimir()}" ></p:commandButton> 
+                <p:commandButton value="Concluir" action="#{previaPedido.salvarPedido()}" onclick="PF('dlgConc').hide();"/>
+            </h:form>
+        </p:confirmDialog>
 
+
+        <!--                                                            Print Do Pedido-->
+
+        <p:dialog id="printDial">
+            <h:form id="formDial">
+                <div id="printar" class="container-fluid">
+                    <div class="row titulo">
+                        <div class="col-md-10 col-xs-10 tituloLabel2">
+                            <Strong><b class="tituloLabel">Construsonhos</b></Strong> <br/> Email: construsonhosbahia@hotmail.com<br/> Rua São Cristóvão, Nº268<br /> Itinga <br/> Lauro de Freitas, Bahia<br /> Telefone: (71) 3251-0272
+                        </div>
+                        <div class="col-md-2 col-xs-2">
+                            <br/><br/><strong><b class="tituloLabel2">Vendedor:</b></strong> #{previaPedido.vendedor}<br/><br/><br/><strong><b class="tituloLabel2">Orçamento:</b></strong> #{previaPedido.numeroPedido}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-xs-12 " style="margin-top: 1%">
+                            <center><p:outputLabel value="Orçamento"/></center>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p:panel style="padding-bottom: 5%;">
+                                <p:outputPanel autoUpdate="true">
+                                    <p:dataTable id="listaProdutos" var="prod" selection="#{previaPedido.produtoExc}"  rowKey="#{prod.codprod}"  value="#{previaPedido.produtosInseridos}">
+                                        <p:column headerText="ID" width="6%">
+                                            <center><p:outputLabel value="#{prod.codprod}"/></center>  
+                                        </p:column>
+                                        <p:column headerText="Descrição do Produto" width="62%">
+                                            <p:outputLabel value="#{prod.nomeprod}"/>
+                                        </p:column>
+                                        <p:column headerText="Valor" width="8%">
+                                            <center><p:outputLabel value="#{prod.valorprodAp}"><f:convertNumber minFractionDigits="2"/></p:outputLabel></center>
+                                        </p:column>
+                                        <p:column headerText="Quant." width="8%">
+                                            <center>
+                                                <p:outputLabel value="#{prod.qtdprod}"/>
+                                            </center>
+                                        </p:column>
+                                        <p:column headerText="Total" width="8%">
+                                            <center> <p:outputLabel value="#{prod.valorprod}"> <f:convertNumber minFractionDigits="2"/> </p:outputLabel> </center>
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:outputPanel>
+                            </p:panel>
+                        </div>
+                    </div>
+                    <div class="row marginTable">
+
+                        <div class="col-md-6 col-xs-6">
+                        </div>
+                        <div class="col-md-2 col-xs-2">
+                            <p:outputLabel value="Forma de Pag."/>
+                            <h:panelGrid columns="2">
+                                <p:outputLabel value="Avista" rendered="#{previaPedido.formaPag==1?true:false}"/>
+                                <p:outputLabel value="A Prazo" rendered="#{previaPedido.formaPag==1?false:true}"/>
+                            </h:panelGrid>
+                        </div>
+                        <div class="col-md-2 col-xs-2">
+                            <p:outputLabel value="Descontos"/><br/>
+                            <p:outputLabel value="#{previaPedido.desconto}"/> <p:outputLabel value=" %"/>
+                        </div>
+                        <div class="col-md-2 col-xs-2">
+                            <p:outputPanel autoUpdate="true">
+                                <h:panelGrid columns="1">
+                                    <p:outputLabel value="Total" />
+                                    <p:outputLabel value="#{previaPedido.totalString}"/>
+                                    <p:outputLabel rendered="#{previaPedido.desconto>0?true:false}" value="Total C/ Desconto"/>
+                                    <p:outputLabel rendered="#{previaPedido.desconto>0?true:false}" id="cmpDesconto" value="#{previaPedido.totalDescontoString}"/>
+                                    <p:outputLabel value="Quant. Parcelas" rendered="#{previaPedido.cntParcelas}"/>
+                                    <p:outputLabel value="#{previaPedido.parcelas}" rendered="#{previaPedido.cntParcelas}"/>
+                                    <p:outputLabel value="Parcelas" rendered="#{previaPedido.cntParcelas}"/>
+                                    <p:outputLabel value="#{previaPedido.valorParcelasString}" rendered="#{previaPedido.cntParcelas}"/>
+                                </h:panelGrid>
+                            </p:outputPanel>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+        </p:dialog>
+<!--        <script>
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+        </script>-->
         <script language="javascript">
 
             function popUp(titulo, URL, h, w) {
@@ -194,6 +290,16 @@
                 }
                 newwindow.moveTo(winl, wint);
                 newwindow.focus();
+            }
+
+            function imprimirTela() {
+                var headstr = "<html><body>";
+                var footstr = "</body></html>";
+                var newstr = document.getElementById('formDial').innerHTML;
+                var oldstr = document.body.innerHTML;
+                document.body.innerHTML = headstr + newstr + footstr;
+                window.print();
+                document.body.innerHTML = oldstr;
             }
 
         </script>

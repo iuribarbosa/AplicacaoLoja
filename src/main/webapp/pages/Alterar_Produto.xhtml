@@ -106,7 +106,7 @@
                                         <div class="row">
 
                                             <div class="col-md-12 espacoGrid">
-                                                <p:autoComplete  readonly="#{alterProd.psq}"  value="#{alterProd.produto}" placeholder="Pesquise aqui o produto a ser alterado." scrollHeight="500" class="drop2" size="33" id="prods" completeMethod="#{alterProd.carregarProdutos}"  var="prod" itemLabel="#{prod.nomeprod}" itemValue="#{prod}" converter="ProdutoConverter">
+                                                <p:autoComplete  readonly="#{alterProd.psq}"  value="#{alterProd.produto}" placeholder="Pesquise aqui o produto." scrollHeight="500" class="drop2" size="33" id="prods" completeMethod="#{alterProd.carregarProdutos}"  var="prod" itemLabel="#{prod.nomeprod}" itemValue="#{prod}" converter="ProdutoConverter">
                                                     <p:column>
                                                         #{prod.codprod}                     
                                                     </p:column>
@@ -139,7 +139,12 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12 espacoGrid">
-                                                <p:commandButton value="Confirmar" actionListener="#{alterProd.alterarProduto()}" update="@form valor qnt forn nome"/>
+                                                <div class="col-md-6 espacoGrid">
+                                                <p:commandButton value="Excluir" actionListener="#{alterProd.excluirProduto()}" update="@form valor qnt forn nome"/>
+                                                </div>
+                                                <div class="col-md-6 espacoGrid">
+                                                <p:commandButton value="Alterar" actionListener="#{alterProd.alterarProduto()}" update="@form valor qnt forn nome"/>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
