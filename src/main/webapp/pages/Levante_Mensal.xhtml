@@ -60,12 +60,12 @@
                             <div class="col-md-10">
                                 <div class="col-md-12">
                                     <center>
-                                        <div class="col-md-12 espacoGrid2">
+                                        <div class="espacoGrid2 col-md-12 ">
                                             <font size="5" face="Verdana">
                                                 <b>Relatorio por Mês</b>
                                             </font>
                                         </div>
-                                        <div class="col-md-12 espacoGrid2">
+                                        <div class="espacoGrid2 col-md-12 ">
                                             
                                                 <p:selectOneMenu id="console" value="#{LevanteMensal.mes}"  style="width:125px">
                                                     <f:selectItem itemLabel="JANEIRO" itemValue="1" />
@@ -92,9 +92,9 @@
                                             <p:chart type="line"  model="#{LevanteMensal.lineModel1}" style="height:500px;" />
                                             </div>
                                             <div class="col-md-2">
-                                                <div class="col-md-12">TOTAL: 15000</div>
-                                                <div class="col-md-12">TOTAL AP: 2000</div>
-                                                <div class="col-md-12">TOTAL AV: 13000</div>
+                                                <div class="col-md-12"><b>TOTAL:</b> <br>R$ #{LevanteMensal.valorTotal}</br></div>
+                                                <div class="col-md-12"><b>TOTAL AV:</b> <br>R$ #{LevanteMensal.valorTotalAV}</br></div>
+                                                <div class="col-md-12"><b>TOTAL AP:</b> <br>R$ #{LevanteMensal.valorTotalAP}</br></div>
                                                 
                                             </div>
                                         </div>

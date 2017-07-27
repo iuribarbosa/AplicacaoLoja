@@ -34,6 +34,12 @@ public class LevanteMensal {
     private String mes;
     private String ano;
     private String nomeMes;
+    private String valorTotal;
+    private String valorTotalAP;
+    private String valorTotalAV;
+    private Double valorTotalD;
+    private Double valorTotalAPD;
+    private Double valorTotalAVD;
     private int qntDias;
 
     @PostConstruct
@@ -91,6 +97,12 @@ public class LevanteMensal {
             Double valor = ped.listarPorDia(ano, mes, dia);
             Double valorAP = ped.listarPorDiaAP(ano, mes, dia);
             Double valorAV = ped.listarPorDiaAV(ano, mes, dia);
+//            valorTotalD = valorTotalD + valor;
+//            valorTotalAPD = valorTotalAPD + valorAP;
+//            valorTotalAVD = valorTotalAVD + valorAV;
+//            valorTotal = valorTotalD.toString();
+//            valorTotalAP = valorTotalAPD.toString();
+//            valorTotalAV = valorTotalAVD.toString();
             series1.set(i, valor);
             series2.set(i, valorAV);
             series3.set(i, valorAP);
@@ -128,6 +140,30 @@ public class LevanteMensal {
 
     public void setMes(String mes) {
         this.mes = mes;
+    }
+
+    public String getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(String valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+
+    public String getValorTotalAP() {
+        return valorTotalAP;
+    }
+
+    public void setValorTotalAP(String valorTotalAP) {
+        this.valorTotalAP = valorTotalAP;
+    }
+
+    public String getValorTotalAV() {
+        return valorTotalAV;
+    }
+
+    public void setValorTotalAV(String valorTotalAV) {
+        this.valorTotalAV = valorTotalAV;
     }
 
 }
