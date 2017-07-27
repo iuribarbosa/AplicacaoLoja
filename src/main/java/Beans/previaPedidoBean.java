@@ -64,6 +64,7 @@ public class previaPedidoBean {
     private int idControlePed = 0;
     private int controlFunc = 0;
     private boolean controlVersion = true;
+    private int idVendedor;
 
     //Construtor
     public previaPedidoBean() {
@@ -121,6 +122,7 @@ public class previaPedidoBean {
     }
 
     public void gerarPedido() {
+        
         Date data = new Date();
         pedido.setDesconto(Desconto);
         pedido.setFormaPagamento(formaPag);
@@ -128,7 +130,7 @@ public class previaPedidoBean {
         pedido.setTotal(total);
         pedido.setTotalDesconto(totalDesconto);
         pedido.setTotalParcelas(valorParcelas);
-        pedido.setVendedor(15);
+        pedido.setVendedor(idVendedor);
         pedido.setData(data);
         pedido.setTipo(1);
     }
@@ -154,6 +156,7 @@ public class previaPedidoBean {
 
     public void setarVendedor() {
         vendedor = func.getNomefunc();
+        idVendedor = func.getCodfunc();
     }
 
     public void abrirDialog() {

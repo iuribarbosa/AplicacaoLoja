@@ -62,6 +62,7 @@ public class previaOrcamentoBean {
     private String senha;
     private int idControlePed = 0;
     private int controlFunc = 0;
+    private int idVendedor;
     private boolean controlVersion = true;
 
     //Construtor
@@ -127,7 +128,7 @@ public class previaOrcamentoBean {
         pedido.setTotal(total);
         pedido.setTotalDesconto(totalDesconto);
         pedido.setTotalParcelas(valorParcelas);
-        pedido.setVendedor(15);
+        pedido.setVendedor(idVendedor);
         pedido.setData(data);
         pedido.setTipo(2);
     }
@@ -153,6 +154,7 @@ public class previaOrcamentoBean {
 
     public void setarVendedor() {
         vendedor = func.getNomefunc();
+        idVendedor = func.getCodfunc();
     }
 
     public void abrirDialog() {

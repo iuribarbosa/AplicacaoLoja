@@ -90,8 +90,43 @@ public class PedidosDAO implements PedidosDAOListener{
         String retorno = "('"+ano+"-"+mes+"-"+dia+"')";
         String hql = "select SUM(t.total) from Pedidos t where t.data between "+ retorno +" and ('"+ano+"-"+mes+"-31') and t.tipo like 1";
         Query consulta = this.sessao.createQuery(hql);
-//        consulta.setString("retorno",retorno);
         return (double)consulta.uniqueResult();
+    }
+    @Override
+    public double listarPorAno(String ano) {
+        String hql = "select SUM(t.total) from Pedidos t where t.data between ('"+ano+"-01-01') and ('"+ano+"-12-31') and t.tipo like 1";
+        Query consulta = this.sessao.createQuery(hql);
+        return (double)consulta.uniqueResult();
+    }
+    @Override
+    public double listarPorMêsTotal(String ano, String mes) {
+        String hql = "select SUM(t.total) from Pedidos t where t.data between ('"+ano+"-"+mes+"-01') and ('"+ano+"-"+mes+"-31') and t.tipo like 1";
+        Query consulta = this.sessao.createQuery(hql);
+        if(consulta.uniqueResult() == null){
+            return 0;
+        }else{
+        return (double)consulta.uniqueResult();
+        }
+    }
+    @Override
+    public double listarPorMêsAV(String ano, String mes) {
+        String hql = "select SUM(t.total) from Pedidos t where t.data between ('"+ano+"-"+mes+"-01') and ('"+ano+"-"+mes+"-31') and t.tipo like 1 and t.formaPagamento = 1";
+        Query consulta = this.sessao.createQuery(hql);
+        if(consulta.uniqueResult() == null){
+            return 0;
+        }else{
+        return (double)consulta.uniqueResult();
+        }
+    }
+    @Override
+    public double listarPorMêsAP(String ano, String mes) {
+        String hql = "select SUM(t.total) from Pedidos t where t.data between ('"+ano+"-"+mes+"-01') and ('"+ano+"-"+mes+"-31') and t.tipo like 1 and t.formaPagamento = 2";
+        Query consulta = this.sessao.createQuery(hql);
+        if(consulta.uniqueResult() == null){
+            return 0;
+        }else{
+        return (double)consulta.uniqueResult();
+        }
     }
     @Override
     public double listarPorDia(String ano, String mes, String dia) {
@@ -129,13 +164,6 @@ public class PedidosDAO implements PedidosDAOListener{
         return (double)consulta.uniqueResult();
         }
     }
-//    
-//    public List<TbAluno> buscarAlunoporcpf(String cpf) {
-//        String hql = "select t from TbAluno t where t.aluPesIdpessoa.pesCpf = :cpfA";
-//        Query consulta = this.sessao.createQuery(hql);
-//        consulta.setString("cpfA", cpf);
-//        return (List<TbAluno>) consulta.list();
-//    }
     
     @Override
     public Pedidos buscarData(Date data) {

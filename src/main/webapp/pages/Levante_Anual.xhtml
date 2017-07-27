@@ -74,25 +74,14 @@
                                     <center>
                                         <div class="espacoGrid2 col-md-12 ">
                                             <font size="5" face="Verdana">
-                                                <b>Relatório por Mês</b>
+                                                <b>Relatório por Ano</b>
                                             </font>
                                         </div>
                                         <div class="espacoGrid2 col-md-12 ">
 
-                                            <p:selectOneMenu id="console" value="#{LevanteMensal.mes}"  style="width:150px">
+                                            <p:selectOneMenu id="console" value="#{LevanteAnual.ano}"  style="width:150px">
                                                 <f:selectItem itemLabel="JANEIRO" itemValue="1" />
-                                                <f:selectItem itemLabel="FEVEREIRO" itemValue="2" />
-                                                <f:selectItem itemLabel="MARÇO" itemValue="3" />
-                                                <f:selectItem itemLabel="ABRIL" itemValue="4" />
-                                                <f:selectItem itemLabel="MAIO" itemValue="5" />
-                                                <f:selectItem itemLabel="JUNHO" itemValue="6" />
-                                                <f:selectItem itemLabel="JULHO" itemValue="7" />
-                                                <f:selectItem itemLabel="AGOSTO" itemValue="8" />
-                                                <f:selectItem itemLabel="SETEMBRO" itemValue="9" />
-                                                <f:selectItem itemLabel="OUTUBRO" itemValue="10" />
-                                                <f:selectItem itemLabel="NOVEMBRO" itemValue="11" />
-                                                <f:selectItem itemLabel="DEZEMBRO" itemValue="12" />
-                                                <p:ajax event="change" update="@form" listener="#{LevanteMensal.mudarMes()}"/>
+                                                <p:ajax event="change" update="@form" listener="#{LevanteAnual.mudarMes()}"/>
                                             </p:selectOneMenu>
 
 
@@ -101,13 +90,13 @@
                                             <!--                                            <div class="col-md-1">
                                                                                         </div>-->
                                             <div class="col-md-10">
-                                                <p:chart type="line"  model="#{LevanteMensal.lineModel1}" style="height:500px;" />
+                                                <p:chart type="line"  model="#{LevanteAnual.lineModel1}" style="height:500px;" />
                                             </div>
                                             <div class="col-md-2" style="border: 1px solid black;background-color: #fffdf6">
                                                 <font size="4" face="Verdana">
-                                                    <div class="col-md-12"><b>TOTAL:</b> <font color="0000FF"><br>R$ #{LevanteMensal.valorTotal}</br></font></div>
-                                                    <div class="col-md-12"><b>TOTAL AV:</b> <font  color="DC143C"><br>R$ #{LevanteMensal.valorTotalAV}</br></font></div>
-                                                    <div class="col-md-12"><b>TOTAL AP:</b> <font color="00ff00"><br>R$ #{LevanteMensal.valorTotalAP}</br></font></div>
+                                                    <div class="col-md-12"><b>TOTAL:</b> <font color="0000FF"><br>R$ #{LevanteAnual.valorTotal}</br></font></div>
+                                                    <div class="col-md-12"><b>TOTAL AV:</b> <font  color="DC143C"><br>R$ #{LevanteAnual.valorTotalAV}</br></font></div>
+                                                    <div class="col-md-12"><b>TOTAL AP:</b> <font color="00ff00"><br>R$ #{LevanteAnual.valorTotalAP}</br></font></div>
                                                 </font>
                                             </div>
                                         </div>

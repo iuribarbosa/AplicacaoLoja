@@ -5,72 +5,55 @@
  */
 package Beans;
 
+import static Beans.LevanteMensal.NomeDoMes;
 import RN.PedidosRN;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.Axis;
+import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
 
 /**
  *
- * @author Iuri Barbosa - PC
+ * @author ibarbosa
  */
-@ManagedBean(name = "LevanteMensal")
+@ManagedBean(name = "LevanteAnual")
 @SessionScoped
-public class LevanteMensal {
-
+public class LevanteAnual {
+    
     private LineChartModel lineModel1;
     private PedidosRN ped;
-    private String dia;
-    private String mes;
     private String ano;
-    private String nomeMes;
     private String valorTotal;
     private String valorTotalAP;
     private String valorTotalAV;
     private Double valorTotalD;
     private Double valorTotalAPD;
     private Double valorTotalAVD;
-    private Double qntLinhasY;
     private Double maiorValor;
-    private int qntDias;
-
-    @PostConstruct
+    private String mes;
+    
+    
+        @PostConstruct
     public void init() {
         Calendar cal = GregorianCalendar.getInstance();
-        Calendar calendar = Calendar.getInstance();
-//        qntDias = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-        mes = Integer.toString(cal.get(Calendar.MONTH) + 1);
         ano = Integer.toString(cal.get(Calendar.YEAR));
-        nomeMes = NomeDoMes(mes);
-        qntDiasMes(mes);
         createLineModels();
     }
-
-    public void qntDiasMes(String mes) {
-        Calendar datas = new GregorianCalendar();
-        datas.set(Calendar.MONTH, Integer.parseInt(mes) - 1);//2
-        qntDias = datas.getActualMaximum(Calendar.DAY_OF_MONTH);
-
-    }
-
-    public LineChartModel getLineModel1() {
-        return lineModel1;
-    }
-
     public void createLineModels() {
         lineModel1 = initLinearModel();
         Axis xAxis = lineModel1.getAxis(AxisType.X);
         xAxis.setMin(1);
-        xAxis.setMax(qntDias);
-        xAxis.setTickCount(qntDias);
-        xAxis.setLabel("Dias");
+        xAxis.setMax(12);
+        xAxis.setTickCount(12);
+        xAxis.setLabel("Anos");
         Axis yAxis = lineModel1.getAxis(AxisType.Y);
         int qntQuadros = (int)(maiorValor/2000)+1;
         yAxis.setMin(0);
@@ -78,14 +61,6 @@ public class LevanteMensal {
         yAxis.setTickCount(qntQuadros + 1);
         yAxis.setLabel("Reais");
     }
-
-    public void mudarMes() {
-        nomeMes = NomeDoMes(mes);
-        qntDiasMes(mes);
-        createLineModels();
-
-    }
-
     private LineChartModel initLinearModel() {
         LineChartModel model = new LineChartModel();
         model.setLegendPosition("ne");
@@ -95,14 +70,13 @@ public class LevanteMensal {
         valorTotalD = 0.0;
         valorTotalAPD = 0.0;
         valorTotalAVD = 0.0;
-        qntLinhasY = 0.0;
         maiorValor = 0.0;
-        for (int i = 1; i <= qntDias; i++) {
+        for (int i = 1; i <= 12; i++) {
             ped = new PedidosRN();
-            dia = Integer.toString(i);
-            Double valor = ped.listarPorDia(ano, mes, dia);
-            Double valorAP = ped.listarPorDiaAP(ano, mes, dia);
-            Double valorAV = ped.listarPorDiaAV(ano, mes, dia);
+            //Lugar onde configura o ano
+            Double valor = ped.listarPorMêsTotal(ano,mes);
+            Double valorAP = ped.listarPorMêsAP(ano, mes);
+            Double valorAV = ped.listarPorMêsAV(ano, mes);
             if(maiorValor<valor){
                 maiorValor = valor;
             }
@@ -129,30 +103,25 @@ public class LevanteMensal {
         model.addSeries(series3);
         return model;
     }
+    
+    
+    
+    public List<Integer> getListaAnos(Integer anoInicial){
+		Calendar dataFinal=Calendar.getInstance();
+		Integer anoAtual = dataFinal.get(Calendar.YEAR);
+		List<Integer> listaAnos=new ArrayList<Integer>();
+		for(Integer ano=anoInicial; ano<=anoAtual;ano++){
+			listaAnos.add(ano);
+		}
+		return listaAnos;
+	}
 
-    public static String NomeDoMes(String i) {
-        String mes[] = {"Janeiro", "Fevereiro", "Março", "Abril",
-            "maio", "junho", "julho", "agosto", "setembro", "outubro",
-            "novembro", "dezembro"};
-
-        return (mes[Integer.parseInt(i) - 1].toUpperCase());
-
+    public String getAno() {
+        return ano;
     }
 
-    public String getNomeMes() {
-        return nomeMes;
-    }
-
-    public void setNomeMes(String nomeMes) {
-        this.nomeMes = nomeMes;
-    }
-
-    public String getMes() {
-        return mes;
-    }
-
-    public void setMes(String mes) {
-        this.mes = mes;
+    public void setAno(String ano) {
+        this.ano = ano;
     }
 
     public String getValorTotal() {
@@ -178,5 +147,6 @@ public class LevanteMensal {
     public void setValorTotalAV(String valorTotalAV) {
         this.valorTotalAV = valorTotalAV;
     }
-
+    
+    
 }

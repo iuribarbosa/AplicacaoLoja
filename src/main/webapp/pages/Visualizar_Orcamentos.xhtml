@@ -37,9 +37,13 @@
 
     </h:head>
 
-    <body style="background-color: #3d8b3d; color: black;">
+    <body>
         <h:form>
-
+<f:facet name="start">  
+            <div style="width:100%;height:100%;position: fixed;background: #fff;z-index:50;top: 0px;left: 0px;filter: Alpha(Opacity=30);opacity: .30">
+            </div>
+            <p:graphicImage style="width:64px;height:64px;position:fixed;top: 50%;left: 50%;z-index:51;margin-top: -64px;margin-right: -64px" value="#{request.authType}/img/carregamento.gif" />
+        </f:facet>  
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-1">
@@ -70,7 +74,8 @@
                                 </div>
                             </div>
                         </div>
-                            <p:dataTable id="listaProdutos" var="prod"  rowKey="#{prod.idPedido}"  selection="#{previaOrcamento.orcaRecuperado}"  class="marginTable" value="#{viewOrcamento.listaPedido}">
+                        <p:dataTable id="listaProdutos" var="prod" rows="30" paginator="true" sortOrder="descending"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"  rowKey="#{prod.idPedido}"  selection="#{previaOrcamento.orcaRecuperado}"  class="marginTable" value="#{viewOrcamento.listaPedido}">
                                 <p:column headerText="Orçamento" width="10%">
                                     <center>
                                         <p:commandLink >

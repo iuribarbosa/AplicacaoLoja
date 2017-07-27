@@ -21,19 +21,6 @@ public interface PedidosDAOListener {
     Pedidos consultar(int ID);
     
     Pedidos consultarListaID(int id, int tipo);
-    //
-    //    public List<TbAluno> buscarAlunoporcpf(String cpf) {
-    //        String hql = "select t from TbAluno t where t.aluPesIdpessoa.pesCpf = :cpfA";
-    //        Query consulta = this.sessao.createQuery(hql);
-    //        consulta.setString("cpfA", cpf);
-    //        return (List<TbAluno>) consulta.list();
-    //    }
-    //    public TbAluno buscarAlunoporMat(String matricula) {
-    //        String hql = "select t from TbAluno t where t.aluMatricula = :matA";
-    //        Query consulta = this.sessao.createQuery(hql);
-    //        consulta.setString("matA", matricula);
-    //        return (TbAluno) consulta.uniqueResult();
-    //    }
 
     void excluir(Pedidos al);
 
@@ -50,6 +37,10 @@ public interface PedidosDAOListener {
     Pedidos buscarData(Date data);
     
     double listarPorMês(String ano, String mes, String dia);
+    double listarPorAno(String ano);
+    double listarPorMêsAV(String ano, String mes);
+    double listarPorMêsAP(String ano, String mes);
+    double listarPorMêsTotal(String ano, String mes);
     
     double listarPorDia(String ano, String mes, String dia);
     double listarPorDiaAP(String ano, String mes, String dia);
