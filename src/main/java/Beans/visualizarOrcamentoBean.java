@@ -9,8 +9,10 @@ import Mapeamento.Funcionario;
 import Mapeamento.Pedidos;
 import RN.FuncionarioRN;
 import RN.PedidosRN;
+import Util.DateMath;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,6 +34,8 @@ public class visualizarOrcamentoBean {
     
     //Variaveis de pesquisa 
     private int pesqPed;
+    private Date pesPedDate;
+    private String data;
     
     //Metodo Construtor
 
@@ -42,7 +46,8 @@ public class visualizarOrcamentoBean {
     //Funções
     public void gerarLista(){
         pedidoRN = new PedidosRN();
-        listaPedido = pedidoRN.listarComFiltro(2);
+        Date data = new Date();
+        listaPedido = pedidoRN.listarComFiltroEData(2,data);
     }
     public String getDate(Date data){
        String s= " ";
@@ -85,6 +90,7 @@ public class visualizarOrcamentoBean {
         try {
             pedidoRN = new PedidosRN();
             pedido = new Pedidos();
+            if(pesqPed != 0){
             pedido = pedidoRN.consultarListaID(pesqPed, 2);
             if(pedido != null){
             listaPedido.removeAll(listaPedido);
@@ -92,6 +98,14 @@ public class visualizarOrcamentoBean {
             }
             else{
                 RequestContext.getCurrentInstance().execute("alert('Orçamento não existe')");
+            }
+            }
+            else{
+                
+                listaPedido.removeAll(listaPedido);
+                DateFormat f = new SimpleDateFormat("yyyy-MM-dd");           
+                pesPedDate = new Date(data);
+                listaPedido = pedidoRN.listarComFiltroEData(2, pesPedDate);
             }
         } catch (Exception e) {
             RequestContext.getCurrentInstance().execute("alert('Orçamento não existe')");
@@ -118,7 +132,22 @@ public class visualizarOrcamentoBean {
     public void setPesqPed(int pesqPed) {
         this.pesqPed = pesqPed;
     }
-    
+
+    public Date getPesPedDate() {
+        return pesPedDate;
+    }
+
+    public void setPesPedDate(Date pesPedDate) {
+        this.pesPedDate = pesPedDate;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
     
     
 }

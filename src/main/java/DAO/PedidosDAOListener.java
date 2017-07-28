@@ -27,6 +27,8 @@ public interface PedidosDAOListener {
     List<Pedidos> listarSemFiltro();
     
     List<Pedidos> listarComFiltro(int id);
+    
+    List<Pedidos> listarComFiltroEData(int id, Date data);
 
     List<Pedidos> obterTodos();
 

@@ -86,6 +86,14 @@ public class PedidosDAO implements PedidosDAOListener{
         return (List<Pedidos>) consulta.list();
     }
     @Override
+    public List<Pedidos> listarComFiltroEData(int id,Date data) {
+        String hql = "select t from Pedidos t where t.tipo like :nomeA and t.data = :data";
+        Query consulta = this.sessao.createQuery(hql);
+        consulta.setInteger("nomeA", id);
+        consulta.setDate("data", data);
+        return (List<Pedidos>) consulta.list();
+    }
+    @Override
     public double listarPorMês(String ano, String mes, String dia) {
         String retorno = "('"+ano+"-"+mes+"-"+dia+"')";
         String hql = "select SUM(t.total) from Pedidos t where t.data between "+ retorno +" and ('"+ano+"-"+mes+"-31') and t.tipo like 1";

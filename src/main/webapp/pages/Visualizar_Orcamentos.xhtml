@@ -62,11 +62,16 @@
                                     <p:panel class="panelPesquisa">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <center><p:outputLabel value="Orçamento"/> </center>
+                                                <center>
+                                                    <p:outputLabel value="Orçamento"/>
+                                                    <p:outputLabel value="Data"/>
+                                                </center>
                                                 <p:commandButton value="Limpar Pesquisa" actionListener="#{viewOrcamento.gerarLista()}" update="@form" style="margin-top: 10% !important" class="btn btnPesquisar"/>
                                             </div>
                                             <div class="col-md-6">
-                                                <p:inputNumber size="5" thousandSeparator=" " value="#{viewOrcamento.pesqPed}" decimalPlaces="0"/>
+                                                
+                                                <p:inputNumber size="5" class="espacoGrid" thousandSeparator=" " value="#{viewOrcamento.pesqPed}" decimalPlaces="0"/>
+                                                <p:calendar id="popup" style="padding-top: 4%" size="5"  value="#{viewOrcamento.data}" lang="ptBR" />
                                                 <p:commandButton value="pesquisar" actionListener="#{viewOrcamento.pesquisarPedido()}" update="@form" class="btn btnPesquisar"/>
                                             </div>
                                         </div>
@@ -74,7 +79,7 @@
                                 </div>
                             </div>
                         </div>
-                        <p:dataTable id="listaProdutos" var="prod" rows="30" paginator="true" sortOrder="descending"
+                        <p:dataTable id="listaProdutos" var="prod" rows="30" paginator="true" sortOrder="descending" emptyMessage="Não há orçamentos para esta data."
                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"  rowKey="#{prod.idPedido}"  selection="#{previaOrcamento.orcaRecuperado}"  class="marginTable" value="#{viewOrcamento.listaPedido}">
                                 <p:column headerText="Orçamento" width="10%">
                                     <center>

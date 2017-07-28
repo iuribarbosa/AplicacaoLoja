@@ -59,6 +59,9 @@ public class PedidosRN {
     public List<Pedidos> listarComFiltro(int id){
         return this.ped.listarComFiltro(id);
     }
+    public List<Pedidos> listarComFiltroEData(int id, Date data){
+        return this.ped.listarComFiltroEData(id,data);
+    }
     public double listarPorMês(String ano, String mes, String dia){
         return this.ped.listarPorMês(ano,mes,dia);
     }
