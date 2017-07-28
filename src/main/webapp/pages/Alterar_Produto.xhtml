@@ -38,20 +38,20 @@
 
     </h:head>
 
-    <body style="background-color: #3d8b3d; color: black;">
+    <body >
         <h:form>
             <f:facet name="start">  
-            <div style="width:100%;height:100%;position: fixed;background: #fff;z-index:50;top: 0px;left: 0px;filter: Alpha(Opacity=30);opacity: .30">
-            </div>
-            <p:graphicImage style="width:64px;height:64px;position:fixed;top: 50%;left: 50%;z-index:51;margin-top: -64px;margin-right: -64px" value="#{request.authType}/img/carregamento.gif" />
-        </f:facet>  
+                <div style="width:100%;height:100%;position: fixed;background: #fff;z-index:50;top: 0px;left: 0px;filter: Alpha(Opacity=30);opacity: .30">
+                </div>
+                <p:graphicImage style="width:64px;height:64px;position:fixed;top: 50%;left: 50%;z-index:51;margin-top: -64px;margin-right: -64px" value="#{request.authType}/img/carregamento.gif" />
+            </f:facet>  
             <p:growl showDetail="true" showSummary="true" life="5000"/>
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-4">
-                        <p:commandLink >
-                            <i style="width: 30%; font-size: 20px; color: black" class="glyphicon glyphicon-arrow-left"> <f:ajax listener="#{alterProd.voltarHome()}"/> <p:outputLabel style="padding-left: 0.6%; font-size: 25px" value="Voltar"/></i> 
-                        </p:commandLink>
+                        <!--                        <p:commandLink >
+                                                    <i style="width: 30%; font-size: 20px; color: black" class="glyphicon glyphicon-arrow-left"> <f:ajax listener="#{alterProd.voltarHome()}"/> <p:outputLabel style="padding-left: 0.6%; font-size: 25px" value="Voltar"/></i> 
+                                                </p:commandLink>-->
                     </div>
                     <div class="col-md-4">
                         <strong><b><center><p:outputLabel class="tituloLabel" value="Alterar Produto"/></center></b></strong> 
@@ -66,9 +66,10 @@
 
                     </div>
                     <div class="col-md-6">
-                        <center>
-                            <p:panel>
-                                <div class="row">
+
+                        <p:panel>
+                            <div class="row">
+                                <center>
                                     <div class="col-md-6">
                                         <div class="row">
                                             <div class="col-md-12 espacoGrid">
@@ -102,60 +103,61 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12 espacoGrid">
-                                                <p:commandButton value="Cancelar" action="#{alterProd.cancelar()}" update="@form"/>
+                                                <p:commandButton value="Limpar" action="#{alterProd.cancelar()}" update="@form"/>
                                             </div>
+                                        </div>
+                                    </div> 
+                                </center>
+                                <div class="col-md-6">
+
+                                    <div class="row">
+
+                                        <div class="col-md-12 espacoGrid">
+                                            <p:autoComplete  readonly="#{alterProd.psq}"  value="#{alterProd.produto}" placeholder="Pesquise aqui o produto." scrollHeight="500" class="drop2" size="33" id="prods" completeMethod="#{alterProd.carregarProdutos}"  var="prod" itemLabel="#{prod.nomeprod}" itemValue="#{prod}" converter="ProdutoConverter">
+                                                <p:column>
+                                                    #{prod.codprod}                     
+                                                </p:column>
+                                                <p:column>
+                                                    #{prod.nomeprod}
+                                                </p:column>
+                                                <p:ajax event="itemSelect" listener="#{alterProd.listarProduto()}" update="valor qnt forn nome prods"/>
+                                            </p:autoComplete>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-
-                                        <div class="row">
-
-                                            <div class="col-md-12 espacoGrid">
-                                                <p:autoComplete  readonly="#{alterProd.psq}"  value="#{alterProd.produto}" placeholder="Pesquise aqui o produto." scrollHeight="500" class="drop2" size="33" id="prods" completeMethod="#{alterProd.carregarProdutos}"  var="prod" itemLabel="#{prod.nomeprod}" itemValue="#{prod}" converter="ProdutoConverter">
-                                                    <p:column>
-                                                        #{prod.codprod}                     
-                                                    </p:column>
-                                                    <p:column>
-                                                        #{prod.nomeprod}
-                                                    </p:column>
-                                                    <p:ajax event="itemSelect" listener="#{alterProd.listarProduto()}" update="valor qnt forn nome prods"/>
-                                                </p:autoComplete>
-                                            </div>
+                                    <div class="row">
+                                        <div class="col-md-12 espacoGrid">
+                                            <p:inputText id="nome"  readonly="#{alterProd.nome}" value="#{alterProd.nomeProduto}" class="form-control" />
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-12 espacoGrid">
-                                                <p:inputText id="nome"  readonly="#{alterProd.nome}" value="#{alterProd.nomeProduto}" class="form-control" />
-                                            </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 espacoGrid">
+                                            <p:inputNumber id="qnt" readonly="#{alterProd.qnt}" value="#{alterProd.quantidadeProduto}" size="33"  decimalPlaces="0"/>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-12 espacoGrid">
-                                                <p:inputNumber id="qnt" readonly="#{alterProd.qnt}" value="#{alterProd.quantidadeProduto}" size="33"  decimalPlaces="0"/>
-                                            </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 espacoGrid">
+                                            <p:inputText id="valor" readonly="#{alterProd.vlr}" value="#{alterProd.valorProduto}" class="form-control"/>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-12 espacoGrid">
-                                                <p:inputText id="valor" readonly="#{alterProd.vlr}" value="#{alterProd.valorProduto}" class="form-control"/>
-                                            </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 espacoGrid">
+                                            <p:inputText id="forn" readonly="#{alterProd.forn}" value="#{alterProd.fornecedorProduto}" class="form-control "/>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-12 espacoGrid">
-                                                <p:inputText id="forn" readonly="#{alterProd.forn}" value="#{alterProd.fornecedorProduto}" class="form-control "/>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12 espacoGrid">
-                                                <div class="col-md-6 espacoGrid">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 espacoGrid">
+                                            <div class="col-md-6 espacoGrid">
                                                 <p:commandButton value="Excluir" actionListener="#{alterProd.excluirProduto()}" update="@form valor qnt forn nome"/>
-                                                </div>
-                                                <div class="col-md-6 espacoGrid">
+                                            </div>
+                                            <div class="col-md-6 espacoGrid">
                                                 <p:commandButton value="Alterar" actionListener="#{alterProd.alterarProduto()}" update="@form valor qnt forn nome"/>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </p:panel>
-                        </center>
+                            </div>
+                        </p:panel>
+
                         <!--</p:outputPanel>-->
                     </div>
                     <div class="col-md-3">

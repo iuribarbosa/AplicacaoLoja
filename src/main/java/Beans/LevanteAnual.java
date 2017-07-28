@@ -5,7 +5,7 @@
  */
 package Beans;
 
-import static Beans.LevanteMensal.NomeDoMes;
+import Mapeamento.ListaAnos;
 import RN.PedidosRN;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,9 +28,11 @@ import org.primefaces.model.chart.LineChartSeries;
 @SessionScoped
 public class LevanteAnual {
     
+    
     private LineChartModel lineModel1;
     private PedidosRN ped;
     private String ano;
+    private Integer anoInt;
     private String valorTotal;
     private String valorTotalAP;
     private String valorTotalAV;
@@ -39,13 +41,32 @@ public class LevanteAnual {
     private Double valorTotalAVD;
     private Double maiorValor;
     private String mes;
+    private List<ListaAnos> listaAnos;
+    private List<ListaAnos> listaAnos2;
+    private ListaAnos objAno;
+    private ListaAnos objAnoSelecionado;
+
     
-    
-        @PostConstruct
+    @PostConstruct
     public void init() {
         Calendar cal = GregorianCalendar.getInstance();
         ano = Integer.toString(cal.get(Calendar.YEAR));
+        anoInt = cal.get(Calendar.YEAR);
+        getListaAnos();
+        iniciarAno();
         createLineModels();
+    }
+    
+    public void mudarAno(){
+        createLineModels();
+        getListaAnos();
+    }
+    public void iniciarAno(){
+        for(int i = 0; i<= (listaAnos2.size()-1);i++){
+            if(anoInt == listaAnos2.get(i).getAno()){
+               objAnoSelecionado = listaAnos2.get(i);
+            }
+        }     
     }
     public void createLineModels() {
         lineModel1 = initLinearModel();
@@ -53,7 +74,7 @@ public class LevanteAnual {
         xAxis.setMin(1);
         xAxis.setMax(12);
         xAxis.setTickCount(12);
-        xAxis.setLabel("Anos");
+        xAxis.setLabel("Meses");
         Axis yAxis = lineModel1.getAxis(AxisType.Y);
         int qntQuadros = (int)(maiorValor/2000)+1;
         yAxis.setMin(0);
@@ -74,9 +95,9 @@ public class LevanteAnual {
         for (int i = 1; i <= 12; i++) {
             ped = new PedidosRN();
             //Lugar onde configura o ano
-            Double valor = ped.listarPorMêsTotal(ano,mes);
-            Double valorAP = ped.listarPorMêsAP(ano, mes);
-            Double valorAV = ped.listarPorMêsAV(ano, mes);
+            Double valor = ped.listarPorMêsTotal(Integer.toString(objAnoSelecionado.getAno()),Integer.toString(i));
+            Double valorAP = ped.listarPorMêsAP(Integer.toString(objAnoSelecionado.getAno()),Integer.toString(i));
+            Double valorAV = ped.listarPorMêsAV(Integer.toString(objAnoSelecionado.getAno()),Integer.toString(i));
             if(maiorValor<valor){
                 maiorValor = valor;
             }
@@ -106,14 +127,16 @@ public class LevanteAnual {
     
     
     
-    public List<Integer> getListaAnos(Integer anoInicial){
+    public void getListaAnos(){
+            Integer anoInicial = 2015;
 		Calendar dataFinal=Calendar.getInstance();
 		Integer anoAtual = dataFinal.get(Calendar.YEAR);
-		List<Integer> listaAnos=new ArrayList<Integer>();
+		listaAnos2=new ArrayList<ListaAnos>();
 		for(Integer ano=anoInicial; ano<=anoAtual;ano++){
-			listaAnos.add(ano);
+                        objAno = new ListaAnos();
+                        objAno.setAno(ano);
+			listaAnos2.add(objAno);
 		}
-		return listaAnos;
 	}
 
     public String getAno() {
@@ -147,6 +170,43 @@ public class LevanteAnual {
     public void setValorTotalAV(String valorTotalAV) {
         this.valorTotalAV = valorTotalAV;
     }
+
+    public Integer getAnoInt() {
+        return anoInt;
+    }
+
+    public void setAnoInt(Integer anoInt) {
+        this.anoInt = anoInt;
+    }
+
+    public LineChartModel getLineModel1() {
+        return lineModel1;
+    }
+
+    public void setLineModel1(LineChartModel lineModel1) {
+        this.lineModel1 = lineModel1;
+    }
+
+    public ListaAnos getObjAnoSelecionado() {
+        return objAnoSelecionado;
+    }
+
+    public void setObjAnoSelecionado(ListaAnos objAnoSelecionado) {
+        this.objAnoSelecionado = objAnoSelecionado;
+    }
+
+    public List<ListaAnos> getListaAnos2() {
+        return listaAnos2;
+    }
+
+    public void setListaAnos2(List<ListaAnos> listaAnos2) {
+        this.listaAnos2 = listaAnos2;
+    }
+
+    public void setListaAnos(List<ListaAnos> listaAnos) {
+        this.listaAnos = listaAnos;
+    }
+    
     
     
 }

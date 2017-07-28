@@ -79,9 +79,9 @@
                                         </div>
                                         <div class="espacoGrid2 col-md-12 ">
 
-                                            <p:selectOneMenu id="console" value="#{LevanteAnual.ano}"  style="width:150px">
-                                                <f:selectItem itemLabel="JANEIRO" itemValue="1" />
-                                                <p:ajax event="change" update="@form" listener="#{LevanteAnual.mudarMes()}"/>
+                                            <p:selectOneMenu id="console" value="#{LevanteAnual.objAnoSelecionado.ano}"  style="width:150px">
+                                                <f:selectItems value="#{LevanteAnual.listaAnos2}" var="c" itemValue="#{c.ano}" itemLabel="#{c.ano}"/>
+                                                <p:ajax event="change" update="@form" listener="#{LevanteAnual.mudarAno()}"/>
                                             </p:selectOneMenu>
 
 
